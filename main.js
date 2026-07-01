@@ -57,3 +57,44 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-theme', getCurrentTheme())
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
+
+
+const theme = document.getElementById("theme");
+
+theme.addEventListener("change", function () {
+
+    switch(this.value){
+
+        case "blue":
+            setTheme("#2563eb","#dbeafe","#1d4ed8");
+            break;
+
+        case "green":
+            setTheme("#16a34a","#dcfce7","#15803d");
+            break;
+
+        case "purple":
+            setTheme("#7c3aed","#ede9fe","#6d28d9");
+            break;
+
+        case "red":
+            setTheme("#dc2626","#fee2e2","#b91c1c");
+            break;
+
+        case "orange":
+            setTheme("#ea580c","#ffedd5","#c2410c");
+            break;
+    }
+
+});
+
+function setTheme(primary, light, hover){
+
+    document.documentElement.style.setProperty("--primary-color", primary);
+
+    document.documentElement.style.setProperty("--primary-light", light);
+
+    document.documentElement.style.setProperty("--hover-color", hover);
+
+    document.documentElement.style.setProperty("--footer-color", primary);
+}

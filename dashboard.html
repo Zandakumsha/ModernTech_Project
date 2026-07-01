@@ -28,12 +28,6 @@
           <i class="ri-menu-line"></i>
         </button>
 
-        <!-- <div class="search-bar">
-          <input type="text" placeholder="Search..." />
-          <button>
-            <i class="ri-search-line"></i>
-          </button>
-        </div> -->
       </div>
     </header>
 
@@ -126,9 +120,37 @@
 
     <!--=============== MAIN ===============-->
     <main class="main container" id="main">
+
+      <section class="main__header">
+        <h1>Dashboard</h1>
+        <p>Welcome to Modern Tech HR Management System</p>
+
+        <div class="theme-selector">
+          <label for="theme">Theme</label>
+          <select id="theme">
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="purple">Purple</option>
+            <option value="red">Red</option>
+            <option value="orange">Orange</option>
+          </select>
+        </div>
+      
+        <div class="main__header-actions">
+          <div class="search-bar">
+      
+            <input type="text" placeholder="Search..." />
+            <button>
+              <i class="ri-search-line"></i>
+            </button>
+          </div>
+        </div>
+      
+      </section>
+
       <section class="hero-banner">
         <div class="hero-content">
-          <h1>Good Morning User !</h1>
+          <h1>Welcome Back User !</h1>
           <p>
             Welcome to Modern Tech HR Management System. Here you can manage
             your employees, payroll, leave management, and more.
@@ -149,32 +171,57 @@
         </div>
       </section>
 
-      <!-- Banner Section-->
-      <!-- <section class="z_banner">
-        <h2>Overview</h2>
-        <div>
-          <span class="z_banner__item">
-            <h3>Employees</h3>
-            <p>120</p>
-          </span>
-
-          <span class="z_banner__item">
-            <h3>Payroll</h3>
-            <p>$50,000</p>
-          </span>
-
-          <span class="z_banner__item">
-            <h3>Leave Requests</h3>
-            <p>15</p>
-          </span>
-
-          <span class="z_banner__item">
-            <h3>Notifications</h3>
-            <p>5</p>
-          </span>
+      <!-- Banner Section -->
+      <section class="z_banner">
+      
+        <h1>Overview</h1>
+      
+        <div class="z_banner__cards">
+      
+          <div class="z_banner__item">
+            <div class="icon green">
+              <i class="ri-group-line"></i>
+            </div>
+      
+            <h3>Total Employees</h3>
+            <h1>19</h1>
+            <p> this month</p>
+          </div>
+      
+          <div class="z_banner__item">
+            <div class="icon orange">
+              <i class="ri-calendar-close-line"></i>
+            </div>
+      
+            <h3>Pending Leave</h3>
+            <h1>5</h1>
+            <p>Awaiting approval</p>
+          </div>
+      
+          <div class="z_banner__item">
+            <div class="icon blue">
+              <i class="ri-money-dollar-circle-line"></i>
+            </div>
+      
+            <h3>Monthly Payroll</h3>
+            <h1>$197K</h1>
+            <p>This month</p>
+          </div>
+      
+          <div class="z_banner__item">
+            <div class="icon purple">
+              <i class="ri-line-chart-line"></i>
+            </div>
+      
+            <h3>Attendance Rate</h3>
+            <h1>0%</h1>
+            <p>Current month</p>
+          </div>
+      
         </div>
-      </section> -->
+      </section>
 
+     
       <!-- Shared Footer -->
       <footer>
         <div class="footer_container">

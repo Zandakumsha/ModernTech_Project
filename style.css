@@ -18,6 +18,13 @@
   --background: #fff;
   --par-color: hsl(195, 3%, 47%);
 
+
+    --primary-color: #2563eb;
+    --primary-light: #dbeafe;
+    --hover-color: #1d4ed8;
+    --footer-color: #2563eb;
+    --button-text: #fff;
+
   /*========== Font and typography ==========*/
   /*.5rem = 8px | 1rem = 16px ...*/
   --body-font: "Nunito Sans", system-ui;
@@ -37,6 +44,7 @@
   --footer-bg: var(--first-color);
   --footer-text: hsl(228, 100%, 99%);
 }
+
 
 /*========== Responsive typography ==========*/
 @media screen and (min-width: 1150px) {
@@ -62,7 +70,12 @@ body {
 }
 
 a {
+  color: var(--primary-color);
   text-decoration: none;
+}
+
+a:hover{
+    color: var(--hover-color);
 }
 
 img {
@@ -72,7 +85,18 @@ img {
 }
 
 button {
+  background: var(--primary-color);
+  color: var(--button-text);
   all: unset;
+}
+
+button:hover{
+    background: var(--hover-color);
+}
+
+.icon{
+    background: var(--primary-light);
+    color: var(--primary-color);
 }
 
 /*=============== VARIABLES DARK THEME ===============*/
@@ -373,24 +397,7 @@ body.dark-theme {
   .footer-col {
     width: 100%;
   }
-  /* .footer_container {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
 
-  .footer_content,
-  .footer-col {
-    width: 100%;
-  }
-
-  .footer-col h3 {
-    margin-bottom: 1rem;
-  }
-
-  .footer_copy {
-    padding-left: 0;
-  } */
 }
 
 /* For large devices */
@@ -467,6 +474,33 @@ body.dark-theme {
 
 /*====== Search Bar ====== */
 
+.main__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap:20px;
+}
+
+.main__header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.theme-selector{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.theme-selector select{
+    padding:8px 14px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    cursor:pointer;
+    outline:none;
+}
+
 .search-bar {
   display: flex;
   align-items: center;
@@ -480,6 +514,15 @@ body.dark-theme {
   transition:
     width 0.4s,
     box-shadow 0.4s;
+}
+
+.search-bar button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .search-bar input {
@@ -597,9 +640,109 @@ body.dark-theme {
   max-width: 100%;
 }
 
+/* ====== Banner ===== */
+
+/* Banner */
+.z_banner {
+    padding: 20px;
+}
+
+.z_banner h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Cards Layout */
+.z_banner__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+/* Card */
+.z_banner__item {
+    position: relative;
+    background: #fff;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid #eef2f7;
+    transition: 0.3s ease;
+}
+
+.z_banner__item:hover {
+  border-color: var(--primary-color);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* Heading */
+.z_banner__item h3 {
+    font-size: 18px;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+/* Main Value */
+.z_banner__item h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+/* Subtitle */
+.z_banner__item p {
+    font-size: 16px;
+    color: #64748b;
+}
+
+/* Icon Box */
+.icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 12px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 26px;
+}
+
+/* Icon Colors */
+.green {
+    background: #e8f9f1;
+    color: #0f9d58;
+}
+
+.orange {
+    background: #fff3e6;
+    color: #f59e0b;
+}
+
+.blue {
+    background: #e8f4ff;
+    color: #2196f3;
+}
+
+.purple {
+    background: #f3e8ff;
+    color: #8b5cf6;
+}
+
 /*========= Footer =========*/
+
 footer {
-  background-color: var(--footer-bg);
+  background-color: var(--footer-color);
   color: var(--footer-text);
   padding: 2rem 1.5rem;
   border-top-left-radius: 90px;
@@ -649,18 +792,6 @@ footer hr {
   border: none;
   border-top: 1px solid var(--footer-text);
 }
-
-/* .footer_copy {
-  text-align: center;
-  width: 100%;
-} */
-
-/* footer hr {
-  width: 100%;
-  margin: 2rem 0 1rem;
-  border: none;
-  border-top: 1px solid var(--footer-text);
-} */
 
 .footer_copy {
   display: block;
