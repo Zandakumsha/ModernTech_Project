@@ -24,10 +24,9 @@
           <span>Modern Tech</span>
         </a>
 
-        <button class="header__toggle" id="header-toggle">
+        <div class="header__toggle" id="header-toggle">
           <i class="ri-menu-line"></i>
-        </button>
-
+        </div>
       </div>
     </header>
 
@@ -36,7 +35,11 @@
       <div class="sidebar__container">
         <div class="sidebar__user">
           <div class="sidebar__img">
-            <img src="assets/img/perfil.png" alt="image" />
+            <img
+              src="https://i.ibb.co/7JCCB4XM/Get-your-headshots-It-s-the-second-half-of-the.jpg"
+              alt="Get your headshots It s the second half of the"
+              border="0"
+            />
           </div>
 
           <div class="sidebar__info">
@@ -101,51 +104,53 @@
         </div>
 
         <div class="sidebar__actions">
-          <button>
+          <div class="sidebar__theme-selector">
             <i
               class="ri-moon-clear-fill sidebar__link sidebar__theme"
               id="theme-button"
             >
               <span>Theme</span>
             </i>
-          </button>
+          </div>
 
-          <button class="sidebar__link" id="dropdown-btn">
+          <div class="sidebar__link" id="logout-btn">
             <i class="ri-logout-box-r-fill"></i>
             <span>Log Out</span>
-          </button>
+          </div>
         </div>
       </div>
     </nav>
 
     <!--=============== MAIN ===============-->
     <main class="main container" id="main">
-
       <section class="main__header">
-        <h1>Dashboard</h1>
-        <p>Welcome to Modern Tech HR Management System</p>
+        <div>
+          <h1>Dashboard</h1>
+          <p>Welcome to Modern Tech HR Management System</p>
+        </div>
 
         <div class="theme-selector">
           <label for="theme">Theme</label>
           <select id="theme">
-            <option value="blue">Blue</option>
-            <option value="green">Green</option>
-            <option value="purple">Purple</option>
-            <option value="red">Red</option>
-            <option value="orange">Orange</option>
+            <optgroup label="Select Theme Color">
+              <option value="default">Default</option>
+              <option value="blue">Blue</option>
+              <option value="green">Green</option>
+              <option value="purple">Purple</option>
+              <option value="red">Red</option>
+              <option value="orange">Orange</option>
+            </optgroup>
           </select>
         </div>
-      
+
         <div class="main__header-actions">
           <div class="search-bar">
-      
             <input type="text" placeholder="Search..." />
             <button>
               <i class="ri-search-line"></i>
             </button>
           </div>
         </div>
-      
       </section>
 
       <section class="hero-banner">
@@ -173,62 +178,117 @@
 
       <!-- Banner Section -->
       <section class="z_banner">
-      
         <h1>Overview</h1>
-      
+
         <div class="z_banner__cards">
-      
           <div class="z_banner__item">
             <div class="icon green">
               <i class="ri-group-line"></i>
             </div>
-      
+
             <h3>Total Employees</h3>
             <h1>19</h1>
-            <p> this month</p>
+            <p>this month</p>
           </div>
-      
+
           <div class="z_banner__item">
             <div class="icon orange">
               <i class="ri-calendar-close-line"></i>
             </div>
-      
+
             <h3>Pending Leave</h3>
             <h1>5</h1>
             <p>Awaiting approval</p>
           </div>
-      
+
           <div class="z_banner__item">
             <div class="icon blue">
               <i class="ri-money-dollar-circle-line"></i>
             </div>
-      
+
             <h3>Monthly Payroll</h3>
             <h1>$197K</h1>
             <p>This month</p>
           </div>
-      
+
           <div class="z_banner__item">
             <div class="icon purple">
               <i class="ri-line-chart-line"></i>
             </div>
-      
+
             <h3>Attendance Rate</h3>
             <h1>0%</h1>
             <p>Current month</p>
           </div>
-      
         </div>
       </section>
 
-     
+      <!-- Chart Section  -->
+
+      <section class="charts">
+        <div class="chart-container">
+          <h2>Employee Distribution</h2>
+          <canvas id="employeePieChart" class="pie-chart"></canvas>
+        </div>
+
+        <div class="chart-container">
+          <h2>Attendance Rate</h2>
+          <canvas id="attendanceChart"></canvas>
+        </div>
+      </section>
+
+      <!-- Calendar Section -->
+
+      <section class="contianer">
+        <div class="calendar">
+          <div class="calendar-header">
+            <span class="month-picker" id="month-picker"> May </span>
+            <div class="year-picker" id="year-picker">
+              <span class="year-change" id="pre-year">
+                <pre><</pre>
+              </span>
+              <span id="year">2020 </span>
+              <span class="year-change" id="next-year">
+                <pre>></pre>
+              </span>
+            </div>
+          </div>
+
+          <div class="calendar-body">
+            <div class="calendar-week-days">
+              <div>Sun</div>
+              <div>Mon</div>
+              <div>Tue</div>
+              <div>Wed</div>
+              <div>Thu</div>
+              <div>Fri</div>
+              <div>Sat</div>
+            </div>
+            <div class="calendar-days"></div>
+          </div>
+          <div class="calendar-footer"></div>
+          <div class="date-time-formate">
+            <div class="day-text-formate">TODAY</div>
+            <div class="date-time-value">
+              <div class="time-formate">02:51:20</div>
+              <div class="date-formate">23 - july - 2022</div>
+            </div>
+          </div>
+          <div class="month-list"></div>
+        </div>
+      </section>
+
       <!-- Shared Footer -->
+
       <footer>
         <div class="footer_container">
           <div class="footer_content">
             <i class="ri-cloud-fill"></i>
-            <!-- <img src="assets/img/perfil.png" alt="image" class="footer-logo" /> -->
-            <p>Modern Tech</p>
+            <h2>Modern Tech</h2>
+            <p>
+              Modern Technology Solutions is a leading provider of HR management
+              solutions.
+            </p>
           </div>
 
           <div class="footer-col">
@@ -277,5 +337,82 @@
 
     <!--=============== MAIN JS ===============-->
     <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+      const ctx = document.getElementById("employeePieChart");
+
+      new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: ["HR", "Finance", "IT", "Marketing"],
+          datasets: [
+            {
+              data: [25, 20, 35, 20],
+              backgroundColor: ["#1e88e5", "#43a047", "#fb8c00", "#e53935"],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      });
+
+      const attendanceCtx = document.getElementById("attendanceChart");
+
+      new Chart(attendanceCtx, {
+        type: "line",
+        data: {
+          labels: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ],
+          datasets: [
+            {
+              label: "Attendance Rate (%)",
+              data: [92, 89, 94, 91, 95, 93, 96, 94, 92, 97, 95, 90],
+              borderColor: "#2563eb",
+              backgroundColor: "rgba(37, 99, 235, 0.2)",
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "top",
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              min: 80,
+              max: 100,
+              title: {
+                display: true,
+                text: "Attendance (%)",
+              },
+            },
+          },
+        },
+      });
+    </script>
   </body>
 </html>
