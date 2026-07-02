@@ -49,6 +49,7 @@
           </div>
         </div>
 
+
         <div class="sidebar__content">
           <div>
             <h3 class="sidebar__title">MANAGE</h3>
@@ -223,60 +224,159 @@
         </div>
       </section>
 
-      <!-- Chart Section  -->
+      <!-- Chart + Todo Section -->
+      <section class="dashboard_section">
+        <div class="dashboard_section-layout">
+          <div class="dashboard_left-panel">
+            <section class="charts">
+              <div class="chart-container">
+                <h2>Employee Distribution</h2>
+                <canvas id="employeePieChart" class="pie-chart"></canvas>
+              </div>
 
-      <section class="charts">
-        <div class="chart-container">
-          <h2>Employee Distribution</h2>
-          <canvas id="employeePieChart" class="pie-chart"></canvas>
+              <div class="chart-container">
+                <h2>Attendance Rate</h2>
+                <canvas id="attendanceChart"></canvas>
+              </div>
+            </section>
+
+            <div class="calendar-container">
+              <div class="calendar">
+                <div class="calendar-header">
+                  <span class="month-picker" id="month-picker"> May </span>
+                  <div class="year-picker" id="year-picker">
+                    <span class="year-change" id="pre-year">
+                      <pre><</pre>
+                    </span>
+                    <span id="year">2020 </span>
+                    <span class="year-change" id="next-year">
+                      <pre>></pre>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="calendar-body">
+                  <div class="calendar-week-days">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                  </div>
+                  <div class="calendar-days"></div>
+                </div>
+                <div class="calendar-footer"></div>
+                <div class="date-time-formate">
+                  <div class="day-text-formate">TODAY</div>
+                  <div class="date-time-value">
+                    <div class="time-formate">02:51:20</div>
+                    <div class="date-formate">23 - july - 2022</div>
+                  </div>
+                </div>
+                <div class="month-list"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard_container">
+            <div class="dashboard_main-content">
+              <div class="dashboard_title-section">
+                <div class="dashboard_greeting" id="dashboard_greeting"></div>
+
+                <div class="dashboard_title-row">
+                  <h1>
+                    You've got
+                    <span class="dashboard_task-count" id="dashboard_taskCount">0</span>
+                    tasks today
+                  </h1>
+                  <button class="dashboard_add-btn" onclick="openTaskModal()">
+                    <span class="dashboard_add-icon">+</span>
+                    Add Task
+                  </button>
+                </div>
+              </div>
+
+              <div class="dashboard_section-content">
+                <div class="dashboard_section-header">
+                  <h2>On Hold</h2>
+                </div>
+                <div id="dashboard_onHoldTasks"></div>
+              </div>
+
+              <div class="dashboard_section-content">
+                <div class="dashboard_section-header">
+                  <h2>Completed</h2>
+                </div>
+                <div id="dashboard_completedTasks"></div>
+              </div>
+            </div>
+
+            <div class="dashboard_sidebar">
+              <div class="dashboard_sidebar-section">
+                <h3 class="dashboard_sidebar-title">Results Summary</h3>
+
+                <div class="dashboard_stat-card">
+                  <div class="dashboard_stat-label">Completion Rate</div>
+                  <div class="dashboard_stat-value" id="dashboard_completionRateValue">0%</div>
+                  <div class="dashboard_progress-bar">
+                    <div class="dashboard_progress-fill" id="dashboard_completionProgress"></div>
+                  </div>
+                </div>
+
+                <div class="dashboard_stat-card">
+                  <div class="dashboard_stat-label">Total Tasks</div>
+                  <div class="dashboard_stat-value" id="dashboard_totalTasks">0</div>
+                </div>
+
+                <div class="dashboard_stat-card">
+                  <div class="dashboard_stat-label">Completed</div>
+                  <div class="dashboard_stat-value" id="dashboard_completedCount">0</div>
+                </div>
+
+                <div class="dashboard_stat-card">
+                  <div class="dashboard_stat-label">Pending</div>
+                  <div class="dashboard_stat-value" id="dashboard_pendingCount">0</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="chart-container">
-          <h2>Attendance Rate</h2>
-          <canvas id="attendanceChart"></canvas>
+        <div class="dashboard_modal" id="dashboard_taskModal">
+          <div class="dashboard_modal-content">
+            <h2 class="dashboard_modal-header">Add Task</h2>
+            <form id="dashboard_taskForm">
+              <div class="dashboard_form-group">
+                <label>Task Title</label>
+                <input type="text" id="dashboard_taskTitle" required />
+              </div>
+              <div class="dashboard_form-group">
+                <label>Status</label>
+                <select id="dashboard_taskStatus">
+                  <option value="pending">Pending</option>
+                  <option value="progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+              <div class="dashboard_form-group">
+                <label>Priority</label>
+                <select id="dashboard_taskPriority">
+                  <option value="minor">Minor</option>
+                  <option value="normal">Normal</option>
+                  <option value="critical">Critical</option>
+                </select>
+              </div>
+              <div class="dashboard_modal-actions">
+                <button type="button" class="dashboard_btn dashboard_btn-secondary" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="dashboard_btn dashboard_btn-primary">Save</button>
+              </div>
+            </form>
+          </div>
         </div>
       </section>
 
-      <!-- Calendar Section -->
-
-      <section class="contianer">
-        <div class="calendar">
-          <div class="calendar-header">
-            <span class="month-picker" id="month-picker"> May </span>
-            <div class="year-picker" id="year-picker">
-              <span class="year-change" id="pre-year">
-                <pre><</pre>
-              </span>
-              <span id="year">2020 </span>
-              <span class="year-change" id="next-year">
-                <pre>></pre>
-              </span>
-            </div>
-          </div>
-
-          <div class="calendar-body">
-            <div class="calendar-week-days">
-              <div>Sun</div>
-              <div>Mon</div>
-              <div>Tue</div>
-              <div>Wed</div>
-              <div>Thu</div>
-              <div>Fri</div>
-              <div>Sat</div>
-            </div>
-            <div class="calendar-days"></div>
-          </div>
-          <div class="calendar-footer"></div>
-          <div class="date-time-formate">
-            <div class="day-text-formate">TODAY</div>
-            <div class="date-time-value">
-              <div class="time-formate">02:51:20</div>
-              <div class="date-formate">23 - july - 2022</div>
-            </div>
-          </div>
-          <div class="month-list"></div>
-        </div>
-      </section>
 
       <!-- Shared Footer -->
 
@@ -337,6 +437,18 @@
 
     <!--=============== MAIN JS ===============-->
     <script src="main.js"></script>
+    <script>
+      if (!sessionStorage.getItem("authenticated")) {
+        window.location.href = "login.html";
+      }
+      const logoutBtn = document.getElementById("logout-btn");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+          sessionStorage.removeItem("authenticated");
+          window.location.href = "login.html";
+        });
+      }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
