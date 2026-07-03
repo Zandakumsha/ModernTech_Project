@@ -9,7 +9,7 @@
   --header-height: 3.5rem;
 
   /*========== Colors ==========*/
-  --title-color: hsl(228, 18%, 16%);
+  --title-color: hsl(214, 94%, 7%);
   --text-color: hsl(195, 3%, 29%);
   --muted-text: hsl(210, 10%, 50%);
   --body-color: hsl(228, 100%, 99%);
@@ -64,7 +64,7 @@
 body {
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
-  background-color: var(--body-color);
+  background-color: var(--background);
   color: var(--text-color);
   transition: background-color 0.4s;
 }
@@ -108,8 +108,8 @@ body.dark-theme {
   --title-color: hsl(228, 18%, 96%);
   --text-color: hsl(231, 37%, 93%);
   --muted-text: hsl(228, 20%, 70%);
-  --body-color: hsl(228, 24%, 16%);
-  --background: hsl(21, 91%, 4%);
+  --body-color: hsl(204, 88%, 6%);
+  --background: hsl(221, 89%, 4%);
   --surface-color: hsl(228, 24%, 18%);
   --card-bg: hsl(228, 24%, 18%);
   --border-color: hsl(228, 20%, 28%);
