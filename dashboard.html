@@ -15,6 +15,7 @@
 
     <title>Modern Tech Project</title>
   </head>
+
   <body>
     <!--=============== HEADER ===============-->
     <header class="header" id="header">
@@ -36,19 +37,24 @@
         <div class="sidebar__user">
           <div class="sidebar__img">
             <img
+              id="navbarProfileImage"
+              src="images/avatar1.png"
+              alt="Profile Avatar"
+            />
+            <!-- <img
+              id="navbarProfileImage"
               src="https://i.ibb.co/7JCCB4XM/Get-your-headshots-It-s-the-second-half-of-the.jpg"
               alt="Get your headshots It s the second half of the"
               border="0"
-            />
+            /> -->
           </div>
 
           <div class="sidebar__info">
-            <h3>Rix Methil</h3>
-            <span>rix123@email.com</span>
-            <span class="user-profile">Admin</span>
+            <h3 id="sidebar-user-name">User</h3>
+            <span id="sidebar-user-email">user@email.com</span>
+            <span class="user-profile" id="sidebar_role">Admin</span>
           </div>
         </div>
-
 
         <div class="sidebar__content">
           <div>
@@ -75,7 +81,7 @@
                 <span>Leave Management</span>
               </a>
 
-              <a href="#" class="sidebar__link">
+              <a href="#calendar" class="sidebar__link">
                 <i class="ri-calendar-fill"></i>
                 <span>Calendar</span>
               </a>
@@ -86,7 +92,7 @@
             <h3 class="sidebar__title">SETTINGS</h3>
 
             <div class="sidebar__list">
-              <a href="#" class="sidebar__link">
+              <a href="settings.html" class="sidebar__link">
                 <i class="ri-settings-3-fill"></i>
                 <span>Settings</span>
               </a>
@@ -156,7 +162,7 @@
 
       <section class="hero-banner">
         <div class="hero-content">
-          <h1>Welcome Back User !</h1>
+          <h1 id="welcomeUser">Welcome Back</h1>
           <p>
             Welcome to Modern Tech HR Management System. Here you can manage
             your employees, payroll, leave management, and more.
@@ -240,7 +246,7 @@
               </div>
             </section>
 
-            <div class="calendar-container">
+            <div class="calendar-container" id="calendar">
               <div class="calendar">
                 <div class="calendar-header">
                   <span class="month-picker" id="month-picker"> May </span>
@@ -288,13 +294,64 @@
                 <div class="dashboard_title-row">
                   <h1>
                     You've got
-                    <span class="dashboard_task-count" id="dashboard_taskCount">0</span>
+                    <span class="dashboard_task-count" id="dashboard_taskCount"
+                      >0</span
+                    >
                     tasks today
                   </h1>
                   <button class="dashboard_add-btn" onclick="openTaskModal()">
                     <span class="dashboard_add-icon">+</span>
                     Add Task
                   </button>
+                </div>
+              </div>
+
+              <div class="dashboard_sidebar">
+                <div class="dashboard_sidebar-section">
+                  <h3 class="dashboard_sidebar-title">Results Summary</h3>
+
+                  <div class="dashboard_stat-card">
+                    <div class="dashboard_stat-label">Completion Rate</div>
+                    <div
+                      class="dashboard_stat-value"
+                      id="dashboard_completionRateValue"
+                    >
+                      0%
+                    </div>
+                    <div class="dashboard_progress-bar">
+                      <div
+                        class="dashboard_progress-fill"
+                        id="dashboard_completionProgress"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div class="dashboard_stat-card">
+                    <div class="dashboard_stat-label">Total Tasks</div>
+                    <div class="dashboard_stat-value" id="dashboard_totalTasks">
+                      0
+                    </div>
+                  </div>
+
+                  <div class="dashboard_stat-card">
+                    <div class="dashboard_stat-label">Completed</div>
+                    <div
+                      class="dashboard_stat-value"
+                      id="dashboard_completedCount"
+                    >
+                      0
+                    </div>
+                  </div>
+
+                  <div class="dashboard_stat-card">
+                    <div class="dashboard_stat-label">Pending</div>
+                    <div
+                      class="dashboard_stat-value"
+                      id="dashboard_pendingCount"
+                    >
+                      0
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -313,7 +370,7 @@
               </div>
             </div>
 
-            <div class="dashboard_sidebar">
+            <!-- <div class="dashboard_sidebar">
               <div class="dashboard_sidebar-section">
                 <h3 class="dashboard_sidebar-title">Results Summary</h3>
 
@@ -340,7 +397,7 @@
                   <div class="dashboard_stat-value" id="dashboard_pendingCount">0</div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -369,14 +426,24 @@
                 </select>
               </div>
               <div class="dashboard_modal-actions">
-                <button type="button" class="dashboard_btn dashboard_btn-secondary" onclick="closeModal()">Cancel</button>
-                <button type="submit" class="dashboard_btn dashboard_btn-primary">Save</button>
+                <button
+                  type="button"
+                  class="dashboard_btn dashboard_btn-secondary"
+                  onclick="closeModal()"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="dashboard_btn dashboard_btn-primary"
+                >
+                  Save
+                </button>
               </div>
             </form>
           </div>
         </div>
       </section>
-
 
       <!-- Shared Footer -->
 
@@ -435,20 +502,15 @@
       </footer>
     </main>
 
-    <!--=============== MAIN JS ===============-->
-    <script src="main.js"></script>
     <script>
       if (!sessionStorage.getItem("authenticated")) {
         window.location.href = "login.html";
       }
-      const logoutBtn = document.getElementById("logout-btn");
-      if (logoutBtn) {
-        logoutBtn.addEventListener("click", () => {
-          sessionStorage.removeItem("authenticated");
-          window.location.href = "login.html";
-        });
-      }
     </script>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="main.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>

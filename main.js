@@ -1,4 +1,3 @@
-
 /*=============== SHOW SIDEBAR ===============*/
 const showSidebar = (toggleId, sidebarId, headerId, mainId) => {
   const toggle = document.getElementById(toggleId),
@@ -107,7 +106,6 @@ function setTheme(primary, light, hover) {
 
   document.documentElement.style.setProperty("--footer-color", primary);
 }
- 
 
 // Calendar functionality
 
@@ -268,7 +266,9 @@ setInterval(() => {
 
 // Todo List
 
-let tasks = [];
+// let tasks = [];
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 function updateGreeting() {
   const hour = new Date().getHours();
@@ -281,9 +281,16 @@ function updateGreeting() {
     greeting = "Good Evening";
   }
 
-  document.getElementById(
-    "dashboard_greeting"
-  ).textContent = `${greeting}, User`;
+  // document.getElementById("dashboard_greeting").textContent =
+  //   `${greeting}, User`;
+
+  const greetingElement = document.getElementById("dashboard_greeting");
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  if (greetingElement) {
+    greetingElement.textContent = `${greeting}, ${currentUser?.username || "User"}`;
+  }
 }
 
 function openModal() {
@@ -291,9 +298,7 @@ function openModal() {
 }
 
 function closeModal() {
-  document
-    .getElementById("dashboard_taskModal")
-    .classList.remove("active");
+  document.getElementById("dashboard_taskModal").classList.remove("active");
 
   const form = document.getElementById("dashboard_taskForm");
   form.reset();
@@ -313,7 +318,9 @@ if (taskForm) {
     const editingId = modal.dataset.editing;
 
     if (editingId) {
-      const existingTask = tasks.find((task) => task.id.toString() === editingId);
+      const existingTask = tasks.find(
+        (task) => task.id.toString() === editingId,
+      );
       if (existingTask) {
         existingTask.title = title;
         existingTask.status = status;
@@ -336,46 +343,31 @@ if (taskForm) {
 }
 
 function updateStats() {
-
   const total = tasks.length;
 
-  const completed =
-    tasks.filter(task => task.completed).length;
+  const completed = tasks.filter((task) => task.completed).length;
 
   const pending = total - completed;
 
-  const rate =
-    total === 0
-      ? 0
-      : Math.round(
-          (completed / total) * 100
-        );
+  const rate = total === 0 ? 0 : Math.round((completed / total) * 100);
 
-  document.getElementById(
-    "dashboard_taskCount"
-  ).textContent = pending;
+  document.getElementById("dashboard_taskCount").textContent = pending;
 
-  document.getElementById(
-    "dashboard_totalTasks"
-  ).textContent = total;
+  document.getElementById("dashboard_totalTasks").textContent = total;
 
-  document.getElementById(
-    "dashboard_completedCount"
-  ).textContent = completed;
+  document.getElementById("dashboard_completedCount").textContent = completed;
 
-  document.getElementById(
-    "dashboard_pendingCount"
-  ).textContent = pending;
+  document.getElementById("dashboard_pendingCount").textContent = pending;
 
-  document.getElementById(
-    "dashboard_completionRateValue"
-  ).textContent = `${rate}%`;
+  document.getElementById("dashboard_completionRateValue").textContent =
+    `${rate}%`;
 
-  document.getElementById(
-    "dashboard_completionProgress"
-  ).style.width = `${rate}%`;
+  document.getElementById("dashboard_completionProgress").style.width =
+    `${rate}%`;
 
   renderTasks();
+
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 function createTaskItem(task) {
@@ -386,7 +378,9 @@ function createTaskItem(task) {
   checkbox.type = "checkbox";
   checkbox.className = "dashboard_task-checkbox";
   checkbox.checked = task.completed;
-  checkbox.addEventListener("change", () => toggleTaskCompletion(task.id, checkbox.checked));
+  checkbox.addEventListener("change", () =>
+    toggleTaskCompletion(task.id, checkbox.checked),
+  );
   item.appendChild(checkbox);
 
   const left = document.createElement("div");
@@ -410,11 +404,16 @@ function createTaskItem(task) {
 
   const statusBadge = document.createElement("span");
   statusBadge.className = `dashboard_task-badge dashboard_task-${task.status}`;
-  statusBadge.textContent = task.completed ? "Completed" : task.status === "progress" ? "In Progress" : "Pending";
+  statusBadge.textContent = task.completed
+    ? "Completed"
+    : task.status === "progress"
+      ? "In Progress"
+      : "Pending";
 
   const priorityBadge = document.createElement("span");
   priorityBadge.className = `dashboard_task-priority dashboard_task-${task.priority}`;
-  priorityBadge.textContent = task.priority.charAt(0).toUpperCase() + task.priority.slice(1);
+  priorityBadge.textContent =
+    task.priority.charAt(0).toUpperCase() + task.priority.slice(1);
 
   meta.appendChild(statusBadge);
   meta.appendChild(priorityBadge);
@@ -488,19 +487,21 @@ function openTaskModal(task) {
 }
 
 function removeTask(id) {
-  tasks = tasks.filter(task => task.id !== id);
+  tasks = tasks.filter((task) => task.id !== id);
   updateStats();
 }
 
 function renderTasks() {
   const onHoldContainer = document.getElementById("dashboard_onHoldTasks");
-  const completedContainer = document.getElementById("dashboard_completedTasks");
+  const completedContainer = document.getElementById(
+    "dashboard_completedTasks",
+  );
 
   onHoldContainer.innerHTML = "";
   completedContainer.innerHTML = "";
 
-  const onHoldTasks = tasks.filter(task => !task.completed);
-  const completedTasks = tasks.filter(task => task.completed);
+  const onHoldTasks = tasks.filter((task) => !task.completed);
+  const completedTasks = tasks.filter((task) => task.completed);
 
   if (onHoldTasks.length === 0) {
     const empty = document.createElement("div");
@@ -508,7 +509,9 @@ function renderTasks() {
     empty.textContent = "No pending tasks yet. Add one to get started.";
     onHoldContainer.appendChild(empty);
   } else {
-    onHoldTasks.forEach(task => onHoldContainer.appendChild(createTaskItem(task)));
+    onHoldTasks.forEach((task) =>
+      onHoldContainer.appendChild(createTaskItem(task)),
+    );
   }
 
   if (completedTasks.length === 0) {
@@ -517,9 +520,224 @@ function renderTasks() {
     empty.textContent = "No completed tasks yet.";
     completedContainer.appendChild(empty);
   } else {
-    completedTasks.forEach(task => completedContainer.appendChild(createTaskItem(task)));
+    completedTasks.forEach((task) =>
+      completedContainer.appendChild(createTaskItem(task)),
+    );
   }
 }
 
 updateGreeting();
 updateStats();
+
+// sign up
+
+// Protect dashboard
+const isDashboardPage = window.location.pathname.includes("dashboard");
+
+const isSettingsPage = window.location.pathname.includes("settings");
+
+if (
+  (isDashboardPage || isSettingsPage) &&
+  !sessionStorage.getItem("authenticated")
+) {
+  window.location.href = "index.html";
+}
+// if (!sessionStorage.getItem("authenticated")) {
+//   window.location.href = "index.html";
+// }
+
+// Get user data from localStorage
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (user) {
+  document.getElementById("sidebar-user-name").textContent = user.username;
+
+  document.getElementById("sidebar-user-email").textContent = user.email;
+}
+
+logoutBtn.addEventListener("click", () => {
+  sessionStorage.removeItem("authenticated");
+
+  // Optional: remove user details
+  localStorage.removeItem("userName");
+  localStorage.removeItem("userEmail");
+
+  window.location.href = "login.html";
+});
+
+// User Profile Information
+// const userName = localStorage.getItem("userName");
+// const userEmail = localStorage.getItem("userEmail");
+
+const nameElement = document.getElementById("sidebar-user-name");
+const emailElement = document.getElementById("sidebar-user-email");
+
+if (nameElement && userName) {
+  nameElement.textContent = userName;
+}
+
+if (emailElement && userEmail) {
+  emailElement.textContent = userEmail;
+}
+
+// const logoutBtn = document.getElementById("logout-btn");
+
+// if (logoutBtn) {
+//   logoutBtn.addEventListener("click", () => {
+//     sessionStorage.removeItem("authenticated");
+//     window.location.href = "login.html";
+//   });
+// }
+
+const logoutBtn = document.getElementById("logout-btn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    sessionStorage.removeItem("authenticated");
+    localStorage.removeItem("currentUser");
+    window.location.href = "index.html";
+  });
+}
+
+// SETTINGS PAGE
+
+const storedUser = JSON.parse(localStorage.getItem("user"));
+
+if (storedUser) {
+  const username = document.getElementById("settings_username");
+  const email = document.getElementById("settings_email");
+  const role = document.getElementById("settings_role");
+
+  if (username) username.value = storedUser.username;
+  if (email) email.value = storedUser.email;
+  if (role) role.value = storedUser.role || "Admin";
+}
+
+// Save Company Details
+const saveCompanyBtn = document.getElementById("saveCompanyBtn");
+
+if (saveCompanyBtn) {
+  saveCompanyBtn.addEventListener("click", () => {
+    const company = {
+      name: document.getElementById("company_name").value,
+      industry: document.getElementById("company_industry").value,
+      email: document.getElementById("company_email").value,
+      phone: document.getElementById("company_phone").value,
+    };
+
+    localStorage.setItem("company", JSON.stringify(company));
+
+    alert("Company details saved.");
+  });
+}
+
+// Load Company Details
+const company = JSON.parse(localStorage.getItem("company"));
+
+if (company) {
+  if (document.getElementById("company_name"))
+    document.getElementById("company_name").value = company.name || "";
+
+  if (document.getElementById("company_industry"))
+    document.getElementById("company_industry").value = company.industry || "";
+
+  if (document.getElementById("company_email"))
+    document.getElementById("company_email").value = company.email || "";
+
+  if (document.getElementById("company_phone"))
+    document.getElementById("company_phone").value = company.phone || "";
+}
+
+function loadCurrentUser() {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  if (!currentUser) return;
+
+  // Sidebar
+  const sidebarUsername = document.getElementById("sidebar_username");
+
+  const sidebarEmail = document.getElementById("sidebar_email");
+
+  if (sidebarUsername) {
+    sidebarUsername.textContent = currentUser.username;
+  }
+
+  if (sidebarEmail) {
+    sidebarEmail.textContent = currentUser.email;
+  }
+
+  // Settings page
+  const settingsUsername = document.getElementById("settings_username");
+
+  const settingsEmail = document.getElementById("settings_email");
+
+  const settingsRole = document.getElementById("settings_role");
+
+  if (settingsUsername) {
+    settingsUsername.value = currentUser.username;
+  }
+
+  if (settingsEmail) {
+    settingsEmail.value = currentUser.email;
+  }
+
+  if (settingsRole) {
+    settingsRole.value = currentUser.role || "Admin";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadCurrentUser();
+});
+
+localStorage.setItem("currentUser", JSON.stringify(storedUser));
+
+localStorage.setItem("currentUser", JSON.stringify(user));
+
+// Profile iimage
+function selectAvatar(imagePath) {
+  localStorage.setItem("selectedAvatar", imagePath);
+
+  const navbarAvatar = document.getElementById("navbarProfileImage");
+
+  const settingsAvatar = document.getElementById("settingsProfileImage");
+
+  if (navbarAvatar) {
+    navbarAvatar.src = imagePath;
+  }
+
+  if (settingsAvatar) {
+    settingsAvatar.src = imagePath;
+  }
+
+  document.querySelectorAll(".settings_avatar-option").forEach((avatar) => {
+    avatar.classList.remove("active");
+
+    if (avatar.getAttribute("src") === imagePath) {
+      avatar.classList.add("active");
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const savedAvatar =
+    localStorage.getItem("selectedAvatar") || "images/avatar1.png";
+
+  const navbarAvatar = document.getElementById("navbarProfileImage");
+
+  const settingsAvatar = document.getElementById("settingsProfileImage");
+
+  if (navbarAvatar) {
+    navbarAvatar.src = savedAvatar;
+  }
+
+  if (settingsAvatar) {
+    settingsAvatar.src = savedAvatar;
+  }
+
+  document.querySelectorAll(".settings_avatar-option").forEach((avatar) => {
+    if (avatar.getAttribute("src") === savedAvatar) {
+      avatar.classList.add("active");
+    }
+  });
+});

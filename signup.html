@@ -1,94 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
 
-  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
-  <style>
-    .auth-container{
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background:#f5f7fb;
-    }
+    <style>
+      .auth-container {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #f5f7fb;
+      }
 
-    .auth-card{
-      width:400px;
-      background:white;
-      padding:2rem;
-      border-radius:20px;
-      box-shadow:0 5px 20px rgba(0,0,0,.1);
-    }
+      .auth-card {
+        width: 400px;
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
 
-    .auth-card h1{
-      text-align:center;
-      margin-bottom:20px;
-    }
+      .auth-card h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-    .auth-card input{
-      width:100%;
-      padding:12px;
-      margin-bottom:15px;
-      border:1px solid #ddd;
-      border-radius:10px;
-    }
+      .auth-card input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+      }
 
-    .auth-btn{
-      width:100%;
-      padding:12px;
-      background:#00674f;
-      color:white;
-      border-radius:10px;
-      cursor:pointer;
-    }
-  </style>
-</head>
-<body>
+      .auth-btn {
+        width: 100%;
+        padding: 12px;
+        background: #00674f;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1>Create Account</h1>
 
-<div class="auth-container">
-  <div class="auth-card">
-    <h1>Create Account</h1>
+        <form id="signupForm">
+          <input type="text" id="signupName" placeholder="Full Name" required />
 
-    <form id="signupForm">
+          <input
+            type="email"
+            id="signupEmail"
+            placeholder="Email Address"
+            required
+          />
 
-      <input
-        type="text"
-        id="signupName"
-        placeholder="Full Name"
-        required
-      />
+          <input
+            type="password"
+            id="signupPassword"
+            placeholder="Password"
+            required
+          />
 
-      <input
-        type="email"
-        id="signupEmail"
-        placeholder="Email Address"
-        required
-      />
+          <button class="auth-btn" type="submit">Login</button>
+        </form>
 
-      <input
-        type="password"
-        id="signupPassword"
-        placeholder="Password"
-        required
-      />
-
-      <button class="auth-btn" type="submit">
-        Sign Up
-      </button>
-
-    </form>
-
-    <div style="text-align:center;margin-top:15px;">
-      <a href="login.html">Already have an account?</a>
+        <div style="text-align: center; margin-top: 15px">
+          <a href="login.html">Already have an account?</a>
+        </div>
+      </div>
     </div>
 
-  </div>
-</div>
+    <script src="main.js"></script>
 
-<script src="main.js"></script>
-</body>
+    <script>
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("signupName").value;
+          const email = document.getElementById("signupEmail").value;
+          const password = document.getElementById("signupPassword").value;
+
+          localStorage.setItem("userName", name);
+          localStorage.setItem("userEmail", email);
+          localStorage.setItem("userPassword", password);
+
+          sessionStorage.setItem("authenticated", "true");
+
+          window.location.href = "dashboard.html";
+        });
+    </script>
+    <script src="main.js"></script>
+  </body>
 </html>
