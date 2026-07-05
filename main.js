@@ -41,61 +41,68 @@ const selectedIcon = localStorage.getItem("selected-icon");
 const getCurrentTheme = () =>
   document.body.classList.contains(darkTheme) ? "dark" : "light";
 const getCurrentIcon = () =>
-  themeButton.classList.contains(iconTheme)
+  themeButton && themeButton.classList.contains(iconTheme)
     ? "ri-moon-clear-fill"
     : "ri-sun-fill";
 
 // We validate if the user previously chose a topic
 if (selectedTheme) {
-  // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the dark
   document.body.classList[selectedTheme === "dark" ? "add" : "remove"](
     darkTheme,
   );
-  themeButton.classList[
-    selectedIcon === "ri-moon-clear-fill" ? "add" : "remove"
-  ](iconTheme);
 }
 
-// Activate / deactivate the theme manually with the button
-themeButton.addEventListener("click", () => {
-  // Add or remove the dark / icon theme
-  document.body.classList.toggle(darkTheme);
-  themeButton.classList.toggle(iconTheme);
-  // We save the theme and the current icon that the user chose
-  localStorage.setItem("selected-theme", getCurrentTheme());
-  localStorage.setItem("selected-icon", getCurrentIcon());
-});
+if (themeButton) {
+  if (selectedIcon === "ri-moon-clear-fill") {
+    themeButton.classList.add(iconTheme);
+  } else {
+    themeButton.classList.remove(iconTheme);
+  }
+
+  themeButton.addEventListener("click", () => {
+    document.body.classList.toggle(darkTheme);
+    themeButton.classList.toggle(iconTheme);
+    localStorage.setItem("selected-theme", getCurrentTheme());
+    localStorage.setItem("selected-icon", getCurrentIcon());
+    const darkModeToggle = document.getElementById("darkModeToggle");
+    if (darkModeToggle) {
+      darkModeToggle.checked = document.body.classList.contains(darkTheme);
+    }
+  });
+}
 
 // =============== THEME SWITCHER ===============
 const theme = document.getElementById("theme");
 
-theme.addEventListener("change", function () {
-  switch (this.value) {
-    case "default":
-      setTheme("#00674f", "#dbeafe", "#1d4ed8");
-      break;
+if (theme) {
+  theme.addEventListener("change", function () {
+    switch (this.value) {
+      case "default":
+        setTheme("#00674f", "#dbeafe", "#1d4ed8");
+        break;
 
-    case "blue":
-      setTheme("#2563eb", "#dbeafe", "#1d4ed8");
-      break;
+      case "blue":
+        setTheme("#2563eb", "#dbeafe", "#1d4ed8");
+        break;
 
-    case "green":
-      setTheme("#16a34a", "#dcfce7", "#15803d");
-      break;
+      case "green":
+        setTheme("#16a34a", "#dcfce7", "#15803d");
+        break;
 
-    case "purple":
-      setTheme("#7c3aed", "#ede9fe", "#6d28d9");
-      break;
+      case "purple":
+        setTheme("#7c3aed", "#ede9fe", "#6d28d9");
+        break;
 
-    case "red":
-      setTheme("#dc2626", "#fee2e2", "#b91c1c");
-      break;
+      case "red":
+        setTheme("#dc2626", "#fee2e2", "#b91c1c");
+        break;
 
-    case "orange":
-      setTheme("#ea580c", "#ffedd5", "#c2410c");
-      break;
-  }
-});
+      case "orange":
+        setTheme("#ea580c", "#ffedd5", "#c2410c");
+        break;
+    }
+  });
+}
 
 function setTheme(primary, light, hover) {
   document.documentElement.style.setProperty("--primary-color", primary);
@@ -109,166 +116,167 @@ function setTheme(primary, light, hover) {
 
 // Calendar functionality
 
-const isLeapYear = (year) => {
-  return (
-    (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) ||
-    (year % 100 === 0 && year % 400 === 0)
-  );
-};
-const getFebDays = (year) => {
-  return isLeapYear(year) ? 29 : 28;
-};
-let calendar = document.querySelector(".calendar");
-const month_names = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-let month_picker = document.querySelector("#month-picker");
-const dayTextFormate = document.querySelector(".day-text-formate");
-const timeFormate = document.querySelector(".time-formate");
-const dateFormate = document.querySelector(".date-formate");
+// const isLeapYear = (year) => {
+//   return (
+//     (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) ||
+//     (year % 100 === 0 && year % 400 === 0)
+//   );
+// };
+// const getFebDays = (year) => {
+//   return isLeapYear(year) ? 29 : 28;
+// };
+// let calendar = document.querySelector(".calendar");
+// const month_names = [
+//   "January",
+//   "February",
+//   "March",
+//   "April",
+//   "May",
+//   "June",
+//   "July",
+//   "August",
+//   "September",
+//   "October",
+//   "November",
+//   "December",
+// ];
+// let month_picker = document.querySelector("#month-picker");
+// const dayTextFormate = document.querySelector(".day-text-formate");
+// const timeFormate = document.querySelector(".time-formate");
+// const dateFormate = document.querySelector(".date-formate");
 
-month_picker.onclick = () => {
-  month_list.classList.remove("hideonce");
-  month_list.classList.remove("hide");
-  month_list.classList.add("show");
-  dayTextFormate.classList.remove("showtime");
-  dayTextFormate.classList.add("hidetime");
-  timeFormate.classList.remove("showtime");
-  timeFormate.classList.add("hideTime");
-  dateFormate.classList.remove("showtime");
-  dateFormate.classList.add("hideTime");
-};
+// month_picker.onclick = () => {
+//   month_list.classList.remove("hideonce");
+//   month_list.classList.remove("hide");
+//   month_list.classList.add("show");
+//   dayTextFormate.classList.remove("showtime");
+//   dayTextFormate.classList.add("hidetime");
+//   timeFormate.classList.remove("showtime");
+//   timeFormate.classList.add("hideTime");
+//   dateFormate.classList.remove("showtime");
+//   dateFormate.classList.add("hideTime");
+// };
 
-const generateCalendar = (month, year) => {
-  let calendar_days = document.querySelector(".calendar-days");
-  calendar_days.innerHTML = "";
-  let calendar_header_year = document.querySelector("#year");
-  let days_of_month = [
-    31,
-    getFebDays(year),
-    31,
-    30,
-    31,
-    30,
-    31,
-    31,
-    30,
-    31,
-    30,
-    31,
-  ];
+// const generateCalendar = (month, year) => {
+//   let calendar_days = document.querySelector(".calendar-days");
+//   calendar_days.innerHTML = "";
+//   let calendar_header_year = document.querySelector("#year");
+//   let days_of_month = [
+//     31,
+//     getFebDays(year),
+//     31,
+//     30,
+//     31,
+//     30,
+//     31,
+//     31,
+//     30,
+//     31,
+//     30,
+//     31,
+//   ];
 
-  let currentDate = new Date();
+//   let currentDate = new Date();
 
-  month_picker.innerHTML = month_names[month];
+//   month_picker.innerHTML = month_names[month];
 
-  calendar_header_year.innerHTML = year;
+//   calendar_header_year.innerHTML = year;
 
-  let first_day = new Date(year, month);
+//   let first_day = new Date(year, month);
 
-  for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
-    let day = document.createElement("div");
+//   for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
+//     let day = document.createElement("div");
 
-    if (i >= first_day.getDay()) {
-      day.innerHTML = i - first_day.getDay() + 1;
+//     if (i >= first_day.getDay()) {
+//       day.innerHTML = i - first_day.getDay() + 1;
 
-      if (
-        i - first_day.getDay() + 1 === currentDate.getDate() &&
-        year === currentDate.getFullYear() &&
-        month === currentDate.getMonth()
-      ) {
-        day.classList.add("current-date");
-      }
-    }
-    calendar_days.appendChild(day);
-  }
-};
+//       if (
+//         i - first_day.getDay() + 1 === currentDate.getDate() &&
+//         year === currentDate.getFullYear() &&
+//         month === currentDate.getMonth()
+//       ) {
+//         day.classList.add("current-date");
+//       }
+//     }
+//     calendar_days.appendChild(day);
+//   }
+// };
 
-let month_list = calendar.querySelector(".month-list");
-month_names.forEach((e, index) => {
-  let month = document.createElement("div");
-  month.innerHTML = `<div>${e}</div>`;
+// let month_list = calendar.querySelector(".month-list");
+// month_names.forEach((e, index) => {
+//   let month = document.createElement("div");
+//   month.innerHTML = `<div>${e}</div>`;
 
-  month_list.append(month);
-  month.onclick = () => {
-    currentMonth.value = index;
-    generateCalendar(currentMonth.value, currentYear.value);
-    month_list.classList.replace("show", "hide");
-    dayTextFormate.classList.remove("hideTime");
-    dayTextFormate.classList.add("showtime");
-    timeFormate.classList.remove("hideTime");
-    timeFormate.classList.add("showtime");
-    dateFormate.classList.remove("hideTime");
-    dateFormate.classList.add("showtime");
-  };
-});
+//   month_list.append(month);
+//   month.onclick = () => {
+//     currentMonth.value = index;
+//     generateCalendar(currentMonth.value, currentYear.value);
+//     month_list.classList.replace("show", "hide");
+//     dayTextFormate.classList.remove("hideTime");
+//     dayTextFormate.classList.add("showtime");
+//     timeFormate.classList.remove("hideTime");
+//     timeFormate.classList.add("showtime");
+//     dateFormate.classList.remove("hideTime");
+//     dateFormate.classList.add("showtime");
+//   };
+// });
 
-(function () {
-  month_list.classList.add("hideonce");
-})();
-document.querySelector("#pre-year").onclick = () => {
-  --currentYear.value;
-  generateCalendar(currentMonth.value, currentYear.value);
-};
-document.querySelector("#next-year").onclick = () => {
-  ++currentYear.value;
-  generateCalendar(currentMonth.value, currentYear.value);
-};
+// (function () {
+//   month_list.classList.add("hideonce");
+// })();
+// document.querySelector("#pre-year").onclick = () => {
+//   --currentYear.value;
+//   generateCalendar(currentMonth.value, currentYear.value);
+// };
+// document.querySelector("#next-year").onclick = () => {
+//   ++currentYear.value;
+//   generateCalendar(currentMonth.value, currentYear.value);
+// };
 
-let currentDate = new Date();
-let currentMonth = { value: currentDate.getMonth() };
-let currentYear = { value: currentDate.getFullYear() };
-generateCalendar(currentMonth.value, currentYear.value);
+// let currentDate = new Date();
+// let currentMonth = { value: currentDate.getMonth() };
+// let currentYear = { value: currentDate.getFullYear() };
+// generateCalendar(currentMonth.value, currentYear.value);
 
-const todayShowTime = document.querySelector(".time-formate");
-const todayShowDate = document.querySelector(".date-formate");
+// const todayShowTime = document.querySelector(".time-formate");
+// const todayShowDate = document.querySelector(".date-formate");
 
-const currshowDate = new Date();
-const showCurrentDateOption = {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  weekday: "long",
-};
-const currentDateFormate = new Intl.DateTimeFormat(
-  "en-US",
-  showCurrentDateOption,
-).format(currshowDate);
-todayShowDate.textContent = currentDateFormate;
-setInterval(() => {
-  const timer = new Date();
-  const option = {
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  };
-  const formateTimer = new Intl.DateTimeFormat("en-us", option).format(timer);
-  let time = `${`${timer.getHours()}`.padStart(
-    2,
-    "0",
-  )}:${`${timer.getMinutes()}`.padStart(
-    2,
-    "0",
-  )}: ${`${timer.getSeconds()}`.padStart(2, "0")}`;
-  todayShowTime.textContent = formateTimer;
-}, 1000);
+// const currshowDate = new Date();
+// const showCurrentDateOption = {
+//   year: "numeric",
+//   month: "long",
+//   day: "numeric",
+//   weekday: "long",
+// };
+// const currentDateFormate = new Intl.DateTimeFormat(
+//   "en-US",
+//   showCurrentDateOption,
+// ).format(currshowDate);
+// todayShowDate.textContent = currentDateFormate;
+// setInterval(() => {
+//   const timer = new Date();
+//   const option = {
+//     hour: "numeric",
+//     minute: "numeric",
+//     second: "numeric",
+//   };
+//   const formateTimer = new Intl.DateTimeFormat("en-us", option).format(timer);
+//   let time = `${`${timer.getHours()}`.padStart(
+//     2,
+//     "0",
+//   )}:${`${timer.getMinutes()}`.padStart(
+//     2,
+//     "0",
+//   )}: ${`${timer.getSeconds()}`.padStart(2, "0")}`;
+//   todayShowTime.textContent = formateTimer;
+// }, 1000);
 
 // Todo List
 
 // let tasks = [];
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let currentTaskFilter = "";
 
 function updateGreeting() {
   const hour = new Date().getHours();
@@ -497,16 +505,25 @@ function renderTasks() {
     "dashboard_completedTasks",
   );
 
+  if (!onHoldContainer || !completedContainer) return;
+
   onHoldContainer.innerHTML = "";
   completedContainer.innerHTML = "";
 
-  const onHoldTasks = tasks.filter((task) => !task.completed);
-  const completedTasks = tasks.filter((task) => task.completed);
+  const filteredTasks = tasks.filter((task) => {
+    if (!currentTaskFilter) return true;
+    return task.title.toLowerCase().includes(currentTaskFilter);
+  });
+
+  const onHoldTasks = filteredTasks.filter((task) => !task.completed);
+  const completedTasks = filteredTasks.filter((task) => task.completed);
 
   if (onHoldTasks.length === 0) {
     const empty = document.createElement("div");
     empty.className = "dashboard_empty-state";
-    empty.textContent = "No pending tasks yet. Add one to get started.";
+    empty.textContent = currentTaskFilter
+      ? `No tasks match "${currentTaskFilter}".`
+      : "No pending tasks yet. Add one to get started.";
     onHoldContainer.appendChild(empty);
   } else {
     onHoldTasks.forEach((task) =>
@@ -517,7 +534,9 @@ function renderTasks() {
   if (completedTasks.length === 0) {
     const empty = document.createElement("div");
     empty.className = "dashboard_empty-state";
-    empty.textContent = "No completed tasks yet.";
+    empty.textContent = currentTaskFilter
+      ? `No tasks match "${currentTaskFilter}".`
+      : "No completed tasks yet.";
     completedContainer.appendChild(empty);
   } else {
     completedTasks.forEach((task) =>
@@ -526,91 +545,141 @@ function renderTasks() {
   }
 }
 
+function applyTaskFilter(query) {
+  currentTaskFilter = query.trim().toLowerCase();
+  renderTasks();
+}
+
+function setupDashboardInteractions() {
+  const searchInput = document.querySelector(".search-bar input");
+  const searchButton = document.querySelector(".search-bar button");
+  const heroButton = document.querySelector(".hero-content button");
+  const overviewSection = document.querySelector(".z_banner");
+
+  if (searchInput && searchButton) {
+    searchButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      applyTaskFilter(searchInput.value);
+      searchInput.focus();
+    });
+
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        applyTaskFilter(searchInput.value);
+      }
+    });
+  }
+
+  if (heroButton && overviewSection) {
+    heroButton.addEventListener("click", () => {
+      overviewSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+}
+
 updateGreeting();
 updateStats();
+setupDashboardInteractions();
 
-// sign up
+const DEFAULT_AVATAR =
+  "https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg";
 
-// Protect dashboard
-const isDashboardPage = window.location.pathname.includes("dashboard");
+function getStoredUser() {
+  const currentUser = localStorage.getItem("currentUser");
 
-const isSettingsPage = window.location.pathname.includes("settings");
+  if (currentUser) {
+    try {
+      return JSON.parse(currentUser);
+    } catch (error) {
+      console.error("Unable to parse currentUser", error);
+    }
+  }
 
-if (
-  (isDashboardPage || isSettingsPage) &&
-  !sessionStorage.getItem("authenticated")
-) {
-  window.location.href = "index.html";
+  const legacyUser = localStorage.getItem("user");
+
+  if (legacyUser) {
+    try {
+      return JSON.parse(legacyUser);
+    } catch (error) {
+      console.error("Unable to parse stored user", error);
+    }
+  }
+
+  return null;
 }
-// if (!sessionStorage.getItem("authenticated")) {
-//   window.location.href = "index.html";
-// }
 
-// Get user data from localStorage
-const user = JSON.parse(localStorage.getItem("user"));
+function saveCurrentUser(user) {
+  if (!user) return;
 
-if (user) {
-  document.getElementById("sidebar-user-name").textContent = user.username;
-
-  document.getElementById("sidebar-user-email").textContent = user.email;
+  localStorage.setItem("currentUser", JSON.stringify(user));
+  localStorage.setItem("user", JSON.stringify(user));
 }
 
-logoutBtn.addEventListener("click", () => {
-  sessionStorage.removeItem("authenticated");
+function applyAvatar(imagePath) {
+  const avatarPath = imagePath || DEFAULT_AVATAR;
 
-  // Optional: remove user details
-  localStorage.removeItem("userName");
-  localStorage.removeItem("userEmail");
+  localStorage.setItem("selectedAvatar", avatarPath);
 
+  document.querySelectorAll("#navbarProfileImage, #settingsProfileImage").forEach((image) => {
+    if (image) {
+      image.src = avatarPath;
+    }
+  });
+
+  document.querySelectorAll(".settings_avatar-option").forEach((avatarOption) => {
+    avatarOption.classList.toggle(
+      "active",
+      avatarOption.getAttribute("src") === avatarPath,
+    );
+  });
+}
+
+function syncProfileInfo() {
+  const user = getStoredUser();
+  const sidebarName = document.getElementById("sidebar-user-name");
+  const sidebarEmail = document.getElementById("sidebar-user-email");
+  const sidebarRole = document.getElementById("sidebar_role");
+  const settingsUsername = document.getElementById("settings_username");
+  const settingsEmail = document.getElementById("settings_email");
+  const settingsRole = document.getElementById("settings_role");
+
+  if (user) {
+    if (sidebarName) sidebarName.textContent = user.username || "User";
+    if (sidebarEmail) sidebarEmail.textContent = user.email || "user@email.com";
+    if (sidebarRole) sidebarRole.textContent = user.role || "Admin";
+    if (settingsUsername) settingsUsername.value = user.username || "";
+    if (settingsEmail) settingsEmail.value = user.email || "";
+    if (settingsRole) settingsRole.value = user.role || "Admin";
+  } else {
+    if (sidebarName) sidebarName.textContent = "User";
+    if (sidebarEmail) sidebarEmail.textContent = "user@email.com";
+    if (sidebarRole) sidebarRole.textContent = "Admin";
+  }
+
+  const savedAvatar =
+    localStorage.getItem("selectedAvatar") || user?.avatar || DEFAULT_AVATAR;
+
+  applyAvatar(savedAvatar);
+}
+
+const protectedPages = ["dashboard.html", "settings.html", "calendar.html"];
+const currentPage = window.location.pathname.split("/").pop();
+
+if (!sessionStorage.getItem("authenticated") && protectedPages.includes(currentPage)) {
   window.location.href = "login.html";
-});
-
-// User Profile Information
-// const userName = localStorage.getItem("userName");
-// const userEmail = localStorage.getItem("userEmail");
-
-const nameElement = document.getElementById("sidebar-user-name");
-const emailElement = document.getElementById("sidebar-user-email");
-
-if (nameElement && userName) {
-  nameElement.textContent = userName;
 }
-
-if (emailElement && userEmail) {
-  emailElement.textContent = userEmail;
-}
-
-// const logoutBtn = document.getElementById("logout-btn");
-
-// if (logoutBtn) {
-//   logoutBtn.addEventListener("click", () => {
-//     sessionStorage.removeItem("authenticated");
-//     window.location.href = "login.html";
-//   });
-// }
 
 const logoutBtn = document.getElementById("logout-btn");
 
 if (logoutBtn) {
   logoutBtn.addEventListener("click", () => {
     sessionStorage.removeItem("authenticated");
+    sessionStorage.removeItem("username");
     localStorage.removeItem("currentUser");
-    window.location.href = "index.html";
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
   });
-}
-
-// SETTINGS PAGE
-
-const storedUser = JSON.parse(localStorage.getItem("user"));
-
-if (storedUser) {
-  const username = document.getElementById("settings_username");
-  const email = document.getElementById("settings_email");
-  const role = document.getElementById("settings_role");
-
-  if (username) username.value = storedUser.username;
-  if (email) email.value = storedUser.email;
-  if (role) role.value = storedUser.role || "Admin";
 }
 
 // Save Company Details
@@ -648,96 +717,59 @@ if (company) {
     document.getElementById("company_phone").value = company.phone || "";
 }
 
-function loadCurrentUser() {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-  if (!currentUser) return;
-
-  // Sidebar
-  const sidebarUsername = document.getElementById("sidebar_username");
-
-  const sidebarEmail = document.getElementById("sidebar_email");
-
-  if (sidebarUsername) {
-    sidebarUsername.textContent = currentUser.username;
-  }
-
-  if (sidebarEmail) {
-    sidebarEmail.textContent = currentUser.email;
-  }
-
-  // Settings page
-  const settingsUsername = document.getElementById("settings_username");
-
-  const settingsEmail = document.getElementById("settings_email");
-
-  const settingsRole = document.getElementById("settings_role");
-
-  if (settingsUsername) {
-    settingsUsername.value = currentUser.username;
-  }
-
-  if (settingsEmail) {
-    settingsEmail.value = currentUser.email;
-  }
-
-  if (settingsRole) {
-    settingsRole.value = currentUser.role || "Admin";
-  }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  loadCurrentUser();
+  syncProfileInfo();
+
+  const darkModeToggle = document.getElementById("darkModeToggle");
+  if (darkModeToggle) {
+    darkModeToggle.checked = document.body.classList.contains("dark-theme");
+    darkModeToggle.addEventListener("change", () => {
+      document.body.classList.toggle("dark-theme", darkModeToggle.checked);
+      localStorage.setItem(
+        "selected-theme",
+        document.body.classList.contains("dark-theme") ? "dark" : "light",
+      );
+      localStorage.setItem(
+        "selected-icon",
+        document.body.classList.contains("dark-theme")
+          ? "ri-moon-clear-fill"
+          : "ri-sun-fill",
+      );
+      if (themeButton) {
+        themeButton.classList.toggle("ri-sun-fill", !darkModeToggle.checked);
+        themeButton.classList.toggle("ri-moon-clear-fill", darkModeToggle.checked);
+      }
+    });
+  }
+
+  const preferenceToggles = [
+    "emailNotifications",
+    "pushNotifications",
+    "attendanceAlerts",
+  ];
+
+  preferenceToggles.forEach((id) => {
+    const toggle = document.getElementById(id);
+    if (!toggle) return;
+    const savedValue = localStorage.getItem(id);
+    if (savedValue !== null) {
+      toggle.checked = savedValue === "true";
+    }
+    toggle.addEventListener("change", () => {
+      localStorage.setItem(id, toggle.checked.toString());
+    });
+  });
 });
 
-localStorage.setItem("currentUser", JSON.stringify(storedUser));
-
-localStorage.setItem("currentUser", JSON.stringify(user));
-
-// Profile iimage
 function selectAvatar(imagePath) {
-  localStorage.setItem("selectedAvatar", imagePath);
+  const user = getStoredUser();
 
-  const navbarAvatar = document.getElementById("navbarProfileImage");
-
-  const settingsAvatar = document.getElementById("settingsProfileImage");
-
-  if (navbarAvatar) {
-    navbarAvatar.src = imagePath;
+  if (user) {
+    user.avatar = imagePath;
+    saveCurrentUser(user);
   }
 
-  if (settingsAvatar) {
-    settingsAvatar.src = imagePath;
-  }
-
-  document.querySelectorAll(".settings_avatar-option").forEach((avatar) => {
-    avatar.classList.remove("active");
-
-    if (avatar.getAttribute("src") === imagePath) {
-      avatar.classList.add("active");
-    }
-  });
+  applyAvatar(imagePath);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const savedAvatar =
-    localStorage.getItem("selectedAvatar") || "images/avatar1.png";
-
-  const navbarAvatar = document.getElementById("navbarProfileImage");
-
-  const settingsAvatar = document.getElementById("settingsProfileImage");
-
-  if (navbarAvatar) {
-    navbarAvatar.src = savedAvatar;
-  }
-
-  if (settingsAvatar) {
-    settingsAvatar.src = savedAvatar;
-  }
-
-  document.querySelectorAll(".settings_avatar-option").forEach((avatar) => {
-    if (avatar.getAttribute("src") === savedAvatar) {
-      avatar.classList.add("active");
-    }
-  });
-});
+window.selectAvatar = selectAvatar;

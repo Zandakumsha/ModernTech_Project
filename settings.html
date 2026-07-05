@@ -38,7 +38,7 @@
           <div class="sidebar__img">
             <img
               id="navbarProfileImage"
-              src="https://i.ibb.co/7JCCB4XM/Get-your-headshots-It-s-the-second-half-of-the.jpg"
+              src="https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg"
               alt="Profile"
             />
           </div>
@@ -75,7 +75,7 @@
                 <span>Leave Management</span>
               </a>
 
-              <a href="./dashboard.html/#calendar" class="sidebar__link">
+              <a href="calendar.html" class="sidebar__link">
                 <i class="ri-calendar-fill"></i>
                 <span>Calendar</span>
               </a>
@@ -126,12 +126,38 @@
     <!--=============== SETTINGS CONTENT ===============-->
     <main class="main container" id="main">
       <section class="settings">
-        <div class="settings__header">
-          <h1>Settings</h1>
-          <p>Manage your profile, company information and preferences.</p>
-        </div>
 
         <div class="settings__grid">
+
+          <section class="main__header">
+            <div>
+              <h1>Settings</h1>
+              <p>Manage your profile, company information and preferences.</p>
+            </div>
+          
+            <div class="theme-selector">
+              <label for="theme">Theme</label>
+              <select id="theme">
+                <optgroup label="Select Theme Color">
+                  <option value="default">Default</option>
+                  <option value="blue">Blue</option>
+                  <option value="green">Green</option>
+                  <option value="purple">Purple</option>
+                  <option value="red">Red</option>
+                  <option value="orange">Orange</option>
+                </optgroup>
+              </select>
+            </div>
+          
+            <div class="main__header-actions">
+              <div class="search-bar">
+                <input type="text" placeholder="Search..." />
+                <button>
+                  <i class="ri-search-line"></i>
+                </button>
+              </div>
+            </div>
+          </section>
           <!-- User Profile -->
           <div class="settings__card">
             <h2>Profile Information</h2>
@@ -142,7 +168,7 @@
               <div class="settings_current-avatar">
                 <img
                   id="settingsProfileImage"
-                  src="images/avatar1.png"
+                  src="https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg"
                   alt="Current Avatar"
                 />
               </div>
@@ -153,60 +179,42 @@
                 <img
                   src="https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg"
                   class="settings_avatar-option"
-                  onclick="
-                    selectAvatar(
-                      'ii.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg',
-                    )
-                  "
+                  onclick="selectAvatar('https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg')"
                   alt="Avatar 1"
                 />
 
                 <img
                   src="https://i.ibb.co/67Y6mxxN/Women-free-icons-designed-by-smashingstocks.jpg"
                   class="settings_avatar-option"
-                  onclick="
-                    selectAvatar(
-                      'i.ibb.co/67Y6mxxN/Women-free-icons-designed-by-smashingstocks.jpg',
-                    )
-                  "
+                  onclick="selectAvatar('https://i.ibb.co/67Y6mxxN/Women-free-icons-designed-by-smashingstocks.jpg')"
                   alt="Avatar 2"
                 />
 
                 <img
                   src="https://i.ibb.co/Gv6syC2r/Woman-free-icons-designed-by-Prosymbols-Premium.jpg"
                   class="settings_avatar-option"
-                  onclick="
-                    selectAvatar(
-                      'i.ibb.co/Gv6syC2r/Woman-free-icons-designed-by-Prosymbols-Premium.jpg',
-                    )
-                  "
+                  onclick="selectAvatar('https://i.ibb.co/Gv6syC2r/Woman-free-icons-designed-by-Prosymbols-Premium.jpg')"
                   alt="Avatar 3"
                 />
 
                 <img
                   src="https://i.ibb.co/S4XWgr9b/download-3.jpg"
                   class="settings_avatar-option"
-                  onclick="selectAvatar('i.ibb.co/S4XWgr9b/download-3.jpg')"
+                  onclick="selectAvatar('https://i.ibb.co/S4XWgr9b/download-3.jpg')"
                   alt="Avatar 4"
                 />
 
                 <img
-                  src="https://i.ibb.co/F4296CCJ/802344489885222663.jpg"
+                  src="https://i.ibb.co/F4296CCJ/802344489222663.jpg"
                   class="settings_avatar-option"
-                  onclick="
-                    selectAvatar('i.ibb.co/F4296CCJ/802344489885222663.jpg')
-                  "
+                  onclick="selectAvatar('https://i.ibb.co/F4296CCJ/802344489222663.jpg')"
                   alt="Avatar 5"
                 />
 
                 <img
                   src="https://i.ibb.co/67kXbjhh/Toffee-Watch-Live-TV-Sports-Movies-Web-Series-Drama.jpg"
                   class="settings_avatar-option"
-                  onclick="
-                    selectAvatar(
-                      'i.ibb.co/67kXbjhh/Toffee-Watch-Live-TV-Sports-Movies-Web-Series-Drama.jpg',
-                    )
-                  "
+                  onclick="selectAvatar('https://i.ibb.co/67kXbjhh/Toffee-Watch-Live-TV-Sports-Movies-Web-Series-Drama.jpg')"
                   alt="Avatar 6"
                 />
               </div>
@@ -308,6 +316,62 @@
           </div>
         </div>
       </section>
+
+       <!-- Shared Footer -->
+
+      <footer>
+        <div class="footer_container">
+          <div class="footer_content">
+            <i class="ri-cloud-fill"></i>
+            <h2>Modern Tech</h2>
+            <p>
+              Modern Technology Solutions is a leading provider of HR management
+              solutions.
+            </p>
+          </div>
+
+          <div class="footer-col">
+            <h3>Links</h3>
+            <ul>
+              <li><a href="#">Dashboard</a></li>
+              <li><a href="#">Employees</a></li>
+              <li><a href="#">Payroll</a></li>
+              <li><a href="#">Leave Management</a></li>
+              <li><a href="#">Calendar</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Contact Us</h3>
+            <ul>
+              <li><i class="ri-mail-fill"></i> info@modern-tech.com</li>
+              <li><i class="ri-phone-fill"></i> +1 234 567 890</li>
+              <li>
+                <i class="ri-map-pin-fill"></i> 314 Imam Haron Road, Lansdowne
+                7780
+              </li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Follow Us</h3>
+            <ul>
+              <li>
+                <i class="ri-github-fill"></i>
+                <a href="#">Github</a>
+              </li>
+              <li>
+                <i class="ri-linkedin-fill"></i>
+                <a href="#">LinkedIn</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <hr />
+
+        <p class="footer_copy">&copy; 2024 Modern Tech. All rights reserved.</p>
+      </footer>
     </main>
 
     <!-- JS -->

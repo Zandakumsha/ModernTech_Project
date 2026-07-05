@@ -577,12 +577,15 @@
       const loginForm = document.querySelector(".sign-in-form");
       const signupForm = document.querySelector(".sign-up-form");
 
+      const DEFAULT_AVATAR =
+        "https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg";
+
       // Redirect authenticated users
       if (
         sessionStorage.getItem("authenticated") &&
         window.location.pathname.includes("login.html")
       ) {
-        window.location.href = "dashboard.html";
+        window.location.href = "settings.html";
       }
 
       // Toggle Sign In / Sign Up panels
@@ -623,16 +626,18 @@
             email,
             password,
             role: "Admin",
+            avatar: DEFAULT_AVATAR,
           };
 
           localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("currentUser", JSON.stringify(user));
 
           sessionStorage.setItem("authenticated", "true");
           sessionStorage.setItem("username", username);
 
           alert("Account created successfully!");
 
-          window.location.href = "dashboard.html";
+          window.location.href = "settings.html";
         });
       }
 
@@ -667,10 +672,18 @@
             username === storedUser.username &&
             password === storedUser.password
           ) {
+            const currentUser = {
+              ...storedUser,
+              avatar: storedUser.avatar || DEFAULT_AVATAR,
+            };
+
+            localStorage.setItem("currentUser", JSON.stringify(currentUser));
+            localStorage.setItem("user", JSON.stringify(currentUser));
+
             sessionStorage.setItem("authenticated", "true");
             sessionStorage.setItem("username", storedUser.username);
 
-            window.location.href = "dashboard.html";
+            window.location.href = "settings.html";
           } else {
             alert("Invalid username or password.");
           }
