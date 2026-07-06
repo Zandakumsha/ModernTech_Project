@@ -1,0 +1,1499 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payroll</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Global styles */
+      :root {
+        --bg: #ffffff;
+        --card-from: #3333ff; /* interpreted color */
+        --card-to: #ccccff;
+        --accent: #ffffff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: "Nunito Sans", system-ui, Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        scroll-behavior: smooth;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #111;
+      }
+      .j-imp-info {
+        max-width: 1100px;
+        padding: 2rem 1rem;
+        text-align: center;
+      }
+      .j-imp-info h1 {
+        font-weight: 800;
+        margin: 0 0 0.5rem;
+      }
+      main.j-employee-payroll-calc-info {
+        width: 100%;
+        max-width: 1100px;
+        padding: 1rem;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .j-employee-payroll-calc-info h2 {
+        margin-top: 0;
+        text-align: center;
+      }
+
+      /* Employee cards grid */
+      .j-employee-payroll-calc-info > section[class^="j-employee-info"] {
+        background: linear-gradient(135deg, var(--card-from), var(--card-to));
+        border-radius: 12px;
+        padding: 1rem;
+        margin: 1rem 0;
+        color: #fff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        display: block;
+        width: 100%;
+        max-width: 920px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .j-employee-payroll-calc-info p {
+        margin: 0.25rem 0;
+      }
+      .j-employee-payroll-calc-info .j-employee-payslip1,
+      .j-employee-payroll-calc-info .j-employee-payslip2,
+      .j-employee-payroll-calc-info .j-employee-payslip3,
+      .j-employee-payroll-calc-info .j-employee-payslip4,
+      .j-employee-payroll-calc-info .j-employee-payslip5,
+      .j-employee-payroll-calc-info .j-employee-payslip6,
+      .j-employee-payroll-calc-info .j-employee-payslip7,
+      .j-employee-payroll-calc-info .j-employee-payslip8,
+      .j-employee-payroll-calc-info .j-employee-payslip9,
+      .j-employee-payroll-calc-info .j-employee-payslip10 {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin-top: 0.5rem;
+      }
+
+      button {
+        background: rgba(0, 0, 0, 0.15);
+        border: none;
+        color: var(--accent);
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition:
+          transform 0.18s ease,
+          box-shadow 0.18s ease;
+      }
+      button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      /* Form styles */
+      .j-payroll-calculator {
+        background: linear-gradient(180deg, var(--card-to), #f8f8ff);
+        padding: 1rem;
+        border-radius: 12px;
+        margin: 1rem 0;
+        width: 100%;
+        max-width: 920px;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .j-payroll-calculator h2 {
+        width: 100%;
+        text-align: center;
+      }
+      .j-payroll-calc-form {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 0.75rem 1rem;
+        align-items: center;
+      }
+      .j-payroll-calc-form label {
+        justify-self: end;
+        padding-right: 8px;
+      }
+      .j-payroll-calc-form input {
+        width: 100%;
+        padding: 0.6rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      /* Force form children into explicit grid columns to avoid layout drift */
+      .j-payroll-calc-form > label {
+        grid-column: 1;
+      }
+      .j-payroll-calc-form > input,
+      .j-payroll-calc-form > select {
+        grid-column: 2;
+      }
+      .j-payroll-calc-form > .actions {
+        grid-column: 1 / -1;
+      }
+
+      .j-payroll-calc-form .date-note {
+        grid-column: 1 / -1;
+        color: #444;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        background: rgba(34, 34, 255, 0.05);
+        border: 1px solid rgba(34, 34, 255, 0.15);
+        margin-bottom: 0.5rem;
+      }
+
+      .j-payroll-calc-form .actions {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+        margin-top: 0.5rem;
+      }
+      .j-payroll-calc-form button {
+        background: #2222ff;
+        color: #fff;
+        padding: 0.6rem 1rem;
+        border-radius: 8px;
+      }
+
+      .j-dashboard-bar {
+        display: grid;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #f6f9ff 0%, #eef4ff 100%);
+        border: 1px solid #d6e4ff;
+        margin-bottom: 1.5rem;
+      }
+      .j-dashboard-bar .dashboard-summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        gap: 1rem;
+      }
+      .j-dashboard-bar .dashboard-card {
+        padding: 1rem;
+        border-radius: 14px;
+        background: #ffffff;
+        border: 1px solid #d9e4ff;
+        box-shadow: 0 8px 15px rgba(20, 40, 80, 0.04);
+      }
+      .j-dashboard-bar .dashboard-label {
+        display: block;
+        margin-bottom: 0.35rem;
+        font-size: 0.85rem;
+        color: #556780;
+      }
+      .j-dashboard-bar .dashboard-card strong {
+        display: block;
+        font-size: 2rem;
+        color: #172b4d;
+      }
+      .j-dashboard-bar .dashboard-card small {
+        display: block;
+        margin-top: 0.15rem;
+        color: #746d9a;
+      }
+      .j-dashboard-bar .dashboard-filter label {
+        display: block;
+        margin-bottom: 0.35rem;
+        font-size: 0.85rem;
+        color: #556780;
+      }
+      .j-dashboard-bar .dashboard-filter input {
+        width: 100%;
+        padding: 0.75rem 0.85rem;
+        border-radius: 10px;
+        border: 1px solid #bbc8e7;
+        font-size: 0.95rem;
+      }
+      .j-dashboard-bar .dashboard-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+        justify-content: center;
+      }
+      .j-dashboard-bar .dashboard-link,
+      .j-dashboard-bar .quick-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.65rem 1rem;
+        border-radius: 999px;
+        background: #ffffff;
+        border: 1px solid #d9e4ff;
+        color: #1b3051;
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+      .j-dashboard-bar .quick-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        align-items: center;
+      }
+      .j-dashboard-bar .quick-links a {
+        background: #f4f6ff;
+      }
+
+      @media (max-width: 800px) {
+        .j-dashboard-bar .dashboard-summary {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Modal styles */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        z-index: 9999;
+      }
+      .modal {
+        background: #fff;
+        border-radius: 8px;
+        max-width: 760px;
+        width: min(100%, 760px);
+        padding: 1rem 1.25rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        position: relative;
+        transform-origin: center;
+        animation: modalIn 0.18s ease;
+        max-height: 90vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .modal .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 0.75rem;
+        width: 100%;
+      }
+
+      .modal .modal-header h2 {
+        margin: 0;
+        width: auto;
+        text-align: center;
+      }
+
+      .modal .modal-body {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 75vh;
+        padding-right: 0.25rem;
+        padding-bottom: 0.75rem;
+      }
+
+      .modal .modal-body > .receipt,
+      .modal .modal-body > .calc-sheet {
+        width: 100%;
+        max-width: 680px;
+        box-sizing: border-box;
+      }
+
+      .modal .modal-body > .calc-sheet {
+        max-height: 68vh;
+        overflow-y: auto;
+      }
+
+      .receipt,
+      .calc-sheet {
+        margin: 0 auto;
+      }
+
+      .receipt .logo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+      }
+
+      .receipt .logo svg {
+        width: 120px;
+        height: auto;
+        color: #111;
+      }
+
+      .receipt[data-theme="dark"] .logo svg,
+      .receipt[data-theme="dark"] h3,
+      .receipt[data-theme="dark"] p,
+      .receipt[data-theme="dark"] .note {
+        color: #fff;
+      }
+
+      .receipt .logo svg text {
+        fill: currentColor;
+      }
+      @keyframes modalIn {
+        from {
+          transform: translateY(20px) scale(0.98);
+          opacity: 0;
+        }
+        to {
+          transform: none;
+          opacity: 1;
+        }
+      }
+      .modal .close-btn {
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+        background: transparent;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+      }
+      .modal .modal-controls {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+      }
+      .modal .color-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+      }
+      .modal .color-row::before,
+      .modal .color-row::after {
+        content: "";
+      }
+
+      /* Modal footer layout */
+      .modal-footer {
+        flex: 0 0 auto;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 0.85rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        padding-top: 0.6rem;
+        background: #fff;
+      }
+      .modal-footer button {
+        padding: 0.6rem 0.9rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+      }
+      .modal-download {
+        background: #1e9b3a; /* green */
+        color: #fff;
+      }
+      .modal-exit {
+        background: #d94b4b; /* red */
+        color: #fff;
+      }
+
+      /* Receipt style (monospace printed receipt) */
+      .receipt {
+        font-family: monospace, "Courier New", monospace;
+        color: #111;
+        padding: 1rem;
+        background: #fff;
+        border-radius: 4px;
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      .receipt .logo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+      }
+      .receipt h3 {
+        margin: 0 0 0.5rem;
+        text-align: center;
+      }
+      .receipt p,
+      .receipt .note,
+      .calc-sheet p,
+      .calc-sheet pre {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        white-space: pre-wrap;
+      }
+      .receipt .note {
+        display: block;
+        width: 100%;
+        font-size: 0.88rem;
+        color: #333;
+        margin-top: 0.85rem;
+        border-top: 1px dashed #ddd;
+        padding-top: 0.6rem;
+      }
+
+      /* Tweak receipt typography to look like a printed receipt */
+      .receipt {
+        font-size: 13px;
+        line-height: 1.35;
+      }
+      .receipt h3 {
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        font-size: 16px;
+      }
+      .receipt .logo img {
+        display: block;
+        margin: 0 auto 6px auto;
+        max-width: 120px;
+      }
+      .receipt hr {
+        border: none;
+        border-top: 1px dashed #ccc;
+        margin: 8px 0;
+      }
+      .receipt .note {
+        font-size: 11px;
+        color: #444;
+        margin-top: 10px;
+      }
+
+      /* Card actions footer for each employee card */
+      .card-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 0.85rem;
+      }
+      .card-actions button {
+        background: rgba(0, 0, 0, 0.12);
+        color: var(--accent);
+        padding: 0.45rem 0.75rem;
+        border-radius: 8px;
+      }
+
+      /* Ensure label descriptors inside employee sections are bold */
+      .j-employee-payroll-calc-info
+        > section[class^="j-employee-info"]
+        > p
+        strong {
+        font-weight: 700;
+      }
+
+      /* Calculation sheet style similar to receipt */
+      .calc-sheet {
+        font-family: monospace, "Courier New", monospace;
+        background: #fff;
+        padding: 1rem;
+        border-radius: 4px;
+        max-width: 520px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .calc-sheet h3,
+      .calc-sheet pre,
+      .calc-sheet p {
+        text-align: left;
+      }
+      .calc-sheet pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Loading math animation */
+      .math-loader {
+        display: flex;
+        gap: 0.4rem;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+      }
+      .math-symbol {
+        font-size: 1.6rem;
+        opacity: 0.12;
+        animation: float 1.2s infinite;
+      }
+      .math-symbol:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .math-symbol:nth-child(2) {
+        animation-delay: 0.12s;
+      }
+      .math-symbol:nth-child(3) {
+        animation-delay: 0.24s;
+      }
+      .math-symbol:nth-child(4) {
+        animation-delay: 0.36s;
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(0);
+          opacity: 0.12;
+        }
+        50% {
+          transform: translateY(-8px);
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 0.12;
+        }
+      }
+
+      /* Responsive */
+      @media (min-width: 800px) {
+        .j-payroll-calc-form {
+          grid-template-columns: 200px 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .j-payroll-calc-form {
+          grid-template-columns: 1fr;
+        }
+        .j-payroll-calc-form label {
+          justify-self: start;
+        }
+        .j-payroll-calc-form .actions {
+          justify-content: stretch;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Important information -->
+    <header class="j-imp-info">
+      <h1>ModernTech Solutions Payroll</h1>
+      <p>
+        This page of ModernTech Solutions is used to display payroll information
+        on our employees. It shows how payroll calculations can be automated and
+        how digital payslips can be generated as well.
+      </p>
+    </header>
+    <!-- Side navigation bar -->
+    <aside class="j-navbar-info">
+      <!-- Place navbar code here -->
+    </aside>
+    <!-- Main content of page -->
+    <main class="j-employee-payroll-calc-info">
+      <h2>Payroll Employee Information</h2>
+      <p>Information of each of our employees at ModernTech Solutions.</p>
+      <section class="j-dashboard-bar">
+        <div class="dashboard-summary">
+          <div class="dashboard-card">
+            <span class="dashboard-label">Employees</span>
+            <strong id="dashboard-employees-count">0</strong>
+            <small id="dashboard-employees-total">/ 0 total</small>
+          </div>
+          <div class="dashboard-card">
+            <span class="dashboard-label">Custom Payslips</span>
+            <strong id="dashboard-custom-count">0</strong>
+          </div>
+          <div class="dashboard-card dashboard-filter">
+            <label for="employee-filter">Filter cards</label>
+            <input
+              type="search"
+              id="employee-filter"
+              placeholder="Search by name, position, or department"
+            />
+          </div>
+        </div>
+        <div class="dashboard-links">
+          <a class="dashboard-link" href="#j-payroll-calculator"
+            >Custom Payroll Calculator</a
+          >
+        </div>
+      </section>
+      <!-- Employee cards -->
+      <section class="j-employee-info1">
+        <p>Employee Name: Sibongile Nkosi</p>
+        <p>Employee ID: 1</p>
+        <p>Employee Position: Software Engineer</p>
+        <p>Employee Department: Development</p>
+        <div class="card-actions">
+          <button class="payslip-btn">Digital Payslip</button>
+          <button class="calc-btn">See How It's Calculated</button>
+        </div>
+      </section>
+      <section class="j-employee-info2">
+        <p>Employee Name: Lungile Moyo</p>
+        <p>Employee ID: 2</p>
+        <p>Employee Position: HR Manager</p>
+        <p>Employee Department: HR</p>
+        <div class="card-actions">
+          <button class="payslip-btn">Digital Payslip</button>
+          <button class="calc-btn">See How It's Calculated</button>
+        </div>
+      </section>
+      <section class="j-employee-info3">
+        <p>Employee Name: Thabo Molefe</p>
+        <p>Employee ID: 3</p>
+        <p>Employee Position: Quality Analyst</p>
+        <p>Employee Department: QA</p>
+        <div class="card-actions">
+          <button class="payslip-btn">Digital Payslip</button>
+          <button class="calc-btn">See How It's Calculated</button>
+        </div>
+      </section>
+      <section class="j-employee-info4">
+        <p>Employee Name: Keshav Naidoo</p>
+        <p>Employee ID: 4</p>
+        <p>Employee Position: Sales Representative</p>
+        <p>Employee Department: Sales</p>
+        <div class="card-actions">
+          <button class="payslip-btn">Digital Payslip</button>
+          <button class="calc-btn">See How It's Calculated</button>
+        </div>
+      </section>
+      <section class="j-employee-info5">
+        <p>Employee Name: Zanele Khumalo</p>
+        <p>Employee ID: 5</p>
+        <p>Employee Position: Marketing Specialist</p>
+        <p>Employee Department: Marketing</p>
+        <div class="card-actions">
+          <button class="payslip-btn">Digital Payslip</button>
+          <button class="calc-btn">See How It's Calculated</button>
+        </div>
+      </section>
+      <section class="j-employee-info6">
+        <p>Employee Name: Sipho Zulu</p>
+        <p>Employee ID: 6</p>
+        <p>Employee Position: UI/UX Designer</p>
+        <p>Employee Department: Design</p>
+        <div class="card-actions">
+          <button class="payslip-btn">Digital Payslip</button>
+          <button class="calc-btn">See How It's Calculated</button>
+        </div>
+      </section>
+      <section class="j-employee-info7">
+        <p>Employee Name: Naledi Moeketsi</p>
+        <p>Employee ID: 7</p>
+        <p>Employee Position: DevOps Engineer</p>
+        <p>Employee Department: IT</p>
+        <div class="card-actions">
+          <button class="payslip-btn">Digital Payslip</button>
+          <button class="calc-btn">See How It's Calculated</button>
+        </div>
+      </section>
+      <section class="j-employee-info8">
+        <p>Employee Name: Farai Gumbo</p>
+        <p>Employee ID: 8</p>
+        <p>Employee Position: Content Strategist</p>
+        <p>Employee Department: Marketing</p>
+        <div class="card-actions">
+          <button class="payslip-btn">Digital Payslip</button>
+          <button class="calc-btn">See How It's Calculated</button>
+        </div>
+      </section>
+      <section class="j-employee-info9">
+        <p>Employee Name: Karabo Dlamini</p>
+        <p>Employee ID: 9</p>
+        <p>Employee Position: Accountant</p>
+        <p>Employee Department: Finance</p>
+        <div class="card-actions">
+          <button class="payslip-btn">Digital Payslip</button>
+          <button class="calc-btn">See How It's Calculated</button>
+        </div>
+      </section>
+      <section class="j-employee-info10">
+        <p>Employee Name: Fatima Patel</p>
+        <p>Employee ID: 10</p>
+        <p>Employee Position: Customer Support Lead</p>
+        <div class="card-actions">
+          <button class="payslip-btn">Digital Payslip</button>
+          <button class="calc-btn">See How It's Calculated</button>
+        </div>
+      </section>
+
+      <section class="j-payroll-calculator" id="j-payroll-calculator">
+        <h2>Custom Payroll Calculator</h2>
+        <form class="j-payroll-calc-form">
+          <label for="empName">Employee Name:</label>
+          <input
+            type="text"
+            id="empName"
+            name="empName"
+            placeholder="Enter name"
+          />
+          <label for="empId">Employee ID:</label>
+          <input
+            type="number"
+            id="empId"
+            name="empId"
+            min="11"
+            required
+            title="Employee IDs 1-10 are reserved for existing employees"
+          />
+
+          <label for="empPosition">Employee Position:</label>
+          <input
+            type="text"
+            id="empPosition"
+            name="empPosition"
+            autocomplete="off"
+            placeholder="Enter position"
+          />
+          <label for="empDept">Employee Department:</label>
+          <input
+            type="text"
+            id="empDept"
+            name="empDept"
+            autocomplete="off"
+            placeholder="Enter department"
+          />
+
+          <label for="payPdStrt">Pay Period (Start):</label>
+          <input type="date" id="payPdStrt" name="payPdStrt" required />
+          <label for="payPdEnd">Pay Period (End):</label>
+          <input type="date" id="payPdEnd" name="payPdEnd" required />
+
+          <label for="hrsWorked">Hours Worked:</label>
+          <input
+            type="number"
+            id="hrsWorked"
+            name="hrsWorked"
+            min="0"
+            required
+          />
+          <label for="leaveDeduct">Leave Deductions:</label>
+          <input
+            type="number"
+            id="leaveDeduct"
+            name="leaveDeduct"
+            min="0"
+            value="0"
+          />
+
+          <label for="finSal">Final Salary:</label>
+          <input
+            type="number"
+            id="finSal"
+            name="finSal"
+            min="0"
+            step="0.01"
+            required
+          />
+
+          <div class="actions">
+            <button type="submit">Generate Custom Payslip</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <div id="modal-root"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+      // app.js - handles data, modals, calculations, and PDF export
+
+      const modalRoot = document.getElementById("modal-root");
+      const employeeCountEl = document.getElementById(
+        "dashboard-employees-count",
+      );
+      const employeeTotalEl = document.getElementById(
+        "dashboard-employees-total",
+      );
+      const customPayslipCountEl = document.getElementById(
+        "dashboard-custom-count",
+      );
+      const employeeFilterInput = document.getElementById("employee-filter");
+      let totalEmployees = 0;
+      let customPayslipCount = 0;
+
+      function formatNumber(n) {
+        if (typeof n !== "number") n = Number(n) || 0;
+        return n.toLocaleString(undefined, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        });
+      }
+
+      function formatDateString(value) {
+        if (!value) return "";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return value;
+        return date.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+
+      async function loadPayrollData() {
+        try {
+          const res = await fetch("./payroll_data.json");
+          if (!res.ok) throw new Error("Unable to load payroll data");
+          const data = await res.json();
+          data.payrollData.forEach((emp) => {
+            const section = document.querySelector(
+              `.j-employee-info${emp.employeeId}`,
+            );
+            if (section) {
+              section.id = `employee-card-${emp.employeeId}`;
+              const article = document.createElement("article");
+              article.className = "employee-card";
+              article.innerHTML = `
+          <h2>Employee ${emp.employeeId}</h2>
+          <p><strong>Hours Worked:</strong> ${emp.hoursWorked}</p>
+          <p><strong>Leave Deductions:</strong> ${emp.leaveDeductions}</p>
+          <p><strong>Final Salary:</strong> $${formatNumber(emp.finalSalary)}</p>
+        `;
+              section.insertAdjacentElement("afterbegin", article);
+
+              // attach button listeners inside this section
+              const payslipBtn = section.querySelector(".payslip-btn");
+              if (payslipBtn) {
+                payslipBtn.addEventListener("click", () =>
+                  openPayslipModal(emp),
+                );
+              }
+
+              const calcBtn = section.querySelector(".calc-btn");
+              if (calcBtn) {
+                calcBtn.addEventListener("click", () => openCalcModal(emp));
+              }
+            }
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      function updateEmployeeCounter() {
+        const sections = document.querySelectorAll(
+          '.j-employee-payroll-calc-info > section[class^="j-employee-info"]',
+        );
+        totalEmployees = sections.length;
+        const visibleEmployees = Array.from(sections).filter(
+          (sec) => sec.style.display !== "none",
+        ).length;
+        if (employeeCountEl) employeeCountEl.textContent = visibleEmployees;
+        if (employeeTotalEl)
+          employeeTotalEl.textContent = `/ ${totalEmployees} total`;
+      }
+
+      function updateCustomPayslipCount() {
+        if (customPayslipCountEl) {
+          customPayslipCountEl.textContent = customPayslipCount;
+        }
+      }
+
+      function applyEmployeeFilter() {
+        const query = employeeFilterInput?.value.trim().toLowerCase() || "";
+        const sections = document.querySelectorAll(
+          '.j-employee-payroll-calc-info > section[class^="j-employee-info"]',
+        );
+        sections.forEach((sec) => {
+          const text = sec.textContent.toLowerCase();
+          const show = !query || text.includes(query);
+          sec.style.display = show ? "" : "none";
+        });
+        updateEmployeeCounter();
+      }
+
+      function initializeDashboard() {
+        updateEmployeeCounter();
+        updateCustomPayslipCount();
+        if (employeeFilterInput) {
+          employeeFilterInput.addEventListener("input", applyEmployeeFilter);
+        }
+      }
+
+      function openPayslipModal(emp) {
+        const values = computePayroll(
+          emp.hoursWorked,
+          emp.leaveDeductions,
+          emp.finalSalary,
+        );
+        const html = buildReceiptHTML(emp, values);
+        openModal({
+          title: `Employee ${emp.employeeId} Payslip`,
+          body: html,
+          type: "receipt",
+        });
+      }
+
+      function openCalcModal(emp) {
+        const values = computePayroll(
+          emp.hoursWorked,
+          emp.leaveDeductions,
+          emp.finalSalary,
+        );
+        const html = buildCalcHTML(emp, values);
+        openModal({
+          title: `Employee ${emp.employeeId} Calculation`,
+          body: html,
+          type: "calc",
+        });
+      }
+
+      function computePayroll(hoursWorked, leaveDeductions, finalSalary) {
+        const hw = Number(hoursWorked);
+        const ld = Number(leaveDeductions);
+        const fs = Number(finalSalary);
+        const divisor = hw - ld || 1;
+        const hourly = fs / divisor;
+        const daily = hourly * 8;
+        const weekly = daily * 5;
+        const monthly = weekly * 4;
+        const annual = monthly * 12;
+        const gross = hourly * hw;
+        const totalDeductions = hourly * ld;
+        const net = gross - totalDeductions;
+        return {
+          hourly,
+          daily,
+          weekly,
+          monthly,
+          annual,
+          gross,
+          totalDeductions,
+          net,
+        };
+      }
+
+      function buildReceiptHTML(emp, vals) {
+        return `
+    <div class="receipt" data-type="receipt">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" role="img" aria-label="ModernTech Solutions Logo">
+          <text x="50%" y="45%" font-family="Nunito Sans, sans-serif" font-weight="800" font-size="72" text-anchor="middle" fill="currentColor">MT</text>
+          <text x="50%" y="85%" font-family="Nunito Sans, sans-serif" font-weight="700" font-size="20" text-anchor="middle" fill="currentColor">SOLUTIONS</text>
+        </svg>
+      </div>
+      <h3>ModernTech Solutions</h3>
+      <p>Employee Name: ${escapeHtml(emp.employeeName || getEmpNameFromSection(emp.employeeId) || "")}</p>
+      <p>Employee ID: ${emp.employeeId}</p>
+      <p>Employee Position: ${escapeHtml(emp.employeePosition || getEmpPositionFromSection(emp.employeeId) || "")}</p>
+      <p>Employee Department: ${escapeHtml(emp.employeeDepartment || getEmpDeptFromSection(emp.employeeId) || "")}</p>
+      <hr>
+      <p>Hourly Salary: ${formatNumber(vals.hourly)}</p>
+      <p>Daily Salary: ${formatNumber(vals.daily)}</p>
+      <p>Weekly Salary: ${formatNumber(vals.weekly)}</p>
+      <p>Monthly Salary: ${formatNumber(vals.monthly)}</p>
+      <p>Annual Salary: ${formatNumber(vals.annual)}</p>
+      <p>Pay Period: ${escapeHtml(emp.payPeriodStart && emp.payPeriodEnd ? `${formatDateString(emp.payPeriodStart)} - ${formatDateString(emp.payPeriodEnd)}` : "01 July 2026 - 31 July 2026")}</p>
+      <p>Gross Pay: ${formatNumber(vals.gross)}</p>
+      <p>Total Deductions: ${formatNumber(vals.totalDeductions)}</p>
+      <p>Net Pay: ${formatNumber(vals.net)}</p>
+
+      <p class="note">NOTE - These results are purely based on information provided, this might not realistically portray timely values as seen on receipt.</p>
+    </div>
+  `;
+      }
+
+      function buildCalcHTML(emp, vals) {
+        return `
+    <div class="calc-sheet" data-type="calc">
+      <h3>Calculation Sheet</h3>
+      <pre>
+Hourly Salary = finalSalary / (hoursWorked - leaveDeductions)
+Daily Salary = hourly salary * 8
+Weekly Salary = daily salary * 5
+Monthly Salary = weekly salary * 4
+Annual Salary = monthly salary * 12
+Gross Pay = hourly salary * hoursWorked
+Total Deductions = hourly salary * leaveDeductions
+Net Pay = gross pay - total deductions = finalSalary
+      </pre>
+      <hr>
+      <p>Computed values:</p>
+      <p>Hourly Salary: ${formatNumber(vals.hourly)}</p>
+      <p>Daily Salary: ${formatNumber(vals.daily)}</p>
+      <p>Weekly Salary: ${formatNumber(vals.weekly)}</p>
+      <p>Monthly Salary: ${formatNumber(vals.monthly)}</p>
+      <p>Annual Salary: ${formatNumber(vals.annual)}</p>
+      <p>Gross Pay: ${formatNumber(vals.gross)}</p>
+      <p>Total Deductions: ${formatNumber(vals.totalDeductions)}</p>
+      <p>Net Pay: ${formatNumber(vals.net)}</p>
+    </div>
+  `;
+      }
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        return String(str).replace(
+          /[&<>\"']/g,
+          (s) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[s],
+        );
+      }
+
+      function getEmpNameFromSection(id) {
+        const sec = document.querySelector(`.j-employee-info${id}`);
+        if (!sec) return "";
+        const p = Array.from(sec.querySelectorAll("p"))[0];
+        return p ? p.textContent.replace("Employee Name:", "").trim() : "";
+      }
+      function getEmpPositionFromSection(id) {
+        const sec = document.querySelector(`.j-employee-info${id}`);
+        if (!sec) return "";
+        const ps = Array.from(sec.querySelectorAll("p")).find((el) =>
+          el.textContent.includes("Position"),
+        );
+        return ps
+          ? ps.textContent.replace("Employee Position:", "").trim()
+          : "";
+      }
+      function getEmpDeptFromSection(id) {
+        const sec = document.querySelector(`.j-employee-info${id}`);
+        if (!sec) return "";
+        const ps = Array.from(sec.querySelectorAll("p")).find((el) =>
+          el.textContent.includes("Department"),
+        );
+        return ps
+          ? ps.textContent.replace("Employee Department:", "").trim()
+          : "";
+      }
+
+      function openModal({ title = "", body = "", type = "receipt" }) {
+        // build modal
+        const backdrop = document.createElement("div");
+        backdrop.className = "modal-backdrop";
+        const modal = document.createElement("div");
+        modal.className = "modal";
+        const close = document.createElement("button");
+        close.className = "close-btn";
+        close.innerHTML = "✕";
+        close.addEventListener("click", () => backdrop.remove());
+
+        const header = document.createElement("div");
+        header.className = "modal-header";
+        const h = document.createElement("h2");
+        h.textContent = title;
+        header.appendChild(h);
+
+        const controls = document.createElement("div");
+        controls.className = "modal-controls";
+
+        // color pickers
+        const colorRow = document.createElement("div");
+        colorRow.className = "color-row";
+        const bgSelect = document.createElement("select");
+        const colors = [
+          { label: "White", value: "#ffffff" },
+          { label: "Black", value: "#000000" },
+          { label: "Grey", value: "#808080" },
+          { label: "Pastel Red", value: "#ffdddd" },
+          { label: "Orange", value: "#ffe6cc" },
+          { label: "Yellow", value: "#fff7cc" },
+          { label: "Green", value: "#e6ffef" },
+          { label: "Blue", value: "#e6eeff" },
+          { label: "Purple", value: "#f0e6ff" },
+        ];
+        colors.forEach((c) => {
+          const opt = document.createElement("option");
+          opt.value = c.value;
+          opt.textContent = c.label;
+          bgSelect.appendChild(opt);
+        });
+
+        colorRow.append("Background:");
+        colorRow.appendChild(bgSelect);
+        controls.appendChild(colorRow);
+
+        const modalBody = document.createElement("div");
+        modalBody.className = "modal-body";
+        modalBody.innerHTML = body;
+
+        // apply color changes
+        function applyColors() {
+          const bg = bgSelect.value;
+          const inner = modalBody.querySelector("[data-type]");
+          if (inner) {
+            inner.style.background = bg;
+            const logo = inner.querySelector(".logo svg");
+            const whiteLogoBackgrounds = new Set(["#000000", "#808080"]);
+            const logoColor = whiteLogoBackgrounds.has(bg)
+              ? "#ffffff"
+              : "#111111";
+            if (logo) {
+              logo.style.color = logoColor;
+            }
+            // compute contrast and pick font color automatically
+            const pickFont = (hex) => {
+              const h = hex.replace("#", "");
+              const bigint = parseInt(
+                h.length === 3
+                  ? h
+                      .split("")
+                      .map((c) => c + c)
+                      .join("")
+                  : h,
+                16,
+              );
+              const r = (bigint >> 16) & 255;
+              const g = (bigint >> 8) & 255;
+              const b = bigint & 255;
+              const srgb = [r, g, b].map((c) => {
+                c /= 255;
+                return c <= 0.03928
+                  ? c / 12.92
+                  : Math.pow((c + 0.055) / 1.055, 2.4);
+              });
+              const lum =
+                0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
+              return lum < 0.5 ? "#ffffff" : "#111111";
+            };
+            const autoFont = pickFont(bg);
+            inner.style.color = autoFont;
+            const note = inner.querySelector(".note");
+            if (note) {
+              note.style.color = autoFont === "#ffffff" ? "#fff" : "#333";
+            }
+          }
+          // set modal background for contrast
+          modal.style.background = getComputedStyle(
+            document.body,
+          ).backgroundColor;
+        }
+        bgSelect.addEventListener("change", applyColors);
+
+        modal.appendChild(close);
+        modal.appendChild(header);
+        modal.appendChild(controls);
+        modal.appendChild(modalBody);
+
+        // footer with Download (green) and Exit (red) buttons at bottom
+        const footer = document.createElement("div");
+        footer.className = "modal-footer";
+
+        const downloadFooter = document.createElement("button");
+        downloadFooter.className = "modal-download";
+        downloadFooter.textContent = "Download PDF";
+        downloadFooter.addEventListener("click", () =>
+          downloadModalAsPDF(modalBody, type),
+        );
+
+        const exitFooter = document.createElement("button");
+        exitFooter.className = "modal-exit";
+        exitFooter.textContent = "Exit";
+        exitFooter.addEventListener("click", () => backdrop.remove());
+
+        footer.appendChild(downloadFooter);
+        footer.appendChild(exitFooter);
+        modal.appendChild(footer);
+        backdrop.appendChild(modal);
+        modalRoot.appendChild(backdrop);
+
+        // initial colors
+        bgSelect.value = "#ffffff";
+        applyColors();
+      }
+
+      async function downloadModalAsPDF(modalBody, type) {
+        try {
+          const inner =
+            document.querySelector(".modal-body [data-type]") ||
+            document.querySelector(".modal-body");
+          if (!inner) return;
+          const isReceipt =
+            inner.dataset.type === "receipt" ||
+            inner.classList.contains("receipt");
+          const scale = 2;
+
+          const clone = inner.cloneNode(true);
+          const innerStyle = window.getComputedStyle(inner);
+          clone.style.position = "fixed";
+          clone.style.top = "-9999px";
+          clone.style.left = "-9999px";
+          clone.style.width = `${inner.offsetWidth}px`;
+          clone.style.height = `${inner.offsetHeight}px`;
+          clone.style.background = innerStyle.backgroundColor;
+          clone.style.padding = innerStyle.padding;
+          clone.style.margin = "0";
+          clone.style.boxSizing = "border-box";
+          document.body.appendChild(clone);
+
+          const canvas = await html2canvas(clone, {
+            scale,
+            background: window.getComputedStyle(clone).backgroundColor,
+            useCORS: true,
+            width: clone.offsetWidth,
+            height: clone.offsetHeight,
+            windowWidth: clone.offsetWidth,
+            windowHeight: clone.offsetHeight,
+          });
+
+          document.body.removeChild(clone);
+          const imgData = canvas.toDataURL("image/png");
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF({ unit: "mm", format: "a4" });
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+          const margin = 12;
+          const imgProps = pdf.getImageProperties(imgData);
+          const imgRatio = imgProps.width / imgProps.height;
+          let imgWidth = pageWidth - margin * 2;
+          let imgHeight = imgWidth / imgRatio;
+
+          if (imgHeight > pageHeight - margin * 2) {
+            imgHeight = pageHeight - margin * 2;
+            imgWidth = imgHeight * imgRatio;
+          }
+
+          const x = (pageWidth - imgWidth) / 2;
+          const y = (pageHeight - imgHeight) / 2;
+          pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+          pdf.save(`${type || (isReceipt ? "receipt" : "document")}.pdf`);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      // custom payroll form handling
+      const form = document.querySelector(".j-payroll-calc-form");
+      const payPdStrtInput = document.getElementById("payPdStrt");
+      const payPdEndInput = document.getElementById("payPdEnd");
+
+      function formatLocalDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
+      function setFirstDayOfMonth(dateString) {
+        const date = new Date(dateString);
+        if (Number.isNaN(date.getTime())) return "";
+        return formatLocalDate(
+          new Date(date.getFullYear(), date.getMonth(), 1),
+        );
+      }
+
+      function setLastDayOfMonth(dateString) {
+        const date = new Date(dateString);
+        if (Number.isNaN(date.getTime())) return "";
+        const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        return formatLocalDate(lastDay);
+      }
+
+      let payPeriodSyncing = false;
+
+      function synchronizePayPeriodDates(direction) {
+        if (!payPdStrtInput || !payPdEndInput) return;
+        if (payPeriodSyncing) return;
+        payPeriodSyncing = true;
+
+        const startValue = payPdStrtInput.value;
+        const endValue = payPdEndInput.value;
+
+        if (direction === "start" && startValue) {
+          const correctedStart = setFirstDayOfMonth(startValue);
+          payPdStrtInput.value = correctedStart;
+          payPdEndInput.value = setLastDayOfMonth(correctedStart);
+        } else if (direction === "end" && endValue) {
+          const correctedEnd = setLastDayOfMonth(endValue);
+          payPdEndInput.value = correctedEnd;
+          payPdStrtInput.value = setFirstDayOfMonth(correctedEnd);
+        } else if (startValue) {
+          const correctedStart = setFirstDayOfMonth(startValue);
+          payPdStrtInput.value = correctedStart;
+          payPdEndInput.value = setLastDayOfMonth(correctedStart);
+        } else if (endValue) {
+          const correctedEnd = setLastDayOfMonth(endValue);
+          payPdEndInput.value = correctedEnd;
+          payPdStrtInput.value = setFirstDayOfMonth(correctedEnd);
+        }
+
+        payPeriodSyncing = false;
+      }
+
+      if (payPdStrtInput) {
+        payPdStrtInput.addEventListener("change", () =>
+          synchronizePayPeriodDates("start"),
+        );
+      }
+      if (payPdEndInput) {
+        payPdEndInput.addEventListener("change", () =>
+          synchronizePayPeriodDates("end"),
+        );
+      }
+
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const data = new FormData(form);
+          const empName = data.get("empName") || "";
+          const empId = Number(data.get("empId")) || 0;
+          const empPosition = (data.get("empPosition") || "").trim();
+          const empDept = (data.get("empDept") || "").trim();
+          const payPdStrt = data.get("payPdStrt") || "";
+          const payPdEnd = data.get("payPdEnd") || "";
+          const hrsWorked = Number(data.get("hrsWorked"));
+          const leaveDeduct = Number(data.get("leaveDeduct"));
+          const finSal = Number(data.get("finSal"));
+
+          if (!empId || empId < 11) {
+            alert(
+              "Employee ID must be 11 or higher because 1-10 are reserved.",
+            );
+            return;
+          }
+          if (!payPdStrt || !payPdEnd) {
+            alert("Please select both the pay period start and end dates.");
+            return;
+          }
+          const startDate = new Date(payPdStrt);
+          const endDate = new Date(payPdEnd);
+          if (
+            Number.isNaN(startDate.getTime()) ||
+            Number.isNaN(endDate.getTime())
+          ) {
+            alert("Please choose valid pay period dates.");
+            return;
+          }
+          if (
+            startDate.getFullYear() !== endDate.getFullYear() ||
+            startDate.getMonth() !== endDate.getMonth()
+          ) {
+            alert("Start and end must be in the same month.");
+            return;
+          }
+          if (startDate.getDate() !== 1) {
+            alert("Pay period start must be the first day of the month.");
+            return;
+          }
+          const lastDay = new Date(
+            startDate.getFullYear(),
+            startDate.getMonth() + 1,
+            0,
+          ).getDate();
+          if (endDate.getDate() !== lastDay) {
+            alert("Pay period end must be the last day of the same month.");
+            return;
+          }
+          if (!hrsWorked || isNaN(finSal)) {
+            alert("Please complete required numeric fields.");
+            return;
+          }
+
+          // show math loader modal
+          const loaderHtml =
+            `<div class="math-loader">` +
+            `<div class="math-symbol">+</div><div class="math-symbol">-</div><div class="math-symbol">×</div><div class="math-symbol">÷</div>` +
+            `</div>`;
+          openModal({
+            title: "Generating Payslip",
+            body: loaderHtml,
+            type: "loader",
+          });
+
+          // after short delay compute and show receipt
+          setTimeout(() => {
+            // close existing loader (there may be multiple modals; remove last one)
+            const backdrops = modalRoot.querySelectorAll(".modal-backdrop");
+            if (backdrops.length) backdrops[backdrops.length - 1].remove();
+
+            const emp = {
+              employeeId: empId,
+              hoursWorked: hrsWorked,
+              leaveDeductions: leaveDeduct,
+              finalSalary: finSal,
+              employeeName: empName,
+              employeePosition: empPosition,
+              employeeDepartment: empDept,
+              payPeriodStart: payPdStrt,
+              payPeriodEnd: payPdEnd,
+            };
+            const vals = computePayroll(hrsWorked, leaveDeduct, finSal);
+            const receiptHtml = buildReceiptHTML(emp, vals);
+            openModal({
+              title: `Custom Payslip - ${empName}`,
+              body: receiptHtml,
+              type: "receipt",
+            });
+            customPayslipCount += 1;
+            updateCustomPayslipCount();
+          }, 1200);
+        });
+      }
+
+      // initialize
+      // After loading payroll data, normalize card layout (move buttons and bold labels)
+      async function normalizeEmployeeSections() {
+        const sections = document.querySelectorAll(
+          '.j-employee-payroll-calc-info > section[class^="j-employee-info"]',
+        );
+        sections.forEach((sec) => {
+          // move any buttons that live inside nested subsections into a single footer area
+          const nestedButtons = Array.from(
+            sec.querySelectorAll("section button"),
+          );
+          if (nestedButtons.length) {
+            const footer = document.createElement("div");
+            footer.className = "card-actions";
+            nestedButtons.forEach((btn) => {
+              footer.appendChild(btn);
+            });
+            sec.appendChild(footer);
+            // remove original static sections (payslip / calculations) as their content duplicates modal output
+            const nestedSections = Array.from(
+              sec.querySelectorAll(
+                'section[class^="j-employee-payslip"], .j-calculations-digital-receipts',
+              ),
+            );
+            nestedSections.forEach((s) => s.remove());
+          }
+
+          // Make top-level label paragraphs bold for the descriptor before ':'
+          const topPs = Array.from(sec.querySelectorAll(":scope > p"));
+          topPs.forEach((p) => {
+            const txt = p.textContent || "";
+            if (txt.includes(":")) {
+              const idx = txt.indexOf(":");
+              const label = txt.slice(0, idx).trim();
+              const rest = txt.slice(idx + 1).trim();
+              p.innerHTML = `<strong>${escapeHtml(label)}:</strong> ${escapeHtml(rest)}`;
+            }
+          });
+        });
+      }
+
+      loadPayrollData()
+        .then(() => normalizeEmployeeSections())
+        .then(() => initializeDashboard());
+    </script>
+  </body>
+</html>
