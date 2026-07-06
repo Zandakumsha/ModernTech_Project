@@ -126,15 +126,13 @@
     <!--=============== SETTINGS CONTENT ===============-->
     <main class="main container" id="main">
       <section class="settings">
-
         <div class="settings__grid">
-
           <section class="main__header">
             <div>
               <h1>Settings</h1>
               <p>Manage your profile, company information and preferences.</p>
             </div>
-          
+
             <div class="theme-selector">
               <label for="theme">Theme</label>
               <select id="theme">
@@ -148,7 +146,7 @@
                 </optgroup>
               </select>
             </div>
-          
+
             <div class="main__header-actions">
               <div class="search-bar">
                 <input type="text" placeholder="Search..." />
@@ -179,42 +177,64 @@
                 <img
                   src="https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg"
                   class="settings_avatar-option"
-                  onclick="selectAvatar('https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg')"
+                  onclick="
+                    selectAvatar(
+                      'https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg',
+                    )
+                  "
                   alt="Avatar 1"
                 />
 
                 <img
                   src="https://i.ibb.co/67Y6mxxN/Women-free-icons-designed-by-smashingstocks.jpg"
                   class="settings_avatar-option"
-                  onclick="selectAvatar('https://i.ibb.co/67Y6mxxN/Women-free-icons-designed-by-smashingstocks.jpg')"
+                  onclick="
+                    selectAvatar(
+                      'https://i.ibb.co/67Y6mxxN/Women-free-icons-designed-by-smashingstocks.jpg',
+                    )
+                  "
                   alt="Avatar 2"
                 />
 
                 <img
                   src="https://i.ibb.co/Gv6syC2r/Woman-free-icons-designed-by-Prosymbols-Premium.jpg"
                   class="settings_avatar-option"
-                  onclick="selectAvatar('https://i.ibb.co/Gv6syC2r/Woman-free-icons-designed-by-Prosymbols-Premium.jpg')"
+                  onclick="
+                    selectAvatar(
+                      'https://i.ibb.co/Gv6syC2r/Woman-free-icons-designed-by-Prosymbols-Premium.jpg',
+                    )
+                  "
                   alt="Avatar 3"
                 />
 
                 <img
                   src="https://i.ibb.co/S4XWgr9b/download-3.jpg"
                   class="settings_avatar-option"
-                  onclick="selectAvatar('https://i.ibb.co/S4XWgr9b/download-3.jpg')"
+                  onclick="
+                    selectAvatar('https://i.ibb.co/S4XWgr9b/download-3.jpg')
+                  "
                   alt="Avatar 4"
                 />
 
                 <img
                   src="https://i.ibb.co/F4296CCJ/802344489222663.jpg"
                   class="settings_avatar-option"
-                  onclick="selectAvatar('https://i.ibb.co/F4296CCJ/802344489222663.jpg')"
+                  onclick="
+                    selectAvatar(
+                      'https://i.ibb.co/F4296CCJ/802344489222663.jpg',
+                    )
+                  "
                   alt="Avatar 5"
                 />
 
                 <img
                   src="https://i.ibb.co/67kXbjhh/Toffee-Watch-Live-TV-Sports-Movies-Web-Series-Drama.jpg"
                   class="settings_avatar-option"
-                  onclick="selectAvatar('https://i.ibb.co/67kXbjhh/Toffee-Watch-Live-TV-Sports-Movies-Web-Series-Drama.jpg')"
+                  onclick="
+                    selectAvatar(
+                      'https://i.ibb.co/67kXbjhh/Toffee-Watch-Live-TV-Sports-Movies-Web-Series-Drama.jpg',
+                    )
+                  "
                   alt="Avatar 6"
                 />
               </div>
@@ -227,7 +247,7 @@
 
             <div class="settings__field">
               <label>Email</label>
-              <input type="email" id="settings_email" readonly />
+              <input type="email" id="settings-email" readonly />
             </div>
 
             <div class="settings__field">
@@ -317,7 +337,7 @@
         </div>
       </section>
 
-       <!-- Shared Footer -->
+      <!-- Shared Footer -->
 
       <footer>
         <div class="footer_container">
@@ -376,5 +396,48 @@
 
     <!-- JS -->
     <script src="main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const currentUser =
+          JSON.parse(localStorage.getItem("currentUser")) || {};
+
+        const usernameField = document.getElementById("settings_username");
+        const emailField = document.getElementById("settings-email");
+
+        if (usernameField) {
+          usernameField.value = currentUser.username || "";
+        }
+
+        if (emailField) {
+          emailField.value = currentUser.email || "";
+        }
+      });
+
+      const userData = {
+        username: signupUsername.value,
+        email: signupEmail.value,
+      };
+
+      localStorage.setItem("currentUser", JSON.stringify(userData));
+
+      // Go to company registration form
+      window.location.href = "company-registration.html";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const company = JSON.parse(localStorage.getItem("companyInfo")) || {};
+
+        document.getElementById("settings-company-name").value =
+          company.companyName || "";
+
+        document.getElementById("settings-company-industry").value =
+          company.industry || "";
+
+        document.getElementById("settings-company-email").value =
+          company.email || "";
+
+        document.getElementById("settings-company-phone").value =
+          company.phone || "";
+      });
+    </script>
   </body>
 </html>

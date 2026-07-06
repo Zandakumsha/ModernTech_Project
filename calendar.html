@@ -1,19 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Responsive Calendar</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Calendar</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" />
-<link rel="stylesheet" href="style.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css"
+    />
+    <link rel="stylesheet" href="style.css" />
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
-
-     <!--=============== HEADER ===============-->
+  <body>
+    <!--=============== HEADER ===============-->
     <header class="header" id="header">
       <div class="header__container">
         <a href="#" class="header__logo">
@@ -37,12 +42,6 @@
               src="https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg"
               alt="Profile Avatar"
             />
-            <!-- <img
-              id="navbarProfileImage"
-              src="https://i.ibb.co/7JCCB4XM/Get-your-headshots-It-s-the-second-half-of-the.jpg"
-              alt="Get your headshots It s the second half of the"
-              border="0"
-            /> -->
           </div>
 
           <div class="sidebar__info">
@@ -125,15 +124,16 @@
     </nav>
 
     <main class="main container" id="main">
-
-        <section class="main__header">
-
+      <section class="main__header">
         <div class="analytics-header">
           <h2>Calendar</h2>
-          <p>Plan your days, weeks, and months ahead. Stay organized by managing meetings, employee leave, company events, holidays,
-        and important deadlines all in one centralized calendar.</p>
+          <p>
+            Plan your days, weeks, and months ahead. Stay organized by managing
+            meetings, employee leave, company events, holidays, and important
+            deadlines all in one centralized calendar.
+          </p>
         </div>
-      
+
         <div class="theme-selector">
           <label for="theme">Theme</label>
           <select id="theme">
@@ -147,7 +147,7 @@
             </optgroup>
           </select>
         </div>
-      
+
         <div class="main__header-actions">
           <div class="search-bar">
             <input type="text" placeholder="Search..." />
@@ -157,105 +157,90 @@
           </div>
         </div>
       </section>
-      
-        <section class="container">
-    
-            <div class="sidebar">
-    
-                <div class="mini-calendar">
-    
-                    <div class="month-nav">
-                        <button id="prevMonth">&#10094;</button>
-                        <h3 id="monthTitle"></h3>
-                        <button id="nextMonth">&#10095;</button>
-                    </div>
-    
-                    <div class="mini-grid" id="miniCalendar"></div>
-    
-                </div>
-    
-                <div class="categories">
-    
-                    <span class="work">Work</span>
-                    <span class="personal">Personal</span>
-                    <span class="urgent">Urgent</span>
-    
-                </div>
-    
-                <div class="schedule-form">
-    
-                    <h3>Add Schedule</h3>
-    
-                    <form id="eventForm">
-    
-                        <label>Selected Date</label>
-                        <input type="text" id="selectedDate" readonly>
-    
-                        <label>Event Title</label>
-                        <input type="text" id="eventTitle" placeholder="Meeting" required>
-    
-                        <label>Time</label>
-                        <input type="time" id="eventTime" required>
-    
-                        <label>Category</label>
-    
-                        <select id="eventCategory">
-    
-                            <option value="Work">Work</option>
-                            <option value="Personal">Personal</option>
-                            <option value="Urgent">Urgent</option>
-    
-                        </select>
-    
-                        <label>Description</label>
-    
-                        <textarea id="eventDescription" rows="4" placeholder="Event details..."></textarea>
-    
-                        <button type="submit">
-                            Add Event
-                        </button>
-    
-                    </form>
-    
-                </div>
-    
-                <div class="events-panel">
-    
-                    <h3 id="selectedDateTitle">Today's Events</h3>
-    
-                    <div id="eventsList"></div>
-    
-                </div>
-    
-            </div>
-    
-            <div class="calendar-container">
-    
-                <div class="calendar-header">
-    
-                    <h2 id="headerMonth"></h2>
-    
-                </div>
-    
-                <div class="weekdays">
-    
-                    <div>Sun</div>
-                    <div>Mon</div>
-                    <div>Tue</div>
-                    <div>Wed</div>
-                    <div>Thu</div>
-                    <div>Fri</div>
-                    <div>Sat</div>
-    
-                </div>
-    
-                <div class="calendar-grid" id="calendar"></div>
-    
-            </div>
-    
-        </section>
 
-        <!-- Shared Footer -->
+      <section class="container">
+        <div class="sidebar">
+          <div class="mini-calendar">
+            <div class="month-nav">
+              <button id="prevMonth">&#10094;</button>
+              <h3 id="monthTitle"></h3>
+              <button id="nextMonth">&#10095;</button>
+            </div>
+
+            <div class="mini-grid" id="miniCalendar"></div>
+          </div>
+
+          <div class="categories">
+            <span class="work">Work</span>
+            <span class="personal">Personal</span>
+            <span class="urgent">Urgent</span>
+          </div>
+
+          <div class="schedule-form">
+            <h3>Add Schedule</h3>
+
+            <form id="eventForm">
+              <label>Selected Date</label>
+              <input type="text" id="selectedDate" readonly />
+
+              <label>Event Title</label>
+              <input
+                type="text"
+                id="eventTitle"
+                placeholder="Meeting"
+                required
+              />
+
+              <label>Time</label>
+              <input type="time" id="eventTime" required />
+
+              <label>Category</label>
+
+              <select id="eventCategory">
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Urgent">Urgent</option>
+              </select>
+
+              <label>Description</label>
+
+              <textarea
+                id="eventDescription"
+                rows="4"
+                placeholder="Event details..."
+              ></textarea>
+
+              <button type="submit">Add Event</button>
+            </form>
+          </div>
+
+          <div class="events-panel">
+            <h3 id="selectedDateTitle">Today's Events</h3>
+
+            <div id="eventsList"></div>
+          </div>
+        </div>
+
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <h2 id="headerMonth"></h2>
+          </div>
+
+          <div class="weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+
+          <div class="calendar-grid" id="calendar"></div>
+        </div>
+      </section>
+
+      <!-- Shared Footer -->
 
       <footer>
         <div class="footer_container">
@@ -312,7 +297,7 @@
       </footer>
     </main>
 
-<!-- <section class="container">
+    <!-- <section class="container">
 
     <aside class="sidebar">
 
@@ -409,279 +394,252 @@
 
 </section> -->
 
-<script src="main.js"></script>
-<script >
+    <script src="main.js"></script>
+    <script>
+      const calendar = document.getElementById("calendar");
+      const miniCalendar = document.getElementById("miniCalendar");
 
-const calendar = document.getElementById("calendar");
-const miniCalendar = document.getElementById("miniCalendar");
+      const monthTitle = document.getElementById("monthTitle");
+      const headerMonth = document.getElementById("headerMonth");
 
-const monthTitle = document.getElementById("monthTitle");
-const headerMonth = document.getElementById("headerMonth");
+      const eventsList = document.getElementById("eventsList");
+      const selectedDateTitle = document.getElementById("selectedDateTitle");
 
-const eventsList = document.getElementById("eventsList");
-const selectedDateTitle = document.getElementById("selectedDateTitle");
+      const selectedDateInput = document.getElementById("selectedDate");
+      const eventForm = document.getElementById("eventForm");
 
-const selectedDateInput = document.getElementById("selectedDate");
-const eventForm = document.getElementById("eventForm");
+      let current = new Date();
 
-let current = new Date();
+      let selectedDateKey = "";
+      let selectedDay = null;
 
-let selectedDateKey = "";
-let selectedDay = null;
+      let events = {};
 
-let events = {};
+      function renderCalendar() {
+        calendar.innerHTML = "";
+        miniCalendar.innerHTML = "";
 
-function renderCalendar() {
+        const year = current.getFullYear();
+        const month = current.getMonth();
 
-    calendar.innerHTML = "";
-    miniCalendar.innerHTML = "";
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
 
-    const year = current.getFullYear();
-    const month = current.getMonth();
+        const startDay = firstDay.getDay();
+        const totalDays = lastDay.getDate();
 
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
+        monthTitle.textContent = current.toLocaleString("default", {
+          month: "long",
+          year: "numeric",
+        });
 
-    const startDay = firstDay.getDay();
-    const totalDays = lastDay.getDate();
+        headerMonth.textContent = current.toLocaleString("default", {
+          month: "long",
+          year: "numeric",
+        });
 
-    monthTitle.textContent = current.toLocaleString("default", {
-        month: "long",
-        year: "numeric"
-    });
+        const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
 
-    headerMonth.textContent = current.toLocaleString("default", {
-        month: "long",
-        year: "numeric"
-    });
+        weekdays.forEach((day) => {
+          const div = document.createElement("div");
+          div.textContent = day;
+          div.style.fontWeight = "600";
+          miniCalendar.appendChild(div);
+        });
 
-    const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
+        // Empty cells
+        for (let i = 0; i < startDay; i++) {
+          calendar.appendChild(document.createElement("div"));
+          miniCalendar.appendChild(document.createElement("div"));
+        }
 
-    weekdays.forEach(day => {
-        const div = document.createElement("div");
-        div.textContent = day;
-        div.style.fontWeight = "600";
-        miniCalendar.appendChild(div);
-    });
+        const today = new Date();
 
-    // Empty cells
-    for (let i = 0; i < startDay; i++) {
-        calendar.appendChild(document.createElement("div"));
-        miniCalendar.appendChild(document.createElement("div"));
-    }
+        for (let day = 1; day <= totalDays; day++) {
+          const dateKey = `${year}-${month + 1}-${day}`;
 
-    const today = new Date();
+          const dayDiv = document.createElement("div");
+          dayDiv.className = "day";
 
-    for (let day = 1; day <= totalDays; day++) {
-
-        const dateKey = `${year}-${month + 1}-${day}`;
-
-        const dayDiv = document.createElement("div");
-        dayDiv.className = "day";
-
-        if (
+          if (
             day === today.getDate() &&
             month === today.getMonth() &&
             year === today.getFullYear()
-        ) {
+          ) {
             dayDiv.classList.add("today");
-        }
+          }
 
-        if (selectedDateKey === dateKey) {
+          if (selectedDateKey === dateKey) {
             dayDiv.classList.add("selected");
-        }
+          }
 
-        dayDiv.innerHTML = `<div class="day-number">${day}</div>`;
+          dayDiv.innerHTML = `<div class="day-number">${day}</div>`;
 
-        // Event Dot
-        if (events[dateKey] && events[dateKey].length > 0) {
-
+          // Event Dot
+          if (events[dateKey] && events[dateKey].length > 0) {
             const dot = document.createElement("div");
             dot.className = "dot";
 
             const category = events[dateKey][0].category;
 
-            if (category === "Work")
-                dot.style.background = "#9b4dff";
+            if (category === "Work") dot.style.background = "#9b4dff";
 
-            if (category === "Personal")
-                dot.style.background = "#2ecc71";
+            if (category === "Personal") dot.style.background = "#2ecc71";
 
-            if (category === "Urgent")
-                dot.style.background = "#ff4d6d";
+            if (category === "Urgent") dot.style.background = "#ff4d6d";
 
             dayDiv.appendChild(dot);
-        }
+          }
 
-        dayDiv.addEventListener("click", () => {
+          dayDiv.addEventListener("click", () => {
             selectDate(day);
-        });
+          });
 
-        calendar.appendChild(dayDiv);
+          calendar.appendChild(dayDiv);
 
-        // Mini calendar
+          // Mini calendar
 
-        const miniDay = document.createElement("div");
-        miniDay.textContent = day;
+          const miniDay = document.createElement("div");
+          miniDay.textContent = day;
 
-        if (
+          if (
             day === today.getDate() &&
             month === today.getMonth() &&
             year === today.getFullYear()
-        ) {
+          ) {
             miniDay.classList.add("today");
+          }
+
+          miniCalendar.appendChild(miniDay);
+        }
+      }
+
+      function selectDate(day) {
+        selectedDay = day;
+
+        const year = current.getFullYear();
+        const month = current.getMonth() + 1;
+
+        selectedDateKey = `${year}-${month}-${day}`;
+
+        const date = new Date(year, month - 1, day);
+
+        selectedDateInput.value = date.toDateString();
+
+        selectedDateTitle.textContent = date.toDateString();
+
+        renderCalendar();
+
+        showEvents(selectedDateKey);
+      }
+
+      function showEvents(key) {
+        eventsList.innerHTML = "";
+
+        if (!events[key] || events[key].length === 0) {
+          eventsList.innerHTML = "<p>No events scheduled.</p>";
+          return;
         }
 
-        miniCalendar.appendChild(miniDay);
-    }
+        events[key].forEach((event) => {
+          const div = document.createElement("div");
 
-}
+          div.className = "event";
 
-function selectDate(day) {
+          let color = "#4ea7ff";
 
-    selectedDay = day;
+          if (event.category === "Work") color = "#9b4dff";
 
-    const year = current.getFullYear();
-    const month = current.getMonth() + 1;
+          if (event.category === "Personal") color = "#2ecc71";
 
-    selectedDateKey = `${year}-${month}-${day}`;
+          if (event.category === "Urgent") color = "#ff4d6d";
 
-    const date = new Date(year, month - 1, day);
+          div.style.borderLeft = `5px solid ${color}`;
 
-    selectedDateInput.value = date.toDateString();
-
-    selectedDateTitle.textContent = date.toDateString();
-
-    renderCalendar();
-
-    showEvents(selectedDateKey);
-
-}
-
-function showEvents(key) {
-
-    eventsList.innerHTML = "";
-
-    if (!events[key] || events[key].length === 0) {
-
-        eventsList.innerHTML = "<p>No events scheduled.</p>";
-        return;
-
-    }
-
-    events[key].forEach(event => {
-
-        const div = document.createElement("div");
-
-        div.className = "event";
-
-        let color = "#4ea7ff";
-
-        if (event.category === "Work")
-            color = "#9b4dff";
-
-        if (event.category === "Personal")
-            color = "#2ecc71";
-
-        if (event.category === "Urgent")
-            color = "#ff4d6d";
-
-        div.style.borderLeft = `5px solid ${color}`;
-
-        div.innerHTML = `
+          div.innerHTML = `
             <strong>${event.title}</strong><br>
             <small>${event.time}</small><br>
             <em>${event.category}</em>
             <p>${event.description}</p>
         `;
 
-        eventsList.appendChild(div);
+          eventsList.appendChild(div);
+        });
+      }
 
-    });
+      // Add Event
+      eventForm.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-}
+        if (selectedDateKey === "") {
+          alert("Please select a date first.");
 
-// Add Event
-eventForm.addEventListener("submit", function (e) {
+          return;
+        }
 
-    e.preventDefault();
+        const title = document.getElementById("eventTitle").value.trim();
+        const time = document.getElementById("eventTime").value;
+        const category = document.getElementById("eventCategory").value;
+        const description = document
+          .getElementById("eventDescription")
+          .value.trim();
 
-    if (selectedDateKey === "") {
+        if (!events[selectedDateKey]) {
+          events[selectedDateKey] = [];
+        }
 
-        alert("Please select a date first.");
+        events[selectedDateKey].push({
+          title,
+          time,
+          category,
+          description,
+        });
 
-        return;
-    }
+        showEvents(selectedDateKey);
 
-    const title = document.getElementById("eventTitle").value.trim();
-    const time = document.getElementById("eventTime").value;
-    const category = document.getElementById("eventCategory").value;
-    const description = document.getElementById("eventDescription").value.trim();
+        renderCalendar();
 
-    if (!events[selectedDateKey]) {
-        events[selectedDateKey] = [];
-    }
+        eventForm.reset();
 
-    events[selectedDateKey].push({
+        selectedDateInput.value = new Date(
+          current.getFullYear(),
+          current.getMonth(),
+          selectedDay,
+        ).toDateString();
+      });
 
-        title,
-        time,
-        category,
-        description
+      // Previous Month
+      document.getElementById("prevMonth").addEventListener("click", () => {
+        current.setMonth(current.getMonth() - 1);
 
-    });
+        selectedDateKey = "";
 
-    showEvents(selectedDateKey);
+        eventsList.innerHTML = "";
 
-    renderCalendar();
+        selectedDateInput.value = "";
 
-    eventForm.reset();
+        selectedDateTitle.textContent = "Today's Events";
 
-    selectedDateInput.value = new Date(
-        current.getFullYear(),
-        current.getMonth(),
-        selectedDay
-    ).toDateString();
+        renderCalendar();
+      });
 
-});
+      // Next Month
+      document.getElementById("nextMonth").addEventListener("click", () => {
+        current.setMonth(current.getMonth() + 1);
 
-// Previous Month
-document.getElementById("prevMonth").addEventListener("click", () => {
+        selectedDateKey = "";
 
-    current.setMonth(current.getMonth() - 1);
+        eventsList.innerHTML = "";
 
-    selectedDateKey = "";
+        selectedDateInput.value = "";
 
-    eventsList.innerHTML = "";
+        selectedDateTitle.textContent = "Today's Events";
 
-    selectedDateInput.value = "";
+        renderCalendar();
+      });
 
-    selectedDateTitle.textContent = "Today's Events";
-
-    renderCalendar();
-
-});
-
-// Next Month
-document.getElementById("nextMonth").addEventListener("click", () => {
-
-    current.setMonth(current.getMonth() + 1);
-
-    selectedDateKey = "";
-
-    eventsList.innerHTML = "";
-
-    selectedDateInput.value = "";
-
-    selectedDateTitle.textContent = "Today's Events";
-
-    renderCalendar();
-
-});
-
-// Initial Load
-renderCalendar();
-</script>
-
-</body>
+      // Initial Load
+      renderCalendar();
+    </script>
+  </body>
 </html>

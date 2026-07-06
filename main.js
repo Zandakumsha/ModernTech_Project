@@ -18,7 +18,7 @@ const showSidebar = (toggleId, sidebarId, headerId, mainId) => {
 };
 showSidebar("header-toggle", "sidebar", "header", "main");
 
-/*=============== LINK ACTIVE ===============*/
+/*=============== LINK ACTIVE /Color Change ===============*/
 const sidebarLink = document.querySelectorAll(".sidebar__list a");
 
 function linkColor() {
@@ -73,41 +73,41 @@ if (themeButton) {
 
 // =============== THEME SWITCHER ===============
 const themes = {
-    default: {
-        primary: "#00674f",
-        light: "#dbeafe",
-        hover: "#1d4ed8"
-    },
+  default: {
+    primary: "#00674f",
+    light: "#dbeafe",
+    hover: "#00674f",
+  },
 
-    blue: {
-        primary: "#2563eb",
-        light: "#dbeafe",
-        hover: "#1d4ed8"
-    },
+  blue: {
+    primary: "#2563eb",
+    light: "#dbeafe",
+    hover: "#1d4ed8",
+  },
 
-    green: {
-        primary: "#16a34a",
-        light: "#dcfce7",
-        hover: "#15803d"
-    },
+  green: {
+    primary: "#16a34a",
+    light: "#dcfce7",
+    hover: "#15803d",
+  },
 
-    purple: {
-        primary: "#7c3aed",
-        light: "#ede9fe",
-        hover: "#6d28d9"
-    },
+  purple: {
+    primary: "#7c3aed",
+    light: "#ede9fe",
+    hover: "#6d28d9",
+  },
 
-    red: {
-        primary: "#dc2626",
-        light: "#fee2e2",
-        hover: "#b91c1c"
-    },
+  red: {
+    primary: "#dc2626",
+    light: "#fee2e2",
+    hover: "#b91c1c",
+  },
 
-    orange: {
-        primary: "#ea580c",
-        light: "#ffedd5",
-        hover: "#c2410c"
-    }
+  orange: {
+    primary: "#ea580c",
+    light: "#ffedd5",
+    hover: "#c2410c",
+  },
 };
 
 const themeSelect = document.getElementById("theme");
@@ -118,72 +118,26 @@ const savedTheme = localStorage.getItem("color-theme") || "default";
 applyTheme(savedTheme);
 
 if (themeSelect) {
-    themeSelect.value = savedTheme;
+  themeSelect.value = savedTheme;
 
-    themeSelect.addEventListener("change", function () {
+  themeSelect.addEventListener("change", function () {
+    applyTheme(this.value);
 
-        applyTheme(this.value);
-
-        localStorage.setItem("color-theme", this.value);
-
-    });
+    localStorage.setItem("color-theme", this.value);
+  });
 }
 
 function applyTheme(name) {
+  const theme = themes[name];
 
-    const theme = themes[name];
+  document.documentElement.style.setProperty("--primary-color", theme.primary);
 
-    document.documentElement.style.setProperty(
-        "--primary-color",
-        theme.primary
-    );
+  document.documentElement.style.setProperty("--primary-light", theme.light);
 
-    document.documentElement.style.setProperty(
-        "--primary-light",
-        theme.light
-    );
+  document.documentElement.style.setProperty("--hover-color", theme.hover);
 
-    document.documentElement.style.setProperty(
-        "--hover-color",
-        theme.hover
-    );
-
-    document.documentElement.style.setProperty(
-        "--footer-color",
-        theme.primary
-    );
+  document.documentElement.style.setProperty("--footer-color", theme.primary);
 }
-// const theme = document.getElementById("theme");
-
-// if (theme) {
-//   theme.addEventListener("change", function () {
-//     switch (this.value) {
-//       case "default":
-//         setTheme("#00674f", "#dbeafe", "#1d4ed8");
-//         break;
-
-//       case "blue":
-//         setTheme("#2563eb", "#dbeafe", "#1d4ed8");
-//         break;
-
-//       case "green":
-//         setTheme("#16a34a", "#dcfce7", "#15803d");
-//         break;
-
-//       case "purple":
-//         setTheme("#7c3aed", "#ede9fe", "#6d28d9");
-//         break;
-
-//       case "red":
-//         setTheme("#dc2626", "#fee2e2", "#b91c1c");
-//         break;
-
-//       case "orange":
-//         setTheme("#ea580c", "#ffedd5", "#c2410c");
-//         break;
-//     }
-//   });
-// }
 
 function setTheme(primary, light, hover) {
   document.documentElement.style.setProperty("--primary-color", primary);
@@ -194,7 +148,6 @@ function setTheme(primary, light, hover) {
 
   document.documentElement.style.setProperty("--footer-color", primary);
 }
-
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentTaskFilter = "";
@@ -499,9 +452,16 @@ function setupDashboardInteractions() {
   }
 }
 
-updateGreeting();
-updateStats();
-setupDashboardInteractions();
+if (document.getElementById("dashboard_greeting")) {
+  updateGreeting();
+}
+
+if (document.getElementById("dashboard_totalTasks")) {
+  updateStats();
+  setupDashboardInteractions();
+}
+
+// Avatar Functionality
 
 const DEFAULT_AVATAR =
   "https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg";
@@ -542,18 +502,22 @@ function applyAvatar(imagePath) {
 
   localStorage.setItem("selectedAvatar", avatarPath);
 
-  document.querySelectorAll("#navbarProfileImage, #settingsProfileImage").forEach((image) => {
-    if (image) {
-      image.src = avatarPath;
-    }
-  });
+  document
+    .querySelectorAll("#navbarProfileImage, #settingsProfileImage")
+    .forEach((image) => {
+      if (image) {
+        image.src = avatarPath;
+      }
+    });
 
-  document.querySelectorAll(".settings_avatar-option").forEach((avatarOption) => {
-    avatarOption.classList.toggle(
-      "active",
-      avatarOption.getAttribute("src") === avatarPath,
-    );
-  });
+  document
+    .querySelectorAll(".settings_avatar-option")
+    .forEach((avatarOption) => {
+      avatarOption.classList.toggle(
+        "active",
+        avatarOption.getAttribute("src") === avatarPath,
+      );
+    });
 }
 
 function syncProfileInfo() {
@@ -587,7 +551,10 @@ function syncProfileInfo() {
 const protectedPages = ["dashboard.html", "settings.html", "calendar.html"];
 const currentPage = window.location.pathname.split("/").pop();
 
-if (!sessionStorage.getItem("authenticated") && protectedPages.includes(currentPage)) {
+if (
+  !sessionStorage.getItem("authenticated") &&
+  protectedPages.includes(currentPage)
+) {
   window.location.href = "login.html";
 }
 
@@ -608,35 +575,36 @@ const saveCompanyBtn = document.getElementById("saveCompanyBtn");
 
 if (saveCompanyBtn) {
   saveCompanyBtn.addEventListener("click", () => {
-    const company = {
-      name: document.getElementById("company_name").value,
+    const companyData = {
+      companyName: document.getElementById("company_name").value,
       industry: document.getElementById("company_industry").value,
       email: document.getElementById("company_email").value,
       phone: document.getElementById("company_phone").value,
     };
 
-    localStorage.setItem("company", JSON.stringify(company));
+    localStorage.setItem("companyInfo", JSON.stringify(companyData));
 
-    alert("Company details saved.");
+    alert("Company details saved successfully!");
   });
 }
-
 // Load Company Details
-const company = JSON.parse(localStorage.getItem("company"));
+document.addEventListener("DOMContentLoaded", () => {
+  const company = JSON.parse(localStorage.getItem("companyInfo")) || {};
 
-if (company) {
-  if (document.getElementById("company_name"))
-    document.getElementById("company_name").value = company.name || "";
+  const companyName = document.getElementById("company_name");
+  const companyIndustry = document.getElementById("company_industry");
+  const companyEmail = document.getElementById("company_email");
+  const companyPhone = document.getElementById("company_phone");
 
-  if (document.getElementById("company_industry"))
-    document.getElementById("company_industry").value = company.industry || "";
+  if (companyName) companyName.value = company.companyName || "";
+  if (companyIndustry) companyIndustry.value = company.industry || "";
+  if (companyEmail) companyEmail.value = company.email || "";
+  if (companyPhone) companyPhone.value = company.phone || "";
+});
 
-  if (document.getElementById("company_email"))
-    document.getElementById("company_email").value = company.email || "";
+// localStorage.setItem("companyInfo", JSON.stringify(companyData));
 
-  if (document.getElementById("company_phone"))
-    document.getElementById("company_phone").value = company.phone || "";
-}
+// window.location.href = "settings.html";
 
 document.addEventListener("DOMContentLoaded", () => {
   syncProfileInfo();
@@ -658,7 +626,10 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       if (themeButton) {
         themeButton.classList.toggle("ri-sun-fill", !darkModeToggle.checked);
-        themeButton.classList.toggle("ri-moon-clear-fill", darkModeToggle.checked);
+        themeButton.classList.toggle(
+          "ri-moon-clear-fill",
+          darkModeToggle.checked,
+        );
       }
     });
   }
