@@ -10,6 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     /> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -119,196 +120,235 @@
     </nav>
 
     <main class="main container" id="main">
-      <section
-        class="s_stats"
-        id="statsRow"
-        aria-label="Summary statistics"
-      ></section>
-
-      <div class="s_chart_card">
-        <p class="s_chart_title">Daily attendance trend</p>
-        <div class="s_chart_wrap">
-          <canvas id="attendanceChart" height="480" width="1080"></canvas>
-        </div>
-        <div class="s_chart_legend">
-          <div class="s_legend_item">
-            <div class="s_legend_dot s_legend_dot_present"></div>
-            Present
+      <div class="attendance_container">
+        <section class="s_stats" id="statsRow" aria-label="Summary statistics"></section>
+    
+        <div class="s_chart_card">
+          <p class="s_chart_title">Daily attendance trend</p>
+          <div class="s_chart_wrap">
+            <canvas id="attendanceChart"></canvas>
           </div>
-          <div class="s_legend_item">
-            <div class="s_legend_dot s_legend_dot_absent"></div>
-            Absent
-          </div>
-        </div>
-      </div>
-
-      <div class="s_tabs" role="tablist">
-        <button
-          class="s_tab_btn s_active"
-          id="tabBtnAttendance"
-          role="tab"
-          aria-selected="true"
-        >
-          Daily Attendance
-        </button>
-        <button
-          class="s_tab_btn"
-          id="tabBtnLeave"
-          role="tab"
-          aria-selected="false"
-        >
-          Leave Requests
-        </button>
-        <button
-          class="s_tab_btn"
-          id="tabBtnTimeOff"
-          role="tab"
-          aria-selected="false"
-        >
-          Time Off
-        </button>
-      </div>
-
-      <!-- Attendance panel -->
-      <section class="s_panel" id="panelAttendance" role="tabpanel">
-        <div class="s_filters">
-          <input
-            type="text"
-            id="attSearch"
-            placeholder="Search employee name…"
-            aria-label="Search employees"
-          />
-          <label class="s_checkbox_field">
-            <input type="checkbox" id="attAbsenceOnly" />
-            Only show staff with an absence
-          </label>
-          <button class="s_filter_reset" id="attReset" type="button">
-            Reset filters
-          </button>
-        </div>
-        <div class="s_result_count" id="attCount"></div>
-        <div class="s_table_scroll">
-          <table id="attTable">
-            <thead>
-              <tr id="attHeadRow"></tr>
-            </thead>
-            <tbody id="attBody"></tbody>
-          </table>
-        </div>
-        <div class="s_empty_state s_hidden" id="attEmpty">
-          <span class="s_stamp s_stamp_absent">No match</span>
-          <p>No staff match your filters.</p>
-        </div>
-      </section>
-
-      <!-- Leave Requests panel -->
-      <section class="s_panel s_hidden" id="panelLeave" role="tabpanel">
-        <div class="s_filters">
-          <input
-            type="text"
-            id="leaveSearch"
-            placeholder="Search employee or reason…"
-            aria-label="Search leave requests"
-          />
-          <select id="leaveStatus" aria-label="Filter by status">
-            <option value="all">All statuses</option>
-            <option value="approved">Approved</option>
-            <option value="pending">Pending</option>
-            <option value="denied">Denied</option>
-          </select>
-          <button class="s_filter_reset" id="leaveReset" type="button">
-            Reset filters
-          </button>
-        </div>
-        <div class="s_result_count" id="leaveCount"></div>
-        <div id="leaveList"></div>
-        <div class="s_empty_state s_hidden" id="leaveEmpty">
-          <span class="s_stamp s_stamp_pending">No match</span>
-          <p>No leave requests match your filters.</p>
-        </div>
-      </section>
-
-      <!-- Time Off panel -->
-      <section class="s_panel s_hidden" id="panelTimeOff" role="tabpanel">
-        <div class="s_timeoff_grid">
-          <!-- Left: New Request form -->
-          <div>
-            <div class="s_timeoff_form_card">
-              <p class="s_timeoff_form_title">New Request</p>
-              <div class="s_form_group">
-                <label class="s_field_label" for="to_employee">Employee</label>
-                <select class="s_select" id="to_employee">
-                  <option value="">Select employee…</option>
-                </select>
-              </div>
-              <div class="s_form_group">
-                <label class="s_field_label" for="to_type">Leave Type</label>
-                <select class="s_select" id="to_type">
-                  <option value="">Select type…</option>
-                  <option>Annual Leave</option>
-                  <option>Sick Leave</option>
-                  <option>Family Responsibility</option>
-                  <option>Bereavement</option>
-                  <option>Maternity / Paternity</option>
-                  <option>Study Leave</option>
-                  <option>Unpaid Leave</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div class="s_form_group s_field_row">
-                <div>
-                  <label class="s_field_label" for="to_start">Start Date</label>
-                  <input class="s_input" type="date" id="to_start" />
-                </div>
-                <div>
-                  <label class="s_field_label" for="to_end">End Date</label>
-                  <input class="s_input" type="date" id="to_end" />
-                </div>
-              </div>
-              <div class="s_form_group">
-                <label class="s_field_label" for="to_reason"
-                  >Reason
-                  <span class="s_reason_optional">(optional)</span></label
-                >
-                <textarea
-                  class="s_textarea"
-                  id="to_reason"
-                  placeholder="Brief description…"
-                ></textarea>
-              </div>
-              <button class="s_btn_primary s_full_width" id="to_submit">
-                Submit Request
-              </button>
-              <div id="to_error" class="s_to_error"></div>
+          <div class="s_chart_legend">
+            <div class="s_legend_item">
+              <div class="s_legend_dot s_legend_dot_present"></div>
+              Present
             </div>
-          </div>
-
-          <!-- Right: Pending approvals -->
-          <div>
-            <div class="s_pending_card">
-              <p class="s_pending_title">
-                Pending Approval
-                <span class="s_pending_badge" id="pendingBadge">0</span>
-              </p>
-              <div id="pendingList">
-                <p class="s_pending_empty_note">No pending requests</p>
-              </div>
+            <div class="s_legend_item">
+              <div class="s_legend_dot s_legend_dot_absent"></div>
+              Absent
             </div>
           </div>
         </div>
-
-        <hr class="s_timeoff_divider" />
-
-        <!-- All requests list (feeds from ALL_LEAVE) -->
-        <div class="s_all_requests_hd">
-          <p class="s_all_requests_title">All Requests</p>
-          <span class="s_all_requests_count" id="toAllCount"></span>
+    
+        <div class="s_tabs" role="tablist">
+          <button class="s_tab_btn s_active" id="tabBtnAttendance" role="tab" aria-selected="true">
+            Daily Attendance
+          </button>
+          <button class="s_tab_btn" id="tabBtnLeave" role="tab" aria-selected="false">
+            Leave Requests
+          </button>
+          <button class="s_tab_btn" id="tabBtnTimeOff" role="tab" aria-selected="false">
+            Time Off
+          </button>
         </div>
-        <div id="toAllList"></div>
-        <div class="s_empty_state s_hidden" id="toEmpty">
-          <span class="s_stamp s_stamp_pending">No requests yet</span>
-        </div>
-      </section>
+    
+        <!-- Attendance panel -->
+        <section class="s_panel" id="panelAttendance" role="tabpanel">
+          <div class="s_filters">
+            <input class="s_input" type="text" id="attSearch" placeholder="Search employee name…"
+              aria-label="Search employees" />
+            <label class="s_checkbox_field">
+              <input type="checkbox" id="attAbsenceOnly" />
+              Only show staff with an absence
+            </label>
+            <button class="s_filter_reset" id="attReset" type="button">
+              Reset filters
+            </button>
+          </div>
+          <div class="s_result_count" id="attCount"></div>
+          <div class="s_table_scroll">
+            <table id="attTable">
+              <thead>
+                <tr id="attHeadRow"></tr>
+              </thead>
+              <tbody id="attBody"></tbody>
+            </table>
+          </div>
+          <div class="s_empty_state s_hidden" id="attEmpty">
+            <span class="s_stamp s_stamp_absent">No match</span>
+            <p>No staff match your filters.</p>
+          </div>
+        </section>
+    
+        <!-- Leave Requests panel -->
+        <section class="s_panel s_hidden" id="panelLeave" role="tabpanel">
+          <div class="s_filters">
+            <input class="s_input" type="text" id="leaveSearch" placeholder="Search employee or reason…"
+              aria-label="Search leave requests" />
+            <select class="s_input" id="leaveStatus" aria-label="Filter by status">
+              <option value="all">All statuses</option>
+              <option value="approved">Approved</option>
+              <option value="pending">Pending</option>
+              <option value="denied">Denied</option>
+            </select>
+            <button class="s_filter_reset" id="leaveReset" type="button">
+              Reset filters
+            </button>
+          </div>
+          <div class="s_result_count" id="leaveCount"></div>
+          <div id="leaveList"></div>
+          <div class="s_empty_state s_hidden" id="leaveEmpty">
+            <span class="s_stamp s_stamp_pending">No match</span>
+            <p>No leave requests match your filters.</p>
+          </div>
+        </section>
+    
+        <!-- Time Off panel -->
+        <section class="s_panel s_hidden" id="panelTimeOff" role="tabpanel">
+          <div class="s_timeoff_grid">
+            <!-- Left: New Request form -->
+            <div>
+              <div class="s_timeoff_form_card">
+                <p class="s_timeoff_form_title">New Request</p>
+                <div class="s_form_group">
+                  <label class="s_field_label" for="to_employee">Employee</label>
+                  <select class="s_select" id="to_employee">
+                    <option value="">Select employee…</option>
+                  </select>
+                </div>
+                <div class="s_form_group">
+                  <label class="s_field_label" for="to_type">Leave Type</label>
+                  <select class="s_select" id="to_type">
+                    <option value="">Select type…</option>
+                    <option>Annual Leave</option>
+                    <option>Sick Leave</option>
+                    <option>Family Responsibility</option>
+                    <option>Bereavement</option>
+                    <option>Maternity / Paternity</option>
+                    <option>Study Leave</option>
+                    <option>Unpaid Leave</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="s_form_group s_field_row">
+                  <div>
+                    <label class="s_field_label" for="to_start">Start Date</label>
+                    <input class="s_input" type="date" id="to_start" />
+                  </div>
+                  <div>
+                    <label class="s_field_label" for="to_end">End Date</label>
+                    <input class="s_input" type="date" id="to_end" />
+                  </div>
+                </div>
+                <div class="s_form_group">
+                  <label class="s_field_label" for="to_reason">Reason
+                    <span class="s_reason_optional">(optional)</span></label>
+                  <textarea class="s_textarea" id="to_reason" placeholder="Brief description…"></textarea>
+                </div>
+                <button class="s_btn_primary s_full_width" id="to_submit">
+                  Submit Request
+                </button>
+                <div id="to_error" class="s_to_error"></div>
+              </div>
+            </div>
+    
+            <!-- Right: Pending approvals -->
+            <div>
+              <div class="s_pending_card">
+                <p class="s_pending_title">
+                  Pending Approval
+                  <span class="s_pending_badge" id="pendingBadge">0</span>
+                </p>
+                <div id="pendingList">
+                  <p class="s_pending_empty_note">No pending requests</p>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <!-- <div class="s_leave_card">
+    
+            <div class="s_leave_header">
+    
+              <div class="s_leave_employee">
+    
+                <div class="s_leave_avatar">
+                  J
+                </div>
+    
+                <div>
+                  <div class="s_leave_name">
+                    John Smith
+                  </div>
+    
+                  <div class="s_leave_role">
+                    Software Developer
+                  </div>
+                </div>
+    
+              </div>
+    
+              <span class="s_stamp s_stamp_pending">
+                Pending
+              </span>
+    
+            </div>
+    
+            <div class="s_leave_info">
+    
+              <div class="s_leave_box">
+                <span class="s_leave_label">Leave Type</span>
+                <span class="s_leave_value">Annual Leave</span>
+              </div>
+    
+              <div class="s_leave_box">
+                <span class="s_leave_label">Duration</span>
+                <span class="s_leave_value">5 Days</span>
+              </div>
+    
+              <div class="s_leave_box">
+                <span class="s_leave_label">Start</span>
+                <span class="s_leave_value">12 Jul 2026</span>
+              </div>
+    
+              <div class="s_leave_box">
+                <span class="s_leave_label">End</span>
+                <span class="s_leave_value">16 Jul 2026</span>
+              </div>
+    
+            </div>
+    
+            <div class="s_leave_reason">
+              Family vacation planned several months in advance.
+            </div>
+    
+            <div class="s_leave_footer">
+    
+              <span class="s_leave_date">
+                Submitted: 2 Jul 2026
+              </span>
+    
+              <span class="s_stamp s_stamp_pending">
+                Pending
+              </span>
+    
+            </div>
+    
+          </div> -->
+    
+          <hr class="s_timeoff_divider" />
+    
+          <!-- All requests list (feeds from ALL_LEAVE) -->
+          <div class="s_all_requests_hd">
+            <p class="s_all_requests_title">All Requests</p>
+            <span class="s_all_requests_count" id="toAllCount"></span>
+          </div>
+          <div class="s_all_requests" id="toAllList"></div>
+          <div class="s_empty_state s_hidden" id="toEmpty">
+            <span class="s_stamp s_stamp_pending">No requests yet</span>
+          </div>
+        </section>
+      </div>
     </main>
 
     <div class="s_toast" id="toast"></div>
@@ -362,11 +402,12 @@
           </ul>
         </div>
       </div>
-
       <hr />
 
       <p class="footer_copy">&copy; 2024 Modern Tech. All rights reserved.</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script src="main (1).js"></script>
   </body>
