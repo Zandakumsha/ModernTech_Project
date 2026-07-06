@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <main>
+      <form id="companyForm">
+        <div class="input-field">
+          <input
+            type="text"
+            id="companyName"
+            placeholder="Company Name"
+            required
+          />
+        </div>
+
+        <div class="input-field">
+          <input
+            type="text"
+            id="companyIndustry"
+            placeholder="Industry"
+            required
+          />
+        </div>
+
+        <div class="input-field">
+          <input
+            type="email"
+            id="companyEmail"
+            placeholder="Company Email"
+            required
+          />
+        </div>
+
+        <div class="input-field">
+          <input
+            type="tel"
+            id="companyPhone"
+            placeholder="Company Phone"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn">Save Company Details</button>
+      </form>
+    </main>
+
+    ,
+    <script>
+      document
+        .getElementById("companyForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const companyData = {
+            companyName: document.getElementById("companyName").value,
+            industry: document.getElementById("companyIndustry").value,
+            email: document.getElementById("companyEmail").value,
+            phone: document.getElementById("companyPhone").value,
+          };
+
+          localStorage.setItem("companyInfo", JSON.stringify(companyData));
+
+          window.location.href = "settings.html";
+        });
+    </script>
+  </body>
+</html>
