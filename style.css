@@ -423,47 +423,6 @@ body.dark-theme {
   .month-list > div {
     margin: 5px 0px;
   }
-  /* 
-  .dashboard_container {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .dashboard_section {
-    padding: 1rem;
-  }
-
-  .dashboard_container {
-    padding: 1rem;
-    border-radius: 18px;
-  }
-
-  .dashboard_title-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .dashboard_add-btn {
-    width: 100%;
-  }
-
-  .dashboard_task-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .dashboard_task-right {
-    width: 100%;
-    justify-content: flex-end;
-  }
-
-  .dashboard_stat-value {
-    font-size: 1.5rem;
-  } */
-
-  /* .dashboard_container {
-    grid-template-columns: 1fr;
-  } */
 }
 
 /* For large devices */
@@ -2082,4 +2041,274 @@ main.main.container .sidebar {
   .chart-card.wide {
     grid-column: span 1;
   }
+}
+
+/* ====================SISAMILA ATTENDANCE=================================== */
+
+/* Time Off panel layout */
+.s_timeoff_grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  padding: 20px 18px;
+}
+.s_timeoff_form_card {
+  background: var(--background);
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  padding: 20px;
+}
+.s_timeoff_form_title {
+  font-family: var(--body-font);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--primary-color);
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.s_timeoff_form_title::before {
+  content: "+";
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--danger-color);
+}
+.s_form_group {
+  margin-bottom: 14px;
+}
+.s_pending_card {
+  background: var(--body-color);
+  border: 1px solid #e8c97a;
+  border-radius: 4px;
+  padding: 16px;
+}
+.s_pending_title {
+  font-family: var(--primary-color);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--pending);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.s_pending_badge {
+  background: var(--pending);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+.s_pending_item {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+.s_pending_item:last-child {
+  margin-bottom: 0;
+}
+.s_pending_item_name {
+  font-weight: 600;
+  font-size: 13px;
+}
+.s_pending_item_reason {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 2px 0 6px;
+}
+.s_pending_item_dates {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+.s_pending_item_actions {
+  display: flex;
+  gap: 6px;
+}
+.s_timeoff_divider {
+  border: none;
+  border-top: 1px solid var(--line-soft);
+  margin: 20px 18px;
+}
+.s_all_requests_hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px 12px;
+}
+.s_all_requests_title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin: 0;
+}
+.s_all_requests_count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+@media (max-width: 860px) {
+  .s_timeoff_grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ====================SISAMILA ATTENDANCE=================================== */
+
+/* Time Off panel layout */
+.s_timeoff_grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  padding: 20px 18px;
+}
+.s_timeoff_form_card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 20px;
+}
+.s_timeoff_form_title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.s_timeoff_form_title::before {
+  content: "+";
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.s_form_group {
+  margin-bottom: 14px;
+}
+.s_pending_card {
+  background: var(--pending-bg);
+  border: 1px solid #e8c97a;
+  border-radius: 4px;
+  padding: 16px;
+}
+.s_pending_title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--pending);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.s_pending_badge {
+  background: var(--pending);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+.s_pending_item {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+.s_pending_item:last-child {
+  margin-bottom: 0;
+}
+.s_pending_item_name {
+  font-weight: 600;
+  font-size: 13px;
+}
+.s_pending_item_reason {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 2px 0 6px;
+}
+.s_pending_item_dates {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+.s_pending_item_actions {
+  display: flex;
+  gap: 6px;
+}
+.s_timeoff_divider {
+  border: none;
+  border-top: 1px solid var(--line-soft);
+  margin: 20px 18px;
+}
+.s_all_requests_hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px 12px;
+}
+.s_all_requests_title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin: 0;
+}
+.s_all_requests_count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+@media (max-width: 860px) {
+  .s_timeoff_grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==== Converted inline styles from index.html ==== */
+.s_hidden_filter_svg {
+  position: absolute;
+}
+.s_legend_dot_present {
+  background: var(--present);
+}
+.s_legend_dot_absent {
+  background: var(--absent);
+}
+.s_reason_optional {
+  font-size: 10px;
+  color: var(--muted);
+}
+.s_full_width {
+  width: 100%;
+}
+.s_to_error {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--absent);
+  font-family: var(--font-mono);
+  display: none;
+}
+.s_pending_empty_note {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--font-mono);
 }
