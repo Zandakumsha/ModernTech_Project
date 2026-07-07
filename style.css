@@ -56,6 +56,22 @@
   --avatar-4: #a855f7;
   --avatar-5: #06b6d4;
   --avatar-6: #ec4899;
+
+  /* ===== Aliases so the Performance Reviews page can share this design
+     system (it was originally built against a differently-named token
+     set: --ink, --paper, --card, --line, --muted, --star, --font-mono,
+     --font-display). Mapping them here keeps a single source of truth
+     and means both pages re-theme together, including dark mode. ===== */
+  --ink: var(--title-color);
+  --ink-soft: var(--text-color);
+  --paper: var(--background);
+  --card: var(--card-bg);
+  --line: var(--border-color);
+  --line-soft: var(--border-color);
+  --muted: var(--muted-text);
+  --star: #f5b400;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-display: var(--body-font);
 }
 
 /*========== Responsive typography ==========*/
@@ -2088,6 +2104,7 @@ main.main.container .sidebar {
 }
 
 .s_section_title {
+  margin-top: 2px;
   font-size: 2rem;
   font-weight: 700;
   color: var(--title-color);
@@ -2256,6 +2273,21 @@ main.main.container .sidebar {
   width: 100%;
 
   height: 420px;
+}
+.s_legend_dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+  margin-top: 2px;
+}
+.s_legend_item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
 }
 
 .s_chart_wrap canvas {
@@ -2442,6 +2474,7 @@ main.main.container .sidebar {
   border-radius: 22px;
 
   padding: 1.25rem;
+  margin-bottom: 2px;
 
   box-shadow: 0 8px 24px var(--shadow-color);
 }
@@ -2505,6 +2538,21 @@ main.main.container .sidebar {
   background: #fee2e2;
 
   color: #b91c1c;
+}
+
+.s_stamp_completed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.s_stamp_in-progress {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.s_stamp i {
+  font-size: 0.9em;
+  margin-right: 0.3em;
 }
 
 /*=========================
@@ -3395,6 +3443,320 @@ main.main.container .sidebar {
 /*==================================
         UTILITIES
 ==================================*/
+
+/*==================================
+    AVATAR "ICON" — used in Daily
+    Attendance rows, Leave Request
+    rows, and the Reviews page.
+    (Previously undefined, so these
+    rendered as plain unstyled text
+    instead of a colored icon badge.)
+==================================*/
+.s_avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex: none;
+}
+
+.s_avatar_lg {
+  width: 56px;
+  height: 56px;
+  font-size: 1.1rem;
+}
+
+/*==================================
+    PERSON CELL (avatar + name)
+==================================*/
+.s_person {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.s_person_name {
+  font-weight: 600;
+  color: var(--title-color);
+}
+
+.s_person_id {
+  font-size: 0.75rem;
+  color: var(--muted-text);
+  font-family: var(--font-mono);
+}
+
+/*==================================
+    DAILY ATTENDANCE TABLE HELPERS
+==================================*/
+.s_weekday {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 2px;
+}
+
+.s_stamp.s_compact {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.68rem;
+}
+
+.s_rate_bar_wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.s_rate_bar {
+  width: 70px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border-color);
+  overflow: hidden;
+}
+
+.s_rate_bar_fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.s_rate_text {
+  font-size: 0.75rem;
+  color: var(--muted-text);
+  white-space: nowrap;
+}
+
+/*==================================
+    TABS (Daily Attendance /
+    Leave Requests / Time Off)
+==================================*/
+.s_tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.s_tab_btn {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0.9rem 1.4rem;
+  font-weight: 600;
+  color: var(--muted-text);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: 0.2s;
+}
+
+.s_tab_btn:hover {
+  background: none;
+  color: var(--title-color);
+}
+
+.s_tab_btn.s_active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+/*==================================
+    LEAVE REQUEST ROWS
+    (Leave Requests tab + Time Off
+    "All Requests" list)
+==================================*/
+.s_month_group {
+  padding: 1rem 1.5rem;
+}
+
+.s_month_header {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--muted-text);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.s_leave_row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.6fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px var(--shadow-color);
+}
+
+.s_leave_date {
+  color: var(--text-color);
+  font-size: 0.85rem;
+}
+
+.s_leave_reason {
+  color: var(--muted-text);
+  font-size: 0.85rem;
+}
+
+.s_action_group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.s_action_group .s_btn_approve,
+.s_action_group .s_btn_deny {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.75rem;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .s_leave_row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*==================================
+    FORM HELPERS (Time Off /
+    Add Review forms)
+==================================*/
+.s_field_label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--title-color);
+  margin-bottom: 0.4rem;
+}
+
+.s_field_row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.s_reason_optional {
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--muted-text);
+}
+
+.s_checkbox_field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.s_checkbox_field input {
+  width: auto;
+}
+
+.s_filter_reset {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 12px;
+  padding: 0.7rem 1.1rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.s_filter_reset:hover {
+  background: var(--primary-light);
+  color: var(--primary-color);
+}
+
+.s_result_count {
+  color: var(--muted-text);
+  font-size: 0.85rem;
+}
+
+.s_empty_state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--muted-text);
+}
+
+.s_empty_state .s_stamp {
+  margin-bottom: 0.75rem;
+}
+
+.s_to_error {
+  color: var(--danger-color);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/*==================================
+    TOAST
+==================================*/
+.s_toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--title-color);
+  color: var(--body-color);
+  padding: 0.85rem 1.5rem;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 999;
+}
+
+.s_toast.s_toast_visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/*==================================
+    TIME OFF — PENDING ITEM DETAILS
+==================================*/
+.s_pending_item_name {
+  font-weight: 700;
+  color: var(--title-color);
+}
+
+.s_pending_item_reason {
+  color: var(--muted-text);
+  font-size: 0.85rem;
+  margin: 0.35rem 0;
+}
+
+.s_pending_item_dates {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  margin-bottom: 0.75rem;
+}
+
+.s_pending_item_actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.s_notilt {
+  transform: none !important;
+}
 
 .s_hidden {
   display: none !important;

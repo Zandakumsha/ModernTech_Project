@@ -723,7 +723,20 @@ function formatDateLong(dateStr) {
   });
 }
 function stampClass(status) {
-  return "s_stamp_" + String(status).toLowerCase();
+  return "s_stamp_" + String(status).toLowerCase().replace(/\s+/g, "-");
+}
+function statusIcon(status) {
+  const map = {
+    present: "ri-checkbox-circle-fill",
+    approved: "ri-checkbox-circle-fill",
+    completed: "ri-checkbox-circle-fill",
+    absent: "ri-close-circle-fill",
+    denied: "ri-close-circle-fill",
+    pending: "ri-time-line",
+    "in-progress": "ri-loader-4-line",
+  };
+  const key = String(status).toLowerCase().replace(/\s+/g, "-");
+  return map[key] || "ri-checkbox-blank-circle-line";
 }
 
 function buildNoiseDataUri() {
@@ -1012,7 +1025,7 @@ function renderAttendanceBody() {
         const s = byDate[d];
         if (!s) return '<td class="s_center">—</td>';
         const tilt = i % 2 === 0 ? "-2deg" : "1.5deg";
-        return `<td class="s_center"><span class="s_stamp s_compact ${stampClass(s)}" style="--tilt:${tilt}">${s}</span></td>`;
+        return `<td class="s_center"><span class="s_stamp s_compact ${stampClass(s)}" style="--tilt:${tilt}"><i class="${statusIcon(s)}"></i>${s}</span></td>`;
       }).join("");
       return `<tr><td><div class="s_person"><div class="s_avatar" style="background:${color}">${initials(e.name)}</div><div><div class="s_person_name">${e.name}</div><div class="s_person_id">ID ${String(e.employeeId).padStart(3, "0")}</div></div></div></td>${dayCells}<td class="s_center"><div class="s_rate_bar_wrap"><div class="s_rate_bar"><div class="s_rate_bar_fill" style="width:${pct}%;background:${barColor}"></div></div><span class="s_rate_text">${present}/${att.length}</span></div></td></tr>`;
     })
@@ -1068,10 +1081,14 @@ function renderLeave() {
           const color = avatarColor(l.name),
             isPending = l.status === "Pending",
             key = `${l.employeeId}||${l.date}`;
+          // Only render Approve/Deny buttons while a request is still
+          // Pending. Previously this also re-rendered the status stamp
+          // for Approved/Denied requests, which duplicated the stamp
+          // already shown in the column just before it.
           const actionCell = isPending
-            ? `<div class="s_action_group"><button class="s_btn_approve" data-key="${key}" data-action="approve">✓ Approve</button><button class="s_btn_deny" data-key="${key}" data-action="deny">✕ Deny</button></div>`
-            : `<div><span class="s_stamp ${stampClass(l.status)}" style="--tilt:-1.5deg">${l.status}</span></div>`;
-          return `<div class="s_leave_row"><div class="s_person"><div class="s_avatar" style="background:${color}">${initials(l.name)}</div><div><div class="s_person_name">${l.name}</div><div class="s_person_id">ID ${String(l.employeeId).padStart(3, "0")}</div></div></div><div class="s_leave_date">${formatDateLong(l.date)}</div><div class="s_leave_reason">${l.reason}</div><div><span class="s_stamp ${stampClass(l.status)}" style="--tilt:-1.5deg">${l.status}</span></div>${actionCell}</div>`;
+            ? `<div class="s_action_group"><button class="s_btn_approve" data-key="${key}" data-action="approve"><i class="ri-check-line"></i> Approve</button><button class="s_btn_deny" data-key="${key}" data-action="deny"><i class="ri-close-line"></i> Deny</button></div>`
+            : `<div></div>`;
+          return `<div class="s_leave_row"><div class="s_person"><div class="s_avatar" style="background:${color}">${initials(l.name)}</div><div><div class="s_person_name">${l.name}</div><div class="s_person_id">ID ${String(l.employeeId).padStart(3, "0")}</div></div></div><div class="s_leave_date">${formatDateLong(l.date)}</div><div class="s_leave_reason">${l.reason}</div><div><span class="s_stamp ${stampClass(l.status)}" style="--tilt:-1.5deg"><i class="${statusIcon(l.status)}"></i>${l.status}</span></div>${actionCell}</div>`;
         })
         .join("")}
     </div>`,
@@ -1131,8 +1148,8 @@ function renderTimeOff() {
         <div class="s_pending_item_reason">${l.reason}</div>
         <div class="s_pending_item_dates">${formatDateLong(l.date)}</div>
         <div class="s_pending_item_actions">
-          <button class="s_btn_approve" data-key="${key}" data-action="approve" style="font-size:10px;padding:4px 10px">✓ Approve</button>
-          <button class="s_btn_deny"    data-key="${key}" data-action="deny"    style="font-size:10px;padding:4px 10px">✕ Deny</button>
+          <button class="s_btn_approve" data-key="${key}" data-action="approve" style="font-size:10px;padding:4px 10px"><i class="ri-check-line"></i> Approve</button>
+          <button class="s_btn_deny"    data-key="${key}" data-action="deny"    style="font-size:10px;padding:4px 10px"><i class="ri-close-line"></i> Deny</button>
         </div>
       </div>`;
       })
@@ -1178,9 +1195,9 @@ function renderTimeOff() {
             isPending = l.status === "Pending",
             key = `${l.employeeId}||${l.date}`;
           const actionCell = isPending
-            ? `<div class="s_action_group"><button class="s_btn_approve" data-key="${key}" data-action="approve">✓ Approve</button><button class="s_btn_deny" data-key="${key}" data-action="deny">✕ Deny</button></div>`
-            : `<div><span class="s_stamp ${stampClass(l.status)}" style="--tilt:-1.5deg">${l.status}</span></div>`;
-          return `<div class="s_leave_row"><div class="s_person"><div class="s_avatar" style="background:${color}">${initials(l.name)}</div><div><div class="s_person_name">${l.name}</div><div class="s_person_id">ID ${String(l.employeeId).padStart(3, "0")}</div></div></div><div class="s_leave_date">${formatDateLong(l.date)}</div><div class="s_leave_reason">${l.reason}</div><div><span class="s_stamp ${stampClass(l.status)}" style="--tilt:-1.5deg">${l.status}</span></div>${actionCell}</div>`;
+            ? `<div class="s_action_group"><button class="s_btn_approve" data-key="${key}" data-action="approve"><i class="ri-check-line"></i> Approve</button><button class="s_btn_deny" data-key="${key}" data-action="deny"><i class="ri-close-line"></i> Deny</button></div>`
+            : `<div></div>`;
+          return `<div class="s_leave_row"><div class="s_person"><div class="s_avatar" style="background:${color}">${initials(l.name)}</div><div><div class="s_person_name">${l.name}</div><div class="s_person_id">ID ${String(l.employeeId).padStart(3, "0")}</div></div></div><div class="s_leave_date">${formatDateLong(l.date)}</div><div class="s_leave_reason">${l.reason}</div><div><span class="s_stamp ${stampClass(l.status)}" style="--tilt:-1.5deg"><i class="${statusIcon(l.status)}"></i>${l.status}</span></div>${actionCell}</div>`;
         })
         .join("")}
     </div>`,
@@ -1297,29 +1314,466 @@ function showLoadError(err) {
   const container =
     document.querySelector("main.s_wrap") || document.getElementById("main");
   if (!container) return;
-  container.innerHTML =
-    `<div class="s_empty_state" style="padding-top:60px"><span class="s_stamp s_stamp_absent">Load failed</span><p><strong>Could not read the attendance data.</strong></p><p>${err.message}</p><p>Run <code>npx serve .</code> in your project folder.</p></div>`;
+  container.innerHTML = `<div class="s_empty_state" style="padding-top:60px"><span class="s_stamp s_stamp_absent">Load failed</span><p><strong>Could not read the attendance data.</strong></p><p>${err.message}</p><p>Run <code>npx serve .</code> in your project folder.</p></div>`;
 }
 
-/* ── Boot ── */
+/* ══════════════════════════════════════════════════
+   PERFORMANCE REVIEWS (merged in from reviews.js)
+   Reuses the shared EMPLOYEES / loadData / avatarColor /
+   initials / stampClass / statusIcon / showToast helpers
+   defined above, so nothing here duplicates that logic.
+   ══════════════════════════════════════════════════ */
+
+let REVIEWS = [];
+let selectedReviewId = null;
+let reviewFilterStatus = "all";
+let pendingScore = 0;
+
+const SEED_REVIEWS = [
+  {
+    id: 1,
+    employeeId: 1,
+    cycle: "Q2 2026",
+    status: "Completed",
+    score: 4.2,
+    manager: "D. Williams",
+    comments:
+      "Excellent analytical thinking. Consistently delivers high-quality reports ahead of deadlines.",
+    strengths: ["Data Analysis", "Communication"],
+    growth: ["Leadership", "Stakeholder Management"],
+  },
+  {
+    id: 2,
+    employeeId: 2,
+    cycle: "Q2 2026",
+    status: "Completed",
+    score: 3.8,
+    manager: "D. Williams",
+    comments:
+      "Good team player, needs to improve on time management and proactive communication.",
+    strengths: ["Teamwork", "Adaptability"],
+    growth: ["Time Management", "Initiative"],
+  },
+  {
+    id: 3,
+    employeeId: 3,
+    cycle: "Q2 2026",
+    status: "Completed",
+    score: 4.5,
+    manager: "T. Khumalo",
+    comments:
+      "Outstanding performance this quarter. Shows great initiative and technical depth.",
+    strengths: ["Technical Skills", "Problem Solving", "Initiative"],
+    growth: ["Presentation Skills"],
+  },
+  {
+    id: 4,
+    employeeId: 4,
+    cycle: "Q2 2026",
+    status: "In Progress",
+    score: 3.5,
+    manager: "T. Khumalo",
+    comments: "Review in progress — awaiting final scoring.",
+    strengths: ["Reliability"],
+    growth: ["Communication", "Leadership"],
+  },
+  {
+    id: 5,
+    employeeId: 5,
+    cycle: "Q2 2026",
+    status: "Completed",
+    score: 4.7,
+    manager: "A. Botha",
+    comments:
+      "Exceptional quarter. Zanele exceeded every target and mentored two junior staff members.",
+    strengths: ["Leadership", "Mentoring", "Results-driven"],
+    growth: ["Delegation"],
+  },
+  {
+    id: 6,
+    employeeId: 6,
+    cycle: "Q2 2026",
+    status: "Pending",
+    score: null,
+    manager: "A. Botha",
+    comments: "",
+    strengths: [],
+    growth: [],
+  },
+  {
+    id: 7,
+    employeeId: 7,
+    cycle: "Q2 2026",
+    status: "Completed",
+    score: 4.0,
+    manager: "D. Williams",
+    comments:
+      "Solid contributor. Reliable and consistent across all tasks assigned this quarter.",
+    strengths: ["Consistency", "Attention to Detail"],
+    growth: ["Strategic Thinking", "Networking"],
+  },
+  {
+    id: 8,
+    employeeId: 8,
+    cycle: "Q2 2026",
+    status: "In Progress",
+    score: 3.9,
+    manager: "A. Botha",
+    comments:
+      "Good progress but review still being finalised with department head.",
+    strengths: ["Communication", "Creativity"],
+    growth: ["Deadlines", "Prioritisation"],
+  },
+  {
+    id: 9,
+    employeeId: 9,
+    cycle: "Q2 2026",
+    status: "Pending",
+    score: null,
+    manager: "T. Khumalo",
+    comments: "",
+    strengths: [],
+    growth: [],
+  },
+  {
+    id: 10,
+    employeeId: 10,
+    cycle: "Q2 2026",
+    status: "Completed",
+    score: 4.1,
+    manager: "D. Williams",
+    comments:
+      "Very good quarter. Fatima handled a difficult project exceptionally well under pressure.",
+    strengths: ["Resilience", "Project Management"],
+    growth: ["Public Speaking", "Conflict Resolution"],
+  },
+];
+
+function starsHtml(score, large = false) {
+  if (score === null)
+    return `<span style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">Not scored</span>`;
+  const full = Math.floor(score);
+  const half = score - full >= 0.3;
+  const sz = large ? "16px" : "13px";
+  let h = "";
+  for (let i = 1; i <= 5; i++) {
+    const on = i <= full || (i === full + 1 && half);
+    h += `<span class="s_star${on ? " s_on" : ""}" style="font-size:${sz}">★</span>`;
+  }
+  return h;
+}
+
+function populateReviewEmployeeDropdown() {
+  const sel = document.getElementById("rv_employee");
+  if (!sel) return;
+  EMPLOYEES.forEach((e) => {
+    const opt = document.createElement("option");
+    opt.value = e.employeeId;
+    opt.textContent = e.name;
+    sel.appendChild(opt);
+  });
+}
+
+function renderReviewHeader() {
+  const scored = REVIEWS.filter((r) => r.score !== null);
+  const avg = scored.length
+    ? (scored.reduce((s, r) => s + r.score, 0) / scored.length).toFixed(1)
+    : "—";
+  document.getElementById("avgScore").textContent = avg;
+  document.getElementById("reviewCount").textContent =
+    `${REVIEWS.length} reviews`;
+}
+
+function renderReviewList() {
+  const filtered =
+    reviewFilterStatus === "all"
+      ? REVIEWS
+      : REVIEWS.filter(
+          (r) =>
+            r.status.toLowerCase().replace(/\s+/g, "-") === reviewFilterStatus,
+        );
+
+  const el = document.getElementById("reviewList");
+  el.innerHTML = filtered
+    .map((r) => {
+      const emp = EMPLOYEES.find((e) => e.employeeId === r.employeeId) || {
+        name: "Unknown",
+      };
+      const color = avatarColor(emp.name);
+      const sel = r.id === selectedReviewId ? " s_selected" : "";
+      return `
+      <div class="s_review_card${sel}" data-id="${r.id}">
+        <div class="s_avatar" style="background:${color}">${initials(emp.name)}</div>
+        <div class="s_review_card_body">
+          <div class="s_review_card_name">${emp.name}</div>
+          <div class="s_review_card_cycle">${r.cycle}</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+            <div class="s_review_card_stars">${starsHtml(r.score)}</div>
+            ${r.score !== null ? `<span class="s_review_card_score">${r.score}</span>` : ""}
+          </div>
+        </div>
+        <span class="s_stamp s_notilt ${stampClass(r.status)}"><i class="${statusIcon(r.status)}"></i>${r.status}</span>
+      </div>`;
+    })
+    .join("");
+
+  el.querySelectorAll(".s_review_card").forEach((card) => {
+    card.addEventListener("click", () => {
+      selectedReviewId = Number(card.dataset.id);
+      hideAddReviewForm();
+      renderReviewList();
+      renderReviewDetail();
+    });
+  });
+}
+
+function renderReviewDetail() {
+  const rev = REVIEWS.find((r) => r.id === selectedReviewId);
+  const empty = document.getElementById("detailEmpty");
+  const content = document.getElementById("detailContent");
+  if (!rev) {
+    empty.classList.remove("s_hidden");
+    content.classList.add("s_hidden");
+    return;
+  }
+  empty.classList.add("s_hidden");
+  content.classList.remove("s_hidden");
+
+  const emp = EMPLOYEES.find((e) => e.employeeId === rev.employeeId) || {
+    name: "Unknown",
+  };
+  const color = avatarColor(emp.name);
+  const pct = rev.score ? ((rev.score / 5) * 100).toFixed(0) : 0;
+
+  content.innerHTML = `
+    <div class="s_detail_hd">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="s_avatar s_avatar_lg" style="background:${color}">${initials(emp.name)}</div>
+        <div>
+          <h3 class="s_detail_name">${emp.name}</h3>
+          <div class="s_detail_manager">Manager: ${rev.manager || "—"}</div>
+        </div>
+      </div>
+      <span class="s_stamp s_notilt ${stampClass(rev.status)}"><i class="${statusIcon(rev.status)}"></i>${rev.status}</span>
+    </div>
+
+    <div class="s_detail_section">
+      <p class="s_detail_section_label">Overall Score</p>
+      <div class="s_score_row">
+        <div class="s_score_stars">${starsHtml(rev.score, true)}</div>
+        ${
+          rev.score !== null
+            ? `<span class="s_score_val">${rev.score}</span>
+        <div class="s_score_bar_wrap"><div class="s_score_bar_fill" style="width:${pct}%"></div></div>`
+            : ""
+        }
+      </div>
+    </div>
+
+    ${
+      rev.comments
+        ? `
+    <div class="s_detail_section">
+      <p class="s_detail_section_label">Manager Comments</p>
+      <p class="s_detail_comments">"${rev.comments}"</p>
+    </div>`
+        : ""
+    }
+
+    ${
+      rev.strengths.length || rev.growth.length
+        ? `
+    <div class="s_detail_section">
+      <div class="s_strengths_grid">
+        <div>
+          <p class="s_detail_section_label">Strengths</p>
+          <ul class="s_bullet_list" style="--bullet-color:var(--present)">
+            ${rev.strengths.map((s) => `<li>${s}</li>`).join("")}
+          </ul>
+        </div>
+        <div>
+          <p class="s_detail_section_label">Growth Areas</p>
+          <ul class="s_bullet_list" style="--bullet-color:var(--ink)">
+            ${rev.growth.map((g) => `<li>${g}</li>`).join("")}
+          </ul>
+        </div>
+      </div>
+    </div>`
+        : ""
+    }
+  `;
+}
+
+/* ── Add review form ── */
+function showAddReviewForm() {
+  document.getElementById("addReviewForm").classList.remove("s_hidden");
+  document.getElementById("detailContent").classList.add("s_hidden");
+  document.getElementById("detailEmpty").classList.add("s_hidden");
+  pendingScore = 0;
+  updateReviewStarButtons();
+}
+function hideAddReviewForm() {
+  document.getElementById("addReviewForm").classList.add("s_hidden");
+  document.getElementById("rv_employee").value = "";
+  document.getElementById("rv_cycle").value = "";
+  document.getElementById("rv_status").value = "Pending";
+  document.getElementById("rv_manager").value = "";
+  document.getElementById("rv_comments").value = "";
+  document.getElementById("rv_strengths").value = "";
+  document.getElementById("rv_growth").value = "";
+  document.getElementById("rv_error").style.display = "none";
+  pendingScore = 0;
+  updateReviewStarButtons();
+}
+function updateReviewStarButtons() {
+  document.querySelectorAll("#starInput .s_star_btn").forEach((btn) => {
+    btn.classList.toggle("s_on", Number(btn.dataset.val) <= pendingScore);
+  });
+}
+
+function submitReviewForm() {
+  const empId = Number(document.getElementById("rv_employee").value);
+  const cycle = document.getElementById("rv_cycle").value.trim();
+  const status = document.getElementById("rv_status").value;
+  const manager = document.getElementById("rv_manager").value.trim();
+  const comments = document.getElementById("rv_comments").value.trim();
+  const strengths = document
+    .getElementById("rv_strengths")
+    .value.split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const growth = document
+    .getElementById("rv_growth")
+    .value.split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const errEl = document.getElementById("rv_error");
+
+  if (!empId) {
+    errEl.textContent = "Please select an employee.";
+    errEl.style.display = "block";
+    return;
+  }
+  if (!cycle) {
+    errEl.textContent = "Please enter a review cycle.";
+    errEl.style.display = "block";
+    return;
+  }
+  errEl.style.display = "none";
+
+  const score = pendingScore > 0 ? pendingScore : null;
+  const newId = Math.max(0, ...REVIEWS.map((r) => r.id)) + 1;
+  const rev = {
+    id: newId,
+    employeeId: empId,
+    cycle,
+    status,
+    score,
+    manager,
+    comments,
+    strengths,
+    growth,
+  };
+  REVIEWS.unshift(rev);
+  selectedReviewId = newId;
+  hideAddReviewForm();
+  renderReviewHeader();
+  renderReviewList();
+  renderReviewDetail();
+  showToast("Review added successfully");
+}
+
+/* ── Filter chips ── */
+function wireReviewFilterChips() {
+  document
+    .getElementById("reviewFilterChips")
+    .querySelectorAll(".s_filter_chip")
+    .forEach((btn) => {
+      btn.addEventListener("click", () => {
+        reviewFilterStatus = btn.dataset.filter;
+        document
+          .querySelectorAll("#reviewFilterChips .s_filter_chip")
+          .forEach((b) => b.classList.remove("s_active"));
+        btn.classList.add("s_active");
+        renderReviewList();
+      });
+    });
+}
+
+/* ── Star input ── */
+function wireReviewStarInput() {
+  document
+    .getElementById("starInput")
+    .querySelectorAll(".s_star_btn")
+    .forEach((btn) => {
+      btn.addEventListener("mouseover", () => {
+        document
+          .querySelectorAll("#starInput .s_star_btn")
+          .forEach((b) =>
+            b.classList.toggle(
+              "s_on",
+              Number(b.dataset.val) <= Number(btn.dataset.val),
+            ),
+          );
+      });
+      btn.addEventListener("mouseleave", updateReviewStarButtons);
+      btn.addEventListener("click", () => {
+        pendingScore = Number(btn.dataset.val);
+        updateReviewStarButtons();
+      });
+    });
+}
+
+/* ── Boot (merged: Attendance page + Reviews page) ── */
 (async function init() {
   document.documentElement.style.setProperty(
     "--noise-uri",
     buildNoiseDataUri(),
   );
-  wireTabs();
-  wireFilters();
+
+  const isAttendancePage = !!document.getElementById("attTable");
+  const isReviewsPage = !!document.getElementById("reviewList");
+
+  if (isAttendancePage) {
+    wireTabs();
+    wireFilters();
+  }
+  if (isReviewsPage) {
+    wireReviewFilterChips();
+    wireReviewStarInput();
+    const openAddBtn = document.getElementById("openAddBtn");
+    if (openAddBtn) openAddBtn.addEventListener("click", showAddReviewForm);
+    const rvSubmit = document.getElementById("rv_submit");
+    if (rvSubmit) rvSubmit.addEventListener("click", submitReviewForm);
+    const rvCancel = document.getElementById("rv_cancel");
+    if (rvCancel)
+      rvCancel.addEventListener("click", () => {
+        hideAddReviewForm();
+        renderReviewDetail();
+      });
+  }
+
   try {
     await loadData();
-    renderPeriodChip();
-    renderStats();
-    renderChart();
-    renderAttendanceHead();
-    renderAttendanceBody();
-    renderLeave();
-    populateEmployeeDropdown();
-    wireTimeOffForm();
-    renderTimeOff();
+
+    if (isAttendancePage) {
+      renderPeriodChip();
+      renderStats();
+      renderChart();
+      renderAttendanceHead();
+      renderAttendanceBody();
+      renderLeave();
+      populateEmployeeDropdown();
+      wireTimeOffForm();
+      renderTimeOff();
+    }
+
+    if (isReviewsPage) {
+      REVIEWS = SEED_REVIEWS.map((r) => ({ ...r }));
+      populateReviewEmployeeDropdown();
+      renderReviewHeader();
+      renderReviewList();
+    }
   } catch (err) {
     console.error(err);
     showLoadError(err);

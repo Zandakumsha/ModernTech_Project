@@ -4,13 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Performance Reviews — HR Records</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
     />
-    <link rel="stylesheet" href="shared.css" />
+    <link rel="stylesheet" href="style.css" />
     <style>
       /* Reviews page layout */
       .s_reviews_layout {
@@ -24,7 +22,7 @@
       .s_review_list_panel {
         background: var(--card);
         border: 1px solid var(--line);
-        border-radius: 4px;
+        border-radius: 12px;
         overflow: hidden;
       }
       .s_review_list_hd {
@@ -83,6 +81,7 @@
         display: flex;
         align-items: center;
         gap: 12px;
+        border-radius: 2px;
       }
       .s_review_card:last-child {
         border-bottom: none;
@@ -133,7 +132,7 @@
       .s_review_detail {
         background: var(--card);
         border: 1px solid var(--line);
-        border-radius: 4px;
+        border-radius: 12px;
         padding: 24px;
         position: sticky;
         top: 20px;
@@ -251,7 +250,7 @@
         background: var(--ink);
         color: var(--paper);
         border: none;
-        border-radius: 3px;
+        border-radius: 12px;
         padding: 9px 16px;
         font-family: var(--font-mono);
         font-size: 11px;
@@ -331,196 +330,324 @@
     </style>
   </head>
   <body>
-    <svg width="0" height="0" style="position: absolute">
-      <filter id="paper-grain">
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.9"
-          numOctaves="2"
-          stitchTiles="stitch"
-          result="noise"
-        />
-        <feColorMatrix
-          in="noise"
-          type="matrix"
-          values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0"
-        />
-      </filter>
-    </svg>
-    <svg class="s_grain" width="100%" height="100%">
-      <rect width="100%" height="100%" filter="url(#paper-grain)" />
-    </svg>
+    <!--=============== HEADER ===============-->
+    <header class="header" id="header">
+      <div class="header__container">
+        <a href="#" class="header__logo">
+          <i class="ri-cloud-fill"></i>
+          <span>Modern Tech</span>
+        </a>
 
-    <header class="s_topbar">
-      <div class="s_brand">
-        <div class="s_brand_mark">AL</div>
-        <div class="s_brand_text">
-          <h1>Attendance Ledger</h1>
-          <p>HR Records &amp; Leave Register</p>
+        <div class="header__toggle" id="header-toggle">
+          <i class="ri-menu-line"></i>
         </div>
-      </div>
-      <div class="s_topbar_right">
-        <a href="index.html" class="s_nav_link">Attendance &amp; Leave</a>
-        <a href="reviews.html" class="s_nav_link s_nav_active"
-          >Performance Reviews</a
-        >
       </div>
     </header>
 
-    <main class="s_wrap">
-      <div class="s_section_hd" style="margin-bottom: 20px">
-        <div>
-          <h2 class="s_section_title">Performance Reviews</h2>
-          <p class="s_section_sub" id="cycleLabel">Q2–Q3 review cycle</p>
+    <!--=============== SIDEBAR ===============-->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar__container">
+        <div class="sidebar__user">
+          <div class="sidebar__img">
+            <img
+              id="navbarProfileImage"
+              src="https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg"
+              alt="Profile Avatar"
+            />
+          </div>
+
+          <div class="sidebar__info">
+            <h3 id="sidebar-user-name">User</h3>
+            <span id="sidebar-user-email">user@email.com</span>
+            <span class="user-profile" id="sidebar_role">Admin</span>
+          </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 16px">
+
+        <div class="sidebar__content">
           <div>
-            <div class="s_avg_badge">AVG. SCORE</div>
-            <div>
-              <span class="s_avg_val" id="avgScore">—</span
-              ><span class="s_avg_denom">/5</span>
+            <h3 class="sidebar__title">MANAGE</h3>
+
+            <div class="sidebar__list">
+              <a href="dashboard.html" class="sidebar__link">
+                <i class="ri-pie-chart-2-fill"></i>
+                <span>Dashboard</span>
+              </a>
+
+              <a href="#" class="sidebar__link">
+                <i class="ri-team-fill"></i>
+                <span>Employees</span>
+              </a>
+
+              <a href="#" class="sidebar__link">
+                <i class="ri-secure-payment-fill"></i>
+                <span>Payroll</span>
+              </a>
+
+              <a href="attendance.html" class="sidebar__link">
+                <i class="ri-calendar-event-fill"></i>
+                <span>Attendance</span>
+              </a>
+
+              <a href="calendar.html" class="sidebar__link">
+                <i class="ri-calendar-fill"></i>
+                <span>Calendar</span>
+              </a>
             </div>
           </div>
-          <button class="s_add_review_btn" id="openAddBtn">+ New Review</button>
+
+          <div>
+            <h3 class="sidebar__title">SETTINGS</h3>
+
+            <div class="sidebar__list">
+              <a href="settings.html" class="sidebar__link">
+                <i class="ri-settings-3-fill"></i>
+                <span>Settings</span>
+              </a>
+
+              <a href="reviews.html" class="sidebar__link active-link">
+                <i class="ri-mail-unread-fill"></i>
+                <span>Reviews</span>
+              </a>
+
+              <a href="#" class="sidebar__link">
+                <i class="ri-notification-2-fill"></i>
+                <span>Notifications</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar__actions">
+          <div class="sidebar__theme-selector">
+            <i
+              class="ri-moon-clear-fill sidebar__link sidebar__theme"
+              id="theme-button"
+            >
+              <span>Theme</span>
+            </i>
+          </div>
+
+          <div class="sidebar__link" id="logout-btn">
+            <i class="ri-logout-box-r-fill"></i>
+            <span>Log Out</span>
+          </div>
         </div>
       </div>
+    </nav>
 
-      <div class="s_reviews_layout">
-        <!-- Left: list -->
-        <div class="s_review_list_panel">
-          <div class="s_review_list_hd">
-            <p class="s_review_list_title">Reviews</p>
-            <span class="s_review_list_meta" id="reviewCount"></span>
+    <main class="main container s_wrap" id="main">
+      <div class="attendance_container">
+        <div class="s_section_hd" style="margin-bottom: 20px">
+          <div>
+            <h2 class="s_section_title">Performance Reviews</h2>
+            <p class="s_section_p">
+              Insert, analyse performance reviews below for the 2026 Q2–Q3
+              review cycle.
+            </p>
           </div>
-          <div class="s_review_filters" id="reviewFilterChips">
-            <button class="s_filter_chip s_active" data-filter="all">
-              All
+          <div style="display: flex; align-items: center; gap: 16px">
+            <div>
+              <div class="s_avg_badge">AVG Employee . SCORE</div>
+              <div>
+                <span class="s_avg_val" id="avgScore">—</span
+                ><span class="s_avg_denom">/5 </span>
+              </div>
+            </div>
+            <button class="s_add_review_btn" id="openAddBtn">
+              + New Review
             </button>
-            <button class="s_filter_chip" data-filter="completed">
-              Completed
-            </button>
-            <button class="s_filter_chip" data-filter="in-progress">
-              In Progress
-            </button>
-            <button class="s_filter_chip" data-filter="pending">Pending</button>
           </div>
-          <div id="reviewList"></div>
         </div>
 
-        <!-- Right: detail -->
-        <div class="s_review_detail" id="reviewDetail">
-          <div class="s_detail_empty" id="detailEmpty">
-            <span class="s_stamp s_stamp_pending s_notilt"
-              >No review selected</span
-            >
-            <p>Click a review from the list, or add a new one.</p>
+        <div class="s_reviews_layout">
+          <!-- Left: list -->
+          <div class="s_review_list_panel">
+            <div class="s_review_list_hd">
+              <p class="s_review_list_title">Reviews</p>
+              <span class="s_review_list_meta" id="reviewCount"></span>
+            </div>
+            <div class="s_review_filters" id="reviewFilterChips">
+              <button class="s_filter_chip s_active" data-filter="all">
+                All
+              </button>
+              <button class="s_filter_chip" data-filter="completed">
+                Completed
+              </button>
+              <button class="s_filter_chip" data-filter="in-progress">
+                In Progress
+              </button>
+              <button class="s_filter_chip" data-filter="pending">
+                Pending
+              </button>
+            </div>
+            <div id="reviewList"></div>
           </div>
-          <div id="detailContent" class="s_hidden"></div>
-          <!-- Add review form (hidden until triggered) -->
-          <div class="s_add_form s_hidden" id="addReviewForm">
-            <p class="s_add_form_title">New Performance Review</p>
-            <div class="s_form_group">
-              <label class="s_field_label" for="rv_employee">Employee</label>
-              <select class="s_select" id="rv_employee">
-                <option value="">Select employee…</option>
-              </select>
-            </div>
-            <div class="s_form_group">
-              <label class="s_field_label" for="rv_cycle">Review Cycle</label>
-              <input
-                class="s_input"
-                type="text"
-                id="rv_cycle"
-                placeholder="e.g. Q3 2026"
-              />
-            </div>
-            <div class="s_form_group">
-              <label class="s_field_label" for="rv_status">Status</label>
-              <select class="s_select" id="rv_status">
-                <option value="Pending">Pending</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Completed">Completed</option>
-              </select>
-            </div>
-            <div class="s_form_group">
-              <label class="s_field_label">Score (1–5)</label>
-              <div class="s_star_input" id="starInput">
-                <button class="s_star_btn" data-val="1">★</button>
-                <button class="s_star_btn" data-val="2">★</button>
-                <button class="s_star_btn" data-val="3">★</button>
-                <button class="s_star_btn" data-val="4">★</button>
-                <button class="s_star_btn" data-val="5">★</button>
-              </div>
-            </div>
-            <div class="s_form_group">
-              <label class="s_field_label" for="rv_manager">Manager</label>
-              <input
-                class="s_input"
-                type="text"
-                id="rv_manager"
-                placeholder="e.g. D. Williams"
-              />
-            </div>
-            <div class="s_form_group">
-              <label class="s_field_label" for="rv_comments"
-                >Manager Comments</label
+
+          <!-- Right: detail -->
+          <div class="s_review_detail" id="reviewDetail">
+            <div class="s_detail_empty" id="detailEmpty">
+              <span class="s_stamp s_stamp_pending s_notilt"
+                >No review selected</span
               >
-              <textarea
-                class="s_textarea"
-                id="rv_comments"
-                placeholder="Enter comments…"
-                style="min-height: 70px"
-              ></textarea>
+              <p>Click a review from the list, or add a new one.</p>
             </div>
-            <div class="s_form_group s_field_row">
-              <div>
-                <label class="s_field_label" for="rv_strengths"
-                  >Strengths</label
-                >
+            <div id="detailContent" class="s_hidden"></div>
+            <!-- Add review form (hidden until triggered) -->
+            <div class="s_add_form s_hidden" id="addReviewForm">
+              <p class="s_add_form_title">New Performance Review</p>
+              <div class="s_form_group">
+                <label class="s_field_label" for="rv_employee">Employee</label>
+                <select class="s_select" id="rv_employee">
+                  <option value="">Select employee…</option>
+                </select>
+              </div>
+              <div class="s_form_group">
+                <label class="s_field_label" for="rv_cycle">Review Cycle</label>
                 <input
                   class="s_input"
                   type="text"
-                  id="rv_strengths"
-                  placeholder="Comma-separated"
+                  id="rv_cycle"
+                  placeholder="e.g. Q3 2026"
                 />
               </div>
-              <div>
-                <label class="s_field_label" for="rv_growth"
-                  >Growth Areas</label
-                >
+              <div class="s_form_group">
+                <label class="s_field_label" for="rv_status">Status</label>
+                <select class="s_select" id="rv_status">
+                  <option value="Pending">Pending</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+              <div class="s_form_group">
+                <label class="s_field_label">Score (1–5)</label>
+                <div class="s_star_input" id="starInput">
+                  <button class="s_star_btn" data-val="1">★</button>
+                  <button class="s_star_btn" data-val="2">★</button>
+                  <button class="s_star_btn" data-val="3">★</button>
+                  <button class="s_star_btn" data-val="4">★</button>
+                  <button class="s_star_btn" data-val="5">★</button>
+                </div>
+              </div>
+              <div class="s_form_group">
+                <label class="s_field_label" for="rv_manager">Manager</label>
                 <input
                   class="s_input"
                   type="text"
-                  id="rv_growth"
-                  placeholder="Comma-separated"
+                  id="rv_manager"
+                  placeholder="e.g. D. Williams"
                 />
               </div>
+              <div class="s_form_group">
+                <label class="s_field_label" for="rv_comments"
+                  >Manager Comments</label
+                >
+                <textarea
+                  class="s_textarea"
+                  id="rv_comments"
+                  placeholder="Enter comments…"
+                  style="min-height: 70px"
+                ></textarea>
+              </div>
+              <div class="s_form_group s_field_row">
+                <div>
+                  <label class="s_field_label" for="rv_strengths"
+                    >Strengths</label
+                  >
+                  <input
+                    class="s_input"
+                    type="text"
+                    id="rv_strengths"
+                    placeholder="Comma-separated"
+                  />
+                </div>
+                <div>
+                  <label class="s_field_label" for="rv_growth"
+                    >Growth Areas</label
+                  >
+                  <input
+                    class="s_input"
+                    type="text"
+                    id="rv_growth"
+                    placeholder="Comma-separated"
+                  />
+                </div>
+              </div>
+              <div class="s_form_actions">
+                <button class="s_btn_primary" id="rv_submit">Add Review</button>
+                <button class="s_btn_ghost" id="rv_cancel">Cancel</button>
+              </div>
+              <div
+                id="rv_error"
+                style="
+                  margin-top: 8px;
+                  font-size: 12px;
+                  color: var(--absent);
+                  font-family: var(--font-mono);
+                  display: none;
+                "
+              ></div>
             </div>
-            <div class="s_form_actions">
-              <button class="s_btn_primary" id="rv_submit">Add Review</button>
-              <button class="s_btn_ghost" id="rv_cancel">Cancel</button>
-            </div>
-            <div
-              id="rv_error"
-              style="
-                margin-top: 8px;
-                font-size: 12px;
-                color: var(--absent);
-                font-family: var(--font-mono);
-                display: none;
-              "
-            ></div>
           </div>
         </div>
       </div>
     </main>
 
     <div class="s_toast" id="toast"></div>
+
+    <!-- Shared Footer -->
     <footer>
-      Attendance Ledger — internal HR tool. Performance data is manually
-      entered.
+      <div class="footer_container">
+        <div class="footer_content">
+          <i class="ri-cloud-fill"></i>
+          <h2>Modern Tech</h2>
+          <p>
+            Modern Technology Solutions is a leading provider of HR management
+            solutions.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h3>Links</h3>
+          <ul>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="#">Employees</a></li>
+            <li><a href="#">Payroll</a></li>
+            <li><a href="attendance.html">Leave Management</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>Contact Us</h3>
+          <ul>
+            <li><i class="ri-mail-fill"></i> info@modern-tech.com</li>
+            <li><i class="ri-phone-fill"></i> +1 234 567 890</li>
+            <li>
+              <i class="ri-map-pin-fill"></i> 314 Imam Haron Road, Lansdowne
+              7780
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>Follow Us</h3>
+          <ul>
+            <li>
+              <i class="ri-github-fill"></i>
+              <a href="#">Github</a>
+            </li>
+            <li>
+              <i class="ri-linkedin-fill"></i>
+              <a href="#">LinkedIn</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <hr />
+
+      <p class="footer_copy">&copy; 2024 Modern Tech. All rights reserved.</p>
     </footer>
 
-    <script src="reviews.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>
