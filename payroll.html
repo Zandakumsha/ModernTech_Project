@@ -10,605 +10,131 @@
       href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;700;800&display=swap"
       rel="stylesheet"
     />
-    <style>
-      /* Global styles */
-      :root {
-        --bg: #ffffff;
-        --card-from: #3333ff; /* interpreted color */
-        --card-to: #ccccff;
-        --accent: #ffffff;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        font-family: "Nunito Sans", system-ui, Arial, Helvetica, sans-serif;
-        background: var(--bg);
-        scroll-behavior: smooth;
-      }
-      body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: #111;
-      }
-      .j-imp-info {
-        max-width: 1100px;
-        padding: 2rem 1rem;
-        text-align: center;
-      }
-      .j-imp-info h1 {
-        font-weight: 800;
-        margin: 0 0 0.5rem;
-      }
-      main.j-employee-payroll-calc-info {
-        width: 100%;
-        max-width: 1100px;
-        padding: 1rem;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .j-employee-payroll-calc-info h2 {
-        margin-top: 0;
-        text-align: center;
-      }
-
-      /* Employee cards grid */
-      .j-employee-payroll-calc-info > section[class^="j-employee-info"] {
-        background: linear-gradient(135deg, var(--card-from), var(--card-to));
-        border-radius: 12px;
-        padding: 1rem;
-        margin: 1rem 0;
-        color: #fff;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        display: block;
-        width: 100%;
-        max-width: 920px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .j-employee-payroll-calc-info p {
-        margin: 0.25rem 0;
-      }
-      .j-employee-payroll-calc-info .j-employee-payslip1,
-      .j-employee-payroll-calc-info .j-employee-payslip2,
-      .j-employee-payroll-calc-info .j-employee-payslip3,
-      .j-employee-payroll-calc-info .j-employee-payslip4,
-      .j-employee-payroll-calc-info .j-employee-payslip5,
-      .j-employee-payroll-calc-info .j-employee-payslip6,
-      .j-employee-payroll-calc-info .j-employee-payslip7,
-      .j-employee-payroll-calc-info .j-employee-payslip8,
-      .j-employee-payroll-calc-info .j-employee-payslip9,
-      .j-employee-payroll-calc-info .j-employee-payslip10 {
-        background: rgba(255, 255, 255, 0.06);
-        padding: 0.75rem;
-        border-radius: 8px;
-        margin-top: 0.5rem;
-      }
-
-      button {
-        background: rgba(0, 0, 0, 0.15);
-        border: none;
-        color: var(--accent);
-        padding: 0.5rem 0.75rem;
-        border-radius: 8px;
-        cursor: pointer;
-        transition:
-          transform 0.18s ease,
-          box-shadow 0.18s ease;
-      }
-      button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-      }
-
-      /* Form styles */
-      .j-payroll-calculator {
-        background: linear-gradient(180deg, var(--card-to), #f8f8ff);
-        padding: 1rem;
-        border-radius: 12px;
-        margin: 1rem 0;
-        width: 100%;
-        max-width: 920px;
-        margin-left: auto;
-        margin-right: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .j-payroll-calculator h2 {
-        width: 100%;
-        text-align: center;
-      }
-      .j-payroll-calc-form {
-        display: grid;
-        grid-template-columns: 180px 1fr;
-        gap: 0.75rem 1rem;
-        align-items: center;
-      }
-      .j-payroll-calc-form label {
-        justify-self: end;
-        padding-right: 8px;
-      }
-      .j-payroll-calc-form input {
-        width: 100%;
-        padding: 0.6rem;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-      }
-
-      /* Force form children into explicit grid columns to avoid layout drift */
-      .j-payroll-calc-form > label {
-        grid-column: 1;
-      }
-      .j-payroll-calc-form > input,
-      .j-payroll-calc-form > select {
-        grid-column: 2;
-      }
-      .j-payroll-calc-form > .actions {
-        grid-column: 1 / -1;
-      }
-
-      .j-payroll-calc-form .date-note {
-        grid-column: 1 / -1;
-        color: #444;
-        font-size: 0.95rem;
-        line-height: 1.4;
-        padding: 0.35rem 0.75rem;
-        border-radius: 6px;
-        background: rgba(34, 34, 255, 0.05);
-        border: 1px solid rgba(34, 34, 255, 0.15);
-        margin-bottom: 0.5rem;
-      }
-
-      .j-payroll-calc-form .actions {
-        grid-column: 1 / -1;
-        display: flex;
-        justify-content: center;
-        margin-top: 0.5rem;
-      }
-      .j-payroll-calc-form button {
-        background: #2222ff;
-        color: #fff;
-        padding: 0.6rem 1rem;
-        border-radius: 8px;
-      }
-
-      .j-dashboard-bar {
-        display: grid;
-        gap: 1rem;
-        padding: 1rem;
-        border-radius: 16px;
-        background: linear-gradient(135deg, #f6f9ff 0%, #eef4ff 100%);
-        border: 1px solid #d6e4ff;
-        margin-bottom: 1.5rem;
-      }
-      .j-dashboard-bar .dashboard-summary {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(220px, 1fr));
-        gap: 1rem;
-      }
-      .j-dashboard-bar .dashboard-card {
-        padding: 1rem;
-        border-radius: 14px;
-        background: #ffffff;
-        border: 1px solid #d9e4ff;
-        box-shadow: 0 8px 15px rgba(20, 40, 80, 0.04);
-      }
-      .j-dashboard-bar .dashboard-label {
-        display: block;
-        margin-bottom: 0.35rem;
-        font-size: 0.85rem;
-        color: #556780;
-      }
-      .j-dashboard-bar .dashboard-card strong {
-        display: block;
-        font-size: 2rem;
-        color: #172b4d;
-      }
-      .j-dashboard-bar .dashboard-card small {
-        display: block;
-        margin-top: 0.15rem;
-        color: #746d9a;
-      }
-      .j-dashboard-bar .dashboard-filter label {
-        display: block;
-        margin-bottom: 0.35rem;
-        font-size: 0.85rem;
-        color: #556780;
-      }
-      .j-dashboard-bar .dashboard-filter input {
-        width: 100%;
-        padding: 0.75rem 0.85rem;
-        border-radius: 10px;
-        border: 1px solid #bbc8e7;
-        font-size: 0.95rem;
-      }
-      .j-dashboard-bar .dashboard-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        align-items: center;
-        justify-content: center;
-      }
-      .j-dashboard-bar .dashboard-link,
-      .j-dashboard-bar .quick-links a {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.65rem 1rem;
-        border-radius: 999px;
-        background: #ffffff;
-        border: 1px solid #d9e4ff;
-        color: #1b3051;
-        text-decoration: none;
-        font-size: 0.95rem;
-      }
-      .j-dashboard-bar .quick-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem;
-        align-items: center;
-      }
-      .j-dashboard-bar .quick-links a {
-        background: #f4f6ff;
-      }
-
-      @media (max-width: 800px) {
-        .j-dashboard-bar .dashboard-summary {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      /* Modal styles */
-      .modal-backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.45);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-        z-index: 9999;
-      }
-      .modal {
-        background: #fff;
-        border-radius: 8px;
-        max-width: 760px;
-        width: min(100%, 760px);
-        padding: 1rem 1.25rem;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-        position: relative;
-        transform-origin: center;
-        animation: modalIn 0.18s ease;
-        max-height: 90vh;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .modal .modal-header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        margin-bottom: 0.75rem;
-        width: 100%;
-      }
-
-      .modal .modal-header h2 {
-        margin: 0;
-        width: auto;
-        text-align: center;
-      }
-
-      .modal .modal-body {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        flex: 1 1 auto;
-        min-height: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-        max-height: 75vh;
-        padding-right: 0.25rem;
-        padding-bottom: 0.75rem;
-      }
-
-      .modal .modal-body > .receipt,
-      .modal .modal-body > .calc-sheet {
-        width: 100%;
-        max-width: 680px;
-        box-sizing: border-box;
-      }
-
-      .modal .modal-body > .calc-sheet {
-        max-height: 68vh;
-        overflow-y: auto;
-      }
-
-      .receipt,
-      .calc-sheet {
-        margin: 0 auto;
-      }
-
-      .receipt .logo {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 0.75rem;
-      }
-
-      .receipt .logo svg {
-        width: 120px;
-        height: auto;
-        color: #111;
-      }
-
-      .receipt[data-theme="dark"] .logo svg,
-      .receipt[data-theme="dark"] h3,
-      .receipt[data-theme="dark"] p,
-      .receipt[data-theme="dark"] .note {
-        color: #fff;
-      }
-
-      .receipt .logo svg text {
-        fill: currentColor;
-      }
-      @keyframes modalIn {
-        from {
-          transform: translateY(20px) scale(0.98);
-          opacity: 0;
-        }
-        to {
-          transform: none;
-          opacity: 1;
-        }
-      }
-      .modal .close-btn {
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
-        background: transparent;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
-      }
-      .modal .modal-controls {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 0.75rem;
-      }
-      .modal .color-row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 0.5rem;
-        width: 100%;
-      }
-      .modal .color-row::before,
-      .modal .color-row::after {
-        content: "";
-      }
-
-      /* Modal footer layout */
-      .modal-footer {
-        flex: 0 0 auto;
-        display: flex;
-        gap: 0.5rem;
-        justify-content: center;
-        margin-top: 0.85rem;
-        border-top: 1px solid rgba(0, 0, 0, 0.06);
-        padding-top: 0.6rem;
-        background: #fff;
-      }
-      .modal-footer button {
-        padding: 0.6rem 0.9rem;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-      }
-      .modal-download {
-        background: #1e9b3a; /* green */
-        color: #fff;
-      }
-      .modal-exit {
-        background: #d94b4b; /* red */
-        color: #fff;
-      }
-
-      /* Receipt style (monospace printed receipt) */
-      .receipt {
-        font-family: monospace, "Courier New", monospace;
-        color: #111;
-        padding: 1rem;
-        background: #fff;
-        border-radius: 4px;
-        width: 100%;
-        max-width: none;
-        box-sizing: border-box;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-      }
-      .receipt .logo {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 0.75rem;
-      }
-      .receipt h3 {
-        margin: 0 0 0.5rem;
-        text-align: center;
-      }
-      .receipt p,
-      .receipt .note,
-      .calc-sheet p,
-      .calc-sheet pre {
-        overflow-wrap: anywhere;
-        word-break: break-word;
-        white-space: pre-wrap;
-      }
-      .receipt .note {
-        display: block;
-        width: 100%;
-        font-size: 0.88rem;
-        color: #333;
-        margin-top: 0.85rem;
-        border-top: 1px dashed #ddd;
-        padding-top: 0.6rem;
-      }
-
-      /* Tweak receipt typography to look like a printed receipt */
-      .receipt {
-        font-size: 13px;
-        line-height: 1.35;
-      }
-      .receipt h3 {
-        font-family: "Nunito Sans", sans-serif;
-        font-weight: 700;
-        letter-spacing: 2px;
-        font-size: 16px;
-      }
-      .receipt .logo img {
-        display: block;
-        margin: 0 auto 6px auto;
-        max-width: 120px;
-      }
-      .receipt hr {
-        border: none;
-        border-top: 1px dashed #ccc;
-        margin: 8px 0;
-      }
-      .receipt .note {
-        font-size: 11px;
-        color: #444;
-        margin-top: 10px;
-      }
-
-      /* Card actions footer for each employee card */
-      .card-actions {
-        display: flex;
-        gap: 0.5rem;
-        justify-content: center;
-        margin-top: 0.85rem;
-      }
-      .card-actions button {
-        background: rgba(0, 0, 0, 0.12);
-        color: var(--accent);
-        padding: 0.45rem 0.75rem;
-        border-radius: 8px;
-      }
-
-      /* Ensure label descriptors inside employee sections are bold */
-      .j-employee-payroll-calc-info
-        > section[class^="j-employee-info"]
-        > p
-        strong {
-        font-weight: 700;
-      }
-
-      /* Calculation sheet style similar to receipt */
-      .calc-sheet {
-        font-family: monospace, "Courier New", monospace;
-        background: #fff;
-        padding: 1rem;
-        border-radius: 4px;
-        max-width: 520px;
-        width: 100%;
-        margin: 0 auto;
-      }
-      .calc-sheet h3,
-      .calc-sheet pre,
-      .calc-sheet p {
-        text-align: left;
-      }
-      .calc-sheet pre {
-        white-space: pre-wrap;
-        word-break: break-word;
-        margin: 0;
-        padding: 0;
-      }
-
-      /* Loading math animation */
-      .math-loader {
-        display: flex;
-        gap: 0.4rem;
-        justify-content: center;
-        align-items: center;
-        padding: 1rem;
-      }
-      .math-symbol {
-        font-size: 1.6rem;
-        opacity: 0.12;
-        animation: float 1.2s infinite;
-      }
-      .math-symbol:nth-child(1) {
-        animation-delay: 0s;
-      }
-      .math-symbol:nth-child(2) {
-        animation-delay: 0.12s;
-      }
-      .math-symbol:nth-child(3) {
-        animation-delay: 0.24s;
-      }
-      .math-symbol:nth-child(4) {
-        animation-delay: 0.36s;
-      }
-      @keyframes float {
-        0% {
-          transform: translateY(0);
-          opacity: 0.12;
-        }
-        50% {
-          transform: translateY(-8px);
-          opacity: 0.6;
-        }
-        100% {
-          transform: translateY(0);
-          opacity: 0.12;
-        }
-      }
-
-      /* Responsive */
-      @media (min-width: 800px) {
-        .j-payroll-calc-form {
-          grid-template-columns: 200px 1fr;
-        }
-      }
-
-      @media (max-width: 720px) {
-        .j-payroll-calc-form {
-          grid-template-columns: 1fr;
-        }
-        .j-payroll-calc-form label {
-          justify-self: start;
-        }
-        .j-payroll-calc-form .actions {
-          justify-content: stretch;
-        }
-      }
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css"
+    />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- Important information -->
-    <header class="j-imp-info">
-      <h1>ModernTech Solutions Payroll</h1>
-      <p>
-        This page of ModernTech Solutions is used to display payroll information
-        on our employees. It shows how payroll calculations can be automated and
-        how digital payslips can be generated as well.
-      </p>
+    <!--=============== HEADER ===============-->
+    <header class="header" id="header">
+      <div class="header__container">
+        <a href="#" class="header__logo">
+          <i class="ri-cloud-fill"></i>
+          <span>Modern Tech</span>
+        </a>
+
+        <div class="header__toggle" id="header-toggle">
+          <i class="ri-menu-line"></i>
+        </div>
+      </div>
     </header>
-    <!-- Side navigation bar -->
-    <aside class="j-navbar-info">
-      <!-- Place navbar code here -->
-    </aside>
+
+    <!--=============== SIDEBAR ===============-->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar__container">
+        <div class="sidebar__user">
+          <div class="sidebar__img">
+            <img
+              id="navbarProfileImage"
+              src="https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg"
+              alt="Profile Avatar"
+            />
+          </div>
+
+          <div class="sidebar__info">
+            <h3 id="sidebar-user-name">User</h3>
+            <span id="sidebar-user-email">user@email.com</span>
+            <span class="user-profile" id="sidebar_role">Admin</span>
+          </div>
+        </div>
+
+        <div class="sidebar__content">
+          <div>
+            <h3 class="sidebar__title">MANAGE</h3>
+
+            <div class="sidebar__list">
+              <a href="dashboard.html" class="sidebar__link">
+                <i class="ri-pie-chart-2-fill"></i>
+                <span>Dashboard</span>
+              </a>
+
+              <a href="#" class="sidebar__link">
+                <i class="ri-team-fill"></i>
+                <span>Employees</span>
+              </a>
+
+              <a href="payroll.html" class="sidebar__link active-link">
+                <i class="ri-secure-payment-fill"></i>
+                <span>Payroll</span>
+              </a>
+
+              <a href="attendance.html" class="sidebar__link">
+                <i class="ri-calendar-event-fill"></i>
+                <span>Attendance</span>
+              </a>
+
+              <a href="calendar.html" class="sidebar__link">
+                <i class="ri-calendar-fill"></i>
+                <span>Calendar</span>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="sidebar__title">SETTINGS</h3>
+
+            <div class="sidebar__list">
+              <a href="settings.html" class="sidebar__link">
+                <i class="ri-settings-3-fill"></i>
+                <span>Settings</span>
+              </a>
+
+              <a href="reviews.html" class="sidebar__link">
+                <i class="ri-mail-unread-fill"></i>
+                <span>Reviews</span>
+              </a>
+
+              <a href="#" class="sidebar__link">
+                <i class="ri-notification-2-fill"></i>
+                <span>Notifications</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar__actions">
+          <div class="sidebar__theme-selector">
+            <i
+              class="ri-moon-clear-fill sidebar__link sidebar__theme"
+              id="theme-button"
+            >
+              <span>Theme</span>
+            </i>
+          </div>
+
+          <div class="sidebar__link" id="logout-btn">
+            <i class="ri-logout-box-r-fill"></i>
+            <span>Log Out</span>
+          </div>
+        </div>
+      </div>
+    </nav>
     <!-- Main content of page -->
-    <main class="j-employee-payroll-calc-info">
+    <main class="main container" id="j-employee-payroll-calc-info">
+      <header class="j-imp-info">
+        <h1>ModernTech Solutions Payroll</h1>
+        <p>
+          This page of ModernTech Solutions is used to display payroll
+          information on our employees. It shows how payroll calculations can be
+          automated and how digital payslips can be generated as well.
+        </p>
+      </header>
+      <!-- Side navigation bar -->
+      <aside class="j-navbar-info">
+        <!-- Place navbar code here -->
+      </aside>
       <h2>Payroll Employee Information</h2>
       <p>Information of each of our employees at ModernTech Solutions.</p>
       <section class="j-dashboard-bar">
@@ -816,12 +342,67 @@
           </div>
         </form>
       </section>
+
+      <footer>
+        <div class="footer_container">
+          <div class="footer_content">
+            <i class="ri-cloud-fill"></i>
+            <h2>Modern Tech</h2>
+            <p>
+              Modern Technology Solutions is a leading provider of HR management
+              solutions.
+            </p>
+          </div>
+
+          <div class="footer-col">
+            <h3>Links</h3>
+            <ul>
+              <li><a href="dashboard.html">Dashboard</a></li>
+              <li><a href="#">Employees</a></li>
+              <li><a href="#">Payroll</a></li>
+              <li><a href="#">Leave Management</a></li>
+              <li><a href="calendar.html">Calendar</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Contact Us</h3>
+            <ul>
+              <li><i class="ri-mail-fill"></i> info@modern-tech.com</li>
+              <li><i class="ri-phone-fill"></i> +1 234 567 890</li>
+              <li>
+                <i class="ri-map-pin-fill"></i> 314 Imam Haron Road, Lansdowne
+                7780
+              </li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Follow Us</h3>
+            <ul>
+              <li>
+                <i class="ri-github-fill"></i>
+                <a href="#">Github</a>
+              </li>
+              <li>
+                <i class="ri-linkedin-fill"></i>
+                <a href="#">LinkedIn</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <hr />
+
+        <p class="footer_copy">&copy; 2024 Modern Tech. All rights reserved.</p>
+      </footer>
     </main>
 
     <div id="modal-root"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="main.js"></script>
     <script>
       // app.js - handles data, modals, calculations, and PDF export
 
