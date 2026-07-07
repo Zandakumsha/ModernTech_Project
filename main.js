@@ -858,6 +858,7 @@ function renderStats() {
 /* ── Period chip ── */
 function renderPeriodChip() {
   const el = document.getElementById("periodChip");
+  if (!el) return; // topbar/period chip isn't present on this page
   if (!ALL_DATES.length) {
     el.textContent = "Period: —";
     return;
@@ -1293,7 +1294,10 @@ function wireFilters() {
 
 /* ── Error ── */
 function showLoadError(err) {
-  document.querySelector("main.s_wrap").innerHTML =
+  const container =
+    document.querySelector("main.s_wrap") || document.getElementById("main");
+  if (!container) return;
+  container.innerHTML =
     `<div class="s_empty_state" style="padding-top:60px"><span class="s_stamp s_stamp_absent">Load failed</span><p><strong>Could not read the attendance data.</strong></p><p>${err.message}</p><p>Run <code>npx serve .</code> in your project folder.</p></div>`;
 }
 

@@ -10,7 +10,10 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     /> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -121,8 +124,12 @@
 
     <main class="main container" id="main">
       <div class="attendance_container">
-        <section class="s_stats" id="statsRow" aria-label="Summary statistics"></section>
-    
+        <section
+          class="s_stats"
+          id="statsRow"
+          aria-label="Summary statistics"
+        ></section>
+
         <div class="s_chart_card">
           <p class="s_chart_title">Daily attendance trend</p>
           <div class="s_chart_wrap">
@@ -139,24 +146,44 @@
             </div>
           </div>
         </div>
-    
+
         <div class="s_tabs" role="tablist">
-          <button class="s_tab_btn s_active" id="tabBtnAttendance" role="tab" aria-selected="true">
+          <button
+            class="s_tab_btn s_active"
+            id="tabBtnAttendance"
+            role="tab"
+            aria-selected="true"
+          >
             Daily Attendance
           </button>
-          <button class="s_tab_btn" id="tabBtnLeave" role="tab" aria-selected="false">
+          <button
+            class="s_tab_btn"
+            id="tabBtnLeave"
+            role="tab"
+            aria-selected="false"
+          >
             Leave Requests
           </button>
-          <button class="s_tab_btn" id="tabBtnTimeOff" role="tab" aria-selected="false">
+          <button
+            class="s_tab_btn"
+            id="tabBtnTimeOff"
+            role="tab"
+            aria-selected="false"
+          >
             Time Off
           </button>
         </div>
-    
+
         <!-- Attendance panel -->
         <section class="s_panel" id="panelAttendance" role="tabpanel">
           <div class="s_filters">
-            <input class="s_input" type="text" id="attSearch" placeholder="Search employee name…"
-              aria-label="Search employees" />
+            <input
+              class="s_input"
+              type="text"
+              id="attSearch"
+              placeholder="Search employee name…"
+              aria-label="Search employees"
+            />
             <label class="s_checkbox_field">
               <input type="checkbox" id="attAbsenceOnly" />
               Only show staff with an absence
@@ -179,13 +206,22 @@
             <p>No staff match your filters.</p>
           </div>
         </section>
-    
+
         <!-- Leave Requests panel -->
         <section class="s_panel s_hidden" id="panelLeave" role="tabpanel">
           <div class="s_filters">
-            <input class="s_input" type="text" id="leaveSearch" placeholder="Search employee or reason…"
-              aria-label="Search leave requests" />
-            <select class="s_input" id="leaveStatus" aria-label="Filter by status">
+            <input
+              class="s_input"
+              type="text"
+              id="leaveSearch"
+              placeholder="Search employee or reason…"
+              aria-label="Search leave requests"
+            />
+            <select
+              class="s_input"
+              id="leaveStatus"
+              aria-label="Filter by status"
+            >
               <option value="all">All statuses</option>
               <option value="approved">Approved</option>
               <option value="pending">Pending</option>
@@ -202,7 +238,7 @@
             <p>No leave requests match your filters.</p>
           </div>
         </section>
-    
+
         <!-- Time Off panel -->
         <section class="s_panel s_hidden" id="panelTimeOff" role="tabpanel">
           <div class="s_timeoff_grid">
@@ -211,7 +247,9 @@
               <div class="s_timeoff_form_card">
                 <p class="s_timeoff_form_title">New Request</p>
                 <div class="s_form_group">
-                  <label class="s_field_label" for="to_employee">Employee</label>
+                  <label class="s_field_label" for="to_employee"
+                    >Employee</label
+                  >
                   <select class="s_select" id="to_employee">
                     <option value="">Select employee…</option>
                   </select>
@@ -232,7 +270,9 @@
                 </div>
                 <div class="s_form_group s_field_row">
                   <div>
-                    <label class="s_field_label" for="to_start">Start Date</label>
+                    <label class="s_field_label" for="to_start"
+                      >Start Date</label
+                    >
                     <input class="s_input" type="date" id="to_start" />
                   </div>
                   <div>
@@ -241,9 +281,15 @@
                   </div>
                 </div>
                 <div class="s_form_group">
-                  <label class="s_field_label" for="to_reason">Reason
-                    <span class="s_reason_optional">(optional)</span></label>
-                  <textarea class="s_textarea" id="to_reason" placeholder="Brief description…"></textarea>
+                  <label class="s_field_label" for="to_reason"
+                    >Reason
+                    <span class="s_reason_optional">(optional)</span></label
+                  >
+                  <textarea
+                    class="s_textarea"
+                    id="to_reason"
+                    placeholder="Brief description…"
+                  ></textarea>
                 </div>
                 <button class="s_btn_primary s_full_width" id="to_submit">
                   Submit Request
@@ -251,7 +297,7 @@
                 <div id="to_error" class="s_to_error"></div>
               </div>
             </div>
-    
+
             <!-- Right: Pending approvals -->
             <div>
               <div class="s_pending_card">
@@ -265,7 +311,7 @@
               </div>
             </div>
           </div>
-    
+
           <!-- <div class="s_leave_card">
     
             <div class="s_leave_header">
@@ -335,9 +381,9 @@
             </div>
     
           </div> -->
-    
+
           <hr class="s_timeoff_divider" />
-    
+
           <!-- All requests list (feeds from ALL_LEAVE) -->
           <div class="s_all_requests_hd">
             <p class="s_all_requests_title">All Requests</p>
@@ -409,6 +455,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script src="main (1).js"></script>
+    <script src="main.js"></script>
   </body>
 </html>
