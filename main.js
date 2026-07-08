@@ -548,7 +548,7 @@ function syncProfileInfo() {
   applyAvatar(savedAvatar);
 }
 
-const protectedPages = ["dashboard.html", "settings.html", "calendar.html"];
+const protectedPages = ["dashboard.html"];
 const currentPage = window.location.pathname.split("/").pop();
 
 if (

@@ -6383,7 +6383,7 @@ Nonhlanhla Employee Page Styling
 #n-editForm input:focus,
 #n-editForm select:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
   background: #ffffff;
 }
@@ -6708,7 +6708,7 @@ select:focus-visible {
   border-radius: 8px;
   z-index: 2000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  color: #ffffff;
+  color: var(--text-color);
   font-size: 14px;
   font-weight: 500;
   animation: toastSlideIn 0.3s ease;
