@@ -5649,3 +5649,1086 @@ a:focus-visible {
 .mb-2 {
   margin-bottom: 2rem;
 }
+
+/* =====================
+Nonhlanhla Employee Page Styling 
+===========================*/
+/* ---------- HEADER WITH ICON ---------- */
+.employee-heading {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-top: 2rem;
+  margin-bottom: 20px;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.employee-heading::before {
+  content: "\f0c0"; /* Users icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 26px;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* ---------- CONTROLS BAR ---------- */
+.n-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.n-buttons label {
+  flex: 1;
+  min-width: 180px;
+  position: relative;
+}
+
+/* Search input with Font Awesome icon */
+#searchName {
+  width: 100%;
+  padding: 9px 16px 9px 40px;
+  font-size: 14px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+  background: #f8f9fa;
+}
+
+/* Search icon using pseudo-element */
+.n-buttons label::before {
+  content: "\f002"; /* Search icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9aa4b2;
+  font-size: 14px;
+  pointer-events: none;
+  transition: color 0.25s ease;
+}
+
+.n-buttons label:focus-within::before {
+  color: #2563eb;
+}
+
+#searchName:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  background-color: var(--body-color);
+}
+
+#searchName::placeholder {
+  color: #9aa4b2;
+  font-weight: 400;
+}
+
+/* Department filter with Font Awesome icon */
+#n-departmentFilter {
+  padding: 9px 40px 9px 14px;
+  font-size: 14px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  background: var(--body-color);
+  appearance: none;
+  cursor: pointer;
+  min-width: 160px;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+/* Dropdown arrow using pseudo-element on container */
+.n-buttons {
+  position: relative;
+}
+
+.n-buttons .fa-filter-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+#n-departmentFilter ~ .fa-chevron-down {
+  display: none; /* We'll use a different approach */
+}
+
+/* Alternative: Use a wrapper div or apply to parent */
+.n-buttons > label:has(+ #n-departmentFilter) {
+  position: relative;
+}
+
+/* We'll use a different approach - add a wrapper in HTML or use this */
+.n-buttons {
+  position: relative;
+}
+
+/* Since we can't easily add a wrapper without changing HTML, 
+        we'll use the filter as-is but add a background image fallback */
+#n-departmentFilter {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7a8f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+}
+
+#n-departmentFilter:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  background-color: var(--body-color);
+}
+
+/* Department filter label with icon */
+.n-buttons > label:has(+ #n-departmentFilter)::before {
+  display: none; /* Remove search icon from this label */
+}
+
+/* Add a filter icon before the dropdown */
+.n-buttons > label:has(+ #n-departmentFilter)::after {
+  display: none; /* We'll skip this to keep it clean */
+}
+
+/* Instead, let's add a filter icon using the label text */
+.n-buttons > label:has(+ #n-departmentFilter) {
+  position: relative;
+}
+
+.n-buttons > label:has(+ #n-departmentFilter) span {
+  display: none; /* We'll add icon differently */
+}
+
+/* Alternative: Add icons via data attributes or class */
+
+/* Add employee button with Font Awesome */
+#n-addEmployee {
+  padding: 9px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  background: var(--primary-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+#n-addEmployee::before {
+  content: "\f067"; /* Plus icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 14px;
+}
+
+#n-addEmployee:hover {
+  background: var(--body-color);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  transform: translateY(-1px);
+}
+
+#n-addEmployee:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ---------- RESULTS COUNT WITH ICON ---------- */
+#n-resultsCount {
+  font-size: 14px;
+  color: var(--text-color);
+  margin-bottom: 16px;
+  padding: 8px 0;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#n-resultsCount::before {
+  content: "\f0ce"; /* List icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: var(--primary-color);
+  font-size: 14px;
+}
+
+/* ---------- TABLE CONTAINER ---------- */
+.employeeData {
+  background: var(--background);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* ---------- TABLE ---------- */
+#n-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+#n-table thead {
+  background: var(--background);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+#n-table thead th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--text-color);
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+/* Add icons to table headers using data attributes */
+#n-table thead th:nth-child(1)::before {
+  content: "\f007"; /* User icon - Name */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 6px;
+  font-size: 11px;
+  color: var(--text-color);
+}
+
+#n-table thead th:nth-child(2)::before {
+  content: "\f0b1"; /* Briefcase icon - Position */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 6px;
+  font-size: 11px;
+  color: var(--text-color);
+}
+
+#n-table thead th:nth-child(3)::before {
+  content: "\f19d"; /* Building icon - Department */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 6px;
+  font-size: 11px;
+  color: var(--text-color);
+}
+
+#n-table thead th:nth-child(4)::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 6px;
+  font-size: 11px;
+  color: var(--text-color);
+  content: "\f3d1";
+}
+
+#n-table thead th:nth-child(5)::before {
+  content: "\f0e0"; /* Envelope icon - Contact */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 6px;
+  font-size: 11px;
+  color: var(--text-color);
+}
+
+#n-table thead th:nth-child(6)::before {
+  content: "\f05a"; /* Info icon - Action */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 6px;
+  font-size: 11px;
+  color: var(--text-color);
+}
+
+/* Table row styling */
+#n-table tbody tr {
+  border-bottom: 1px solid #f0f2f5;
+  transition: background-color 0.15s ease;
+}
+
+#n-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+#n-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+#n-table td {
+  padding: 12px 16px;
+  vertical-align: middle;
+  color: var(--text-color);
+}
+
+/* Specific column styling */
+#n-table td:nth-child(4) {
+  /* Salary column */
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+#n-table td:nth-child(4)::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 6px;
+  font-size: 12px;
+  color: var(--primary-color);
+}
+
+#n-table td:nth-child(5) {
+  /* Contact column */
+  color: #2563eb;
+  font-size: 13px;
+}
+
+#n-table td:nth-child(5)::before {
+  content: "\f0e0"; /* Envelope icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 6px;
+  font-size: 12px;
+  color: #6b7a8f;
+}
+
+/* ---------- VIEW BUTTON WITH ICON ---------- */
+#n-table tbody button {
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#n-table tbody button::before {
+  content: "\f06e"; /* Eye icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 11px;
+}
+
+#n-table tbody button:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+#n-table tbody button:hover::before {
+  color: #ffffff;
+}
+
+/* ---------- EMPTY STATE ---------- */
+#employeeTable td[colspan="6"] {
+  text-align: center;
+  padding: 50px 20px;
+  color: #6b7a8f;
+  font-size: 15px;
+}
+
+#employeeTable td[colspan="6"]::before {
+  content: "\f071"; /* Exclamation triangle icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  display: block;
+  font-size: 32px;
+  color: #f59e0b;
+  margin-bottom: 10px;
+}
+
+/* ============================================
+        MODAL STYLES - Enhanced with Icons
+        ============================================ */
+
+#n-viewModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 42, 58, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+#n-viewModal.active {
+  display: flex;
+}
+
+.n-modalBox {
+  background: #ffffff;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 12px;
+  padding: 28px 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: modalSlideIn 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------- MODAL HEADER ---------- */
+.n-modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.n-modalHeader h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a; /* Richer dark slate for enterprise design */
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Creates clean breathing room next to the avatar */
+}
+
+/* Turning the pure CSS icon into a standalone circular avatar badge */
+.n-modalHeader h2::before {
+  content: "\f007"; /* User icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #2563eb; /* Corporate blue icon */
+  background: #eff6ff; /* Soft blue background bubble */
+  font-size: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%; /* Perfect circle */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dbeafe; /* Subtle bounding container border */
+}
+
+#n-closeModal {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #6b7a8f;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+#n-closeModal:hover {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+/* ---------- PURE CSS PREMIUM CARD LAYOUT ---------- */
+#n-viewDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-section {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.modal-section h3 {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #64748b;
+  margin-bottom: 14px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+/* Two-column layout container for side-by-side items */
+.modal-section:has(p + p) {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.modal-section h3 {
+  grid-column: span 2;
+}
+
+.modal-section p {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: #334155;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 46px;
+  transition: all 0.2s ease;
+}
+
+/* Hover tactile feedback */
+.modal-section p:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  color: #0f172a;
+}
+
+#n-modalHistory {
+  grid-column: span 2;
+}
+
+.modal-section:not(:has(p + p)) p {
+  grid-column: span 2;
+}
+
+/* ---------- INJECTING ICONS VIA PURE CSS ---------- */
+/* Using the Font Awesome library linked in your HTML header */
+.modal-section p::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 15px;
+  color: #64748b;
+  width: 20px;
+  display: inline-block;
+  transition: color 0.2s ease;
+}
+
+.modal-section p:hover::before {
+  color: #2563eb; /* Icons turn accent blue on hover */
+}
+
+/* Assigning specific icons based on element IDs */
+#n-modalId::before {
+  content: "\f2c2";
+} /* ID Badge Card Icon */
+#n-modalContact::before {
+  content: "\f0e0";
+} /* Envelope Email Icon */
+#n-modalPosition::before {
+  content: "\f0b1";
+} /* Briefcase Job Icon */
+#n-modalDepartment::before {
+  content: "\f19c";
+} /* Building/Department Icon */
+#n-modalHistory::before {
+  content: "\f1da";
+} /* Clock/History Icon */
+
+/* ---------- FOOTER ACTION CONTROLS ---------- */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.modal-footer button {
+  padding: 10px 40px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#editEmployee {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+#editEmployee:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+#deleteEmployee {
+  background: #ffffff;
+  color: #f14c4c;
+  border-color: #fee2e2;
+}
+
+#deleteEmployee:hover {
+  background: #fef2f2;
+  border-color: #f79898;
+}
+
+#saveEmployee::before {
+  content: "\f0c7"; /* Save icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 13px;
+}
+
+#saveEmployee {
+  background: #22c55e;
+  color: #ffffff;
+}
+
+#saveEmployee:hover {
+  background: #16a34a;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+#cancelEdit::before {
+  content: "\f00d"; /* Times icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 13px;
+}
+
+#cancelEdit {
+  background: #f1f3f5;
+  color: #4a5a6e;
+}
+
+#cancelEdit:hover {
+  background: #e5e7eb;
+}
+
+/* ---------- EDIT FORM ---------- */
+#n-editForm {
+  display: none;
+}
+
+#n-editForm h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a2a3a;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#n-editForm h3::before {
+  content: "\f303"; /* User edit icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #2563eb;
+}
+
+#n-editForm label {
+  display: block;
+  margin-bottom: 14px;
+  font-weight: 500;
+  font-size: 13px;
+  color: #4a5a6e;
+}
+
+#n-editForm label::before {
+  display: none; /* We'll let inputs have their own icons */
+}
+
+#n-editForm input,
+#n-editForm select {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+  background: #f8f9fa;
+  margin-top: 4px;
+}
+
+#n-editForm input:focus,
+#n-editForm select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  background: #ffffff;
+}
+
+/* ---------- SCROLLBAR STYLING ---------- */
+.n-modalBox::-webkit-scrollbar {
+  width: 5px;
+}
+
+.n-modalBox::-webkit-scrollbar-track {
+  background: #f1f3f5;
+  border-radius: 3px;
+}
+
+.n-modalBox::-webkit-scrollbar-thumb {
+  background: #d0d5dd;
+  border-radius: 3px;
+}
+
+.n-modalBox::-webkit-scrollbar-thumb:hover {
+  background: #9aa6b7;
+}
+
+/* ============================================
+        RESPONSIVE DESIGN
+        ============================================ */
+
+/* ---------- TABLETS ---------- */
+@media screen and (max-width: 992px) {
+  main {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h1::before {
+    font-size: 22px;
+    padding: 8px;
+  }
+
+  .n-buttons {
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  #n-table thead th,
+  #n-table td {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .n-modalBox {
+    padding: 24px 28px;
+    max-width: 500px;
+  }
+}
+
+/* ---------- MOBILE PHONES ---------- */
+@media screen and (max-width: 768px) {
+  main {
+    padding: 14px 12px;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+
+  h1::before {
+    font-size: 18px;
+    padding: 6px 8px;
+  }
+
+  .n-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 6px;
+  }
+
+  .n-buttons label {
+    min-width: unset;
+  }
+
+  #searchName {
+    padding: 10px 14px 10px 40px;
+    font-size: 15px;
+  }
+
+  #n-departmentFilter {
+    padding: 10px 40px 10px 14px;
+    font-size: 15px;
+    min-width: unset;
+    width: 100%;
+  }
+
+  #n-addEmployee {
+    padding: 10px 20px;
+    font-size: 15px;
+    justify-content: center;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  #n-resultsCount {
+    font-size: 13px;
+    margin-bottom: 12px;
+    padding: 6px 0;
+  }
+
+  .employeeData {
+    border-radius: 6px;
+    overflow-x: auto;
+  }
+
+  #n-table {
+    font-size: 13px;
+    min-width: 650px;
+  }
+
+  #n-table thead th,
+  #n-table td {
+    padding: 10px 12px;
+  }
+
+  /* Hide some header icons on mobile for cleaner look */
+  #n-table thead th:nth-child(2)::before,
+  #n-table thead th:nth-child(4)::before,
+  #n-table thead th:nth-child(5)::before {
+    display: none;
+  }
+
+  #n-table tbody button {
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+
+  #n-table tbody button::before {
+    display: none; /* Hide button icon on mobile to save space */
+  }
+
+  /* ---------- MODAL MOBILE ---------- */
+  #n-viewModal {
+    padding: 10px;
+    align-items: flex-end;
+  }
+
+  .n-modalBox {
+    padding: 20px 18px;
+    border-radius: 10px 10px 0 0;
+    max-height: 92vh;
+    animation: modalSlideUp 0.3s ease;
+  }
+
+  @keyframes modalSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .n-modalHeader h2 {
+    font-size: 18px;
+  }
+
+  #n-closeModal {
+    font-size: 20px;
+  }
+
+  .modal-section p {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .modal-footer button {
+    padding: 10px 16px;
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  #n-editForm h3 {
+    font-size: 17px;
+  }
+
+  #n-editForm label {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  #n-editForm input,
+  #n-editForm select {
+    padding: 9px 12px;
+    font-size: 14px;
+  }
+}
+
+/* ---------- SMALL PHONES ---------- */
+@media screen and (max-width: 400px) {
+  main {
+    padding: 10px 8px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  h1::before {
+    font-size: 16px;
+    padding: 5px 7px;
+  }
+
+  .n-buttons {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  #n-table thead th,
+  #n-table td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  /* Hide more icons on very small screens */
+  #n-table thead th::before {
+    display: none !important;
+  }
+
+  #n-table td:nth-child(4)::before,
+  #n-table td:nth-child(5)::before {
+    display: none;
+  }
+
+  .n-modalBox {
+    padding: 16px 14px;
+  }
+
+  .n-modalHeader h2 {
+    font-size: 16px;
+  }
+
+  .modal-section p {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .modal-footer button {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- PRINT ---------- */
+@media print {
+  .n-buttons,
+  #n-addEmployee,
+  #n-viewModal,
+  #n-resultsCount {
+    display: none !important;
+  }
+
+  .employeeData {
+    box-shadow: none;
+    border: 1px solid #d0d5dd;
+  }
+
+  #n-table thead {
+    background: #f1f3f5 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  #n-table tbody tr:hover {
+    background: transparent !important;
+  }
+
+  /* Hide icons in print */
+  #n-table thead th::before,
+  #n-table td::before {
+    display: none !important;
+  }
+}
+
+/* ---------- TOAST NOTIFICATION ---------- */
+#toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 14px 22px;
+  border-radius: 8px;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  animation: toastSlideIn 0.3s ease;
+}
+
+#toast.success {
+  background: #22c55e;
+}
+
+#toast.error {
+  background: #dc2626;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
