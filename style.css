@@ -5818,7 +5818,7 @@ Nonhlanhla Employee Page Styling
   padding: 9px 22px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-color);
+  color: var(--button-text);
   background: var(--primary-color);
   border: none;
   border-radius: 6px;
