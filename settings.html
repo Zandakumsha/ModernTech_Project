@@ -96,11 +96,6 @@
                 <i class="ri-mail-unread-fill"></i>
                 <span>Reviews</span>
               </a>
-
-              <a href="#" class="sidebar__link">
-                <i class="ri-notification-2-fill"></i>
-                <span>Notifications</span>
-              </a>
             </div>
           </div>
         </div>
@@ -396,48 +391,5 @@
 
     <!-- JS -->
     <script src="main.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const currentUser =
-          JSON.parse(localStorage.getItem("currentUser")) || {};
-
-        const usernameField = document.getElementById("settings_username");
-        const emailField = document.getElementById("settings-email");
-
-        if (usernameField) {
-          usernameField.value = currentUser.username || "";
-        }
-
-        if (emailField) {
-          emailField.value = currentUser.email || "";
-        }
-      });
-
-      const userData = {
-        username: signupUsername.value,
-        email: signupEmail.value,
-      };
-
-      localStorage.setItem("currentUser", JSON.stringify(userData));
-
-      // Go to company registration form
-      window.location.href = "company-registration.html";
-
-      document.addEventListener("DOMContentLoaded", () => {
-        const company = JSON.parse(localStorage.getItem("companyInfo")) || {};
-
-        document.getElementById("settings-company-name").value =
-          company.companyName || "";
-
-        document.getElementById("settings-company-industry").value =
-          company.industry || "";
-
-        document.getElementById("settings-company-email").value =
-          company.email || "";
-
-        document.getElementById("settings-company-phone").value =
-          company.phone || "";
-      });
-    </script>
   </body>
 </html>

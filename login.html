@@ -3,493 +3,84 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script
-      src="https://kit.fontawesome.com/64d58efce2.js"
-      crossorigin="anonymous"
-    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
     <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css"
-    />
     <title>Sign in & Sign up Form</title>
-    <style> 
-
-      .container {
-        position: relative;
-        width: 100%;
-        background-color: #fff;
-        min-height: 100vh;
-        overflow: hidden;
-      }
-
-      .forms-container {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-      }
-
-      .signin-signup {
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        left: 75%;
-        width: 50%;
-        transition: 1s 0.7s ease-in-out;
-        display: grid;
-        grid-template-columns: 1fr;
-        z-index: 5;
-      }
-
-      form {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        padding: 0rem 5rem;
-        transition: all 0.2s 0.7s;
-        overflow: hidden;
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-      }
-
-      form.sign-up-form {
-        opacity: 0;
-        z-index: 1;
-      }
-
-      form.sign-in-form {
-        z-index: 2;
-      }
-
-      .title {
-        font-size: 2.2rem;
-        color: #444;
-        margin-bottom: 10px;
-      }
-
-      .input-field {
-        max-width: 380px;
-        width: 100%;
-        background-color: #f0f0f0;
-        margin: 10px 0;
-        height: 55px;
-        border-radius: 55px;
-        display: grid;
-        grid-template-columns: 15% 85%;
-        padding: 0 0.4rem;
-        position: relative;
-      }
-
-      .input-field i {
-        text-align: center;
-        line-height: 55px;
-        color: #acacac;
-        transition: 0.5s;
-        font-size: 1.1rem;
-      }
-
-      .input-field input {
-        background: none;
-        outline: none;
-        border: none;
-        line-height: 1;
-        font-weight: 600;
-        font-size: 1.1rem;
-        color: #333;
-      }
-
-      .input-field input::placeholder {
-        color: #aaa;
-        font-weight: 500;
-      }
-
-      .social-text {
-        padding: 0.7rem 0;
-        font-size: 1rem;
-      }
-
-      .social-media {
-        display: flex;
-        justify-content: center;
-      }
-
-      i {
-        color: #000;
-      }
-
-      .social-icon {
-        height: 46px;
-        width: 46px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0 0.45rem;
-        color: #333;
-        border-radius: 50%;
-        border: 1px solid #333;
-        text-decoration: none;
-        font-size: 1.1rem;
-        transition: 0.3s;
-      }
-
-      .social-icon:hover {
-        color: #003300;
-        border-color: #003300;
-      }
-
-      .btn {
-        width: 150px;
-        background-color: #024102;
-        border: none;
-        outline: none;
-        height: 49px;
-        border-radius: 49px;
-        color: #fff;
-        text-transform: uppercase;
-        font-weight: 600;
-        margin: 10px 0;
-        cursor: pointer;
-        transition: 0.5s;
-      }
-
-      .btn:hover {
-        background-color: #3da73d;
-      }
-      .panels-container {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        top: 0;
-        left: 0;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .container:before {
-        content: "";
-        position: absolute;
-        height: 2000px;
-        width: 2000px;
-        top: -10%;
-        right: 48%;
-        transform: translateY(-50%);
-        background-image: linear-gradient(-45deg, #003300 0%, #3da73d 100%);
-        transition: 1.8s ease-in-out;
-        border-radius: 50%;
-        z-index: 6;
-      }
-
-      .image {
-        width: 100%;
-        transition: transform 1.1s ease-in-out;
-        transition-delay: 0.4s;
-      }
-
-      .panel {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: space-around;
-        text-align: center;
-        z-index: 6;
-      }
-
-      .left-panel {
-        pointer-events: all;
-        padding: 3rem 17% 2rem 12%;
-      }
-
-      .right-panel {
-        pointer-events: none;
-        padding: 3rem 12% 2rem 17%;
-      }
-
-      .panel .content {
-        color: #fff;
-        transition: transform 0.9s ease-in-out;
-        transition-delay: 0.6s;
-      }
-
-      .panel h3 {
-        font-weight: 600;
-        line-height: 1;
-        font-size: 1.5rem;
-      }
-
-      .panel p {
-        font-size: 0.95rem;
-        padding: 0.7rem 0;
-      }
-
-      .btn.transparent {
-        margin: 0;
-        background: none;
-        border: 2px solid #fff;
-        width: 130px;
-        height: 41px;
-        font-weight: 600;
-        font-size: 0.8rem;
-      }
-
-      .right-panel .image,
-      .right-panel .content {
-        transform: translateX(800px);
-      }
-
-      /* ANIMATION */
-
-      .container.sign-up-mode:before {
-        transform: translate(100%, -50%);
-        right: 52%;
-      }
-
-      .container.sign-up-mode .left-panel .image,
-      .container.sign-up-mode .left-panel .content {
-        transform: translateX(-800px);
-      }
-
-      .container.sign-up-mode .signin-signup {
-        left: 25%;
-      }
-
-      .container.sign-up-mode form.sign-up-form {
-        opacity: 1;
-        z-index: 2;
-      }
-
-      .container.sign-up-mode form.sign-in-form {
-        opacity: 0;
-        z-index: 1;
-      }
-
-      .container.sign-up-mode .right-panel .image,
-      .container.sign-up-mode .right-panel .content {
-        transform: translateX(0%);
-      }
-
-      .container.sign-up-mode .left-panel {
-        pointer-events: none;
-      }
-
-      .container.sign-up-mode .right-panel {
-        pointer-events: all;
-      }
-
-      @media (max-width: 870px) {
-        .container {
-          min-height: 800px;
-          height: 100vh;
-        }
-        .signin-signup {
-          width: 100%;
-          top: 95%;
-          transform: translate(-50%, -100%);
-          transition: 1s 0.8s ease-in-out;
-        }
-
-        .signin-signup,
-        .container.sign-up-mode .signin-signup {
-          left: 50%;
-        }
-
-        .panels-container {
-          grid-template-columns: 1fr;
-          grid-template-rows: 1fr 2fr 1fr;
-        }
-
-        .panel {
-          flex-direction: row;
-          justify-content: space-around;
-          align-items: center;
-          padding: 2.5rem 8%;
-          grid-column: 1 / 2;
-        }
-
-        .right-panel {
-          grid-row: 3 / 4;
-        }
-
-        .left-panel {
-          grid-row: 1 / 2;
-        }
-
-        .image {
-          width: 200px;
-          transition: transform 0.9s ease-in-out;
-          transition-delay: 0.6s;
-        }
-
-        .panel .content {
-          padding-right: 15%;
-          transition: transform 0.9s ease-in-out;
-          transition-delay: 0.8s;
-        }
-
-        .panel h3 {
-          font-size: 1.2rem;
-        }
-
-        .panel p {
-          font-size: 0.7rem;
-          padding: 0.5rem 0;
-        }
-
-        .btn.transparent {
-          width: 110px;
-          height: 35px;
-          font-size: 0.7rem;
-        }
-
-        .container:before {
-          width: 1500px;
-          height: 1500px;
-          transform: translateX(-50%);
-          left: 30%;
-          bottom: 68%;
-          right: initial;
-          top: initial;
-          transition: 2s ease-in-out;
-        }
-
-        .container.sign-up-mode:before {
-          transform: translate(-50%, 100%);
-          bottom: 32%;
-          right: initial;
-        }
-
-        .container.sign-up-mode .left-panel .image,
-        .container.sign-up-mode .left-panel .content {
-          transform: translateY(-300px);
-        }
-
-        .container.sign-up-mode .right-panel .image,
-        .container.sign-up-mode .right-panel .content {
-          transform: translateY(0px);
-        }
-
-        .right-panel .image,
-        .right-panel .content {
-          transform: translateY(300px);
-        }
-
-        .container.sign-up-mode .signin-signup {
-          top: 5%;
-          transform: translate(-50%, 0);
-        }
-      }
-
-      @media (max-width: 570px) {
-        form {
-          padding: 0 1.5rem;
-        }
-
-        .input-field,
-        .btn {
-          width: 100%;
-        }
-
-        .image {
-          display: none;
-        }
-        .panel .content {
-          padding: 0.5rem 1rem;
-        }
-        .container {
-          padding: 1.5rem;
-        }
-
-        .container:before {
-          bottom: 72%;
-          left: 50%;
-        }
-
-        .container.sign-up-mode:before {
-          bottom: 28%;
-          left: 50%;
-        }
-      }
-    </style>
   </head>
   <body>
-    <div class="container">
-      <div class="forms-container">
-        <div class="signin-signup">
-          <form action="#" class="sign-in-form">
-            <h2 class="title">Login</h2>
-            <div class="input-field">
+    <div class="login_container">
+      <div class="login_forms-container">
+        <div class="login_signin-signup">
+          <form action="#" class="login_sign-in-form">
+            <h2 class="login_title">Login</h2>
+            <div class="login_input-field">
               <i class="fas fa-user"></i>
               <input
-                id="login-username"
+                id="login_login-username"
                 type="text"
                 placeholder="Username"
                 required
               />
             </div>
-            <div class="input-field">
+            <div class="login_input-field">
               <i class="fas fa-lock"></i>
               <input
-                id="login-password"
+                id="login_login-password"
                 type="password"
                 placeholder="Password"
                 required
               />
             </div>
-            <input type="submit" value="Login" class="btn solid" />
-            <p class="social-text">Or Sign in with social platforms</p>
-            <div class="social-media">
-
-              </a>
-              <a href="#" class="social-icon">
+            <input type="submit" value="Login" class="login_btn login_solid" />
+            <p class="login_social-text">Or Sign in with social platforms</p>
+            <div class="login_social-media">
+              <a href="#" class="login_social-icon">
                 <i class="fab fa-google"></i>
               </a>
-              <a href="#" class="social-icon">
+              <a href="#" class="login_social-icon">
                 <i class="fab fa-linkedin-in"></i>
               </a>
             </div>
           </form>
-          <form action="#" class="sign-up-form">
-            <h2 class="title">Sign up</h2>
-            <div class="input-field">
+          <form action="#" class="login_sign-up-form">
+            <h2 class="login_title">Sign up</h2>
+            <div class="login_input-field">
               <i class="fas fa-user"></i>
               <input
-                id="signup-username"
+                id="login_signup-username"
                 type="text"
                 placeholder="Username"
                 required
               />
             </div>
-            <div class="input-field">
+            <div class="login_input-field">
               <i class="fas fa-envelope"></i>
               <input
-                id="signup-email"
+                id="login_signup-email"
                 type="email"
                 placeholder="Email"
                 required
               />
             </div>
-            <div class="input-field">
+            <div class="login_input-field">
               <i class="fas fa-lock"></i>
               <input
-                id="signup-password"
+                id="login_signup-password"
                 type="password"
                 placeholder="Password"
                 required
               />
             </div>
-            <input type="submit" class="btn" value="Sign up" />
-            <p class="social-text">Or Sign up with social platforms</p>
-            <div class="social-media">
-              <a href="#" class="social-icon">
+            <input type="submit" class="login_btn" value="Sign up" />
+            <p class="login_social-text">Or Sign up with social platforms</p>
+            <div class="login_social-media">
+              <a href="#" class="login_social-icon">
                 <i class="fab fa-google"></i>
               </a>
-              <a href="#" class="social-icon">
+              <a href="#" class="login_social-icon">
                 <i class="fab fa-linkedin-in"></i>
               </a>
             </div>
@@ -497,190 +88,30 @@
         </div>
       </div>
 
-      <div class="panels-container">
-        <div class="panel left-panel">
-          <div class="content">
+      <div class="login_panels-container">
+        <div class="login_panel login_left-panel">
+          <div class="login_content">
             <h3>New here ?</h3>
             <p>Sign up to our website</p>
-            <button class="btn transparent" id="sign-up-btn">Sign UP</button>
+            <button class="login_btn login_transparent" id="login_sign-up-btn">
+              Sign UP
+            </button>
           </div>
-          <img src="img/log.svg" class="image" alt="" />
+          <img src="img/log.svg" class="login_image" alt="" />
         </div>
-        <div class="panel right-panel">
-          <div class="content">
+        <div class="login_panel login_right-panel">
+          <div class="login_content">
             <h3>One of us ?</h3>
             <p>Login to our websir</p>
-            <button class="btn transparent" id="sign-in-btn">Login</button>
+            <button class="login_btn login_transparent" id="login_sign-in-btn">
+              Login
+            </button>
           </div>
-          <img src="img/register.svg" class="image" alt="" />
+          <img src="img/register.svg" class="login_image" alt="" />
         </div>
       </div>
     </div>
 
-    <script>
-      const container = document.querySelector(".container");
-      const signUpBtn = document.getElementById("sign-up-btn");
-      const signInBtn = document.getElementById("sign-in-btn");
-      const loginForm = document.querySelector(".sign-in-form");
-      const signupForm = document.querySelector(".sign-up-form");
-
-      const DEFAULT_AVATAR =
-        "https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg";
-
-      // Redirect authenticated users
-      if (
-        sessionStorage.getItem("authenticated") &&
-        window.location.pathname.includes("login.html")
-      ) {
-        window.location.href = "dashboard.html";
-      }
-
-      // Toggle Sign In / Sign Up panels
-      if (signUpBtn && signInBtn && container) {
-        signUpBtn.addEventListener("click", () => {
-          container.classList.add("sign-up-mode");
-        });
-
-        signInBtn.addEventListener("click", () => {
-          container.classList.remove("sign-up-mode");
-        });
-      }
-
-      // ======================
-      // SIGN UP
-      // ======================
-      if (signupForm) {
-        signupForm.addEventListener("submit", (event) => {
-          event.preventDefault();
-
-          const username = document
-            .getElementById("signup-username")
-            .value.trim();
-
-          const email = document.getElementById("signup-email").value.trim();
-
-          const password = document
-            .getElementById("signup-password")
-            .value.trim();
-
-          if (!username || !email || !password) {
-            alert("Please complete all fields.");
-            return;
-          }
-
-          const user = {
-            username,
-            email,
-            password,
-            role: "Admin",
-            avatar: DEFAULT_AVATAR,
-          };
-
-          localStorage.setItem("user", JSON.stringify(user));
-          localStorage.setItem("currentUser", JSON.stringify(user));
-
-          sessionStorage.setItem("authenticated", "true");
-          sessionStorage.setItem("username", username);
-
-          alert("Account created successfully!");
-
-          window.location.href = "dashboard.html";
-        });
-
-        function loadUserProfile() {
-          const user = JSON.parse(localStorage.getItem("loggedInUser"));
-
-          if (!user) return;
-
-          // Sidebar
-          const sidebarName = document.getElementById("sidebar-user-name");
-          if (sidebarName) sidebarName.textContent = user.name;
-
-          const sidebarEmail = document.getElementById("sidebar-user-email");
-          if (sidebarEmail) sidebarEmail.textContent = user.email;
-
-          const sidebarRole = document.getElementById("sidebar_role");
-          if (sidebarRole) sidebarRole.textContent = user.role;
-
-          const sidebarImage = document.getElementById("navbarProfileImage");
-          if (sidebarImage) sidebarImage.src = user.avatar;
-
-          // Settings page
-          const settingsImage = document.getElementById("settingsProfileImage");
-          if (settingsImage) settingsImage.src = user.avatar;
-
-          const fullName = document.getElementById("fullName");
-          if (fullName) fullName.value = user.name;
-
-          const email = document.getElementById("email");
-          if (email) email.value = user.email;
-
-          const role = document.getElementById("role");
-          if (role) role.value = user.role;
-        }
-      }
-
-      // ======================
-      // LOGIN
-      // ======================
-      if (loginForm) {
-        loginForm.addEventListener("submit", (event) => {
-          event.preventDefault();
-
-          const username = document
-            .getElementById("login-username")
-            .value.trim();
-
-          const password = document
-            .getElementById("login-password")
-            .value.trim();
-
-          if (!username || !password) {
-            alert("Please enter both username and password.");
-            return;
-          }
-
-          const storedUser = JSON.parse(localStorage.getItem("user"));
-
-          if (!storedUser) {
-            alert("No account found. Please sign up first.");
-            return;
-          }
-
-          if (
-            username === storedUser.username &&
-            password === storedUser.password
-          ) {
-            const currentUser = {
-              ...storedUser,
-              avatar: storedUser.avatar || DEFAULT_AVATAR,
-            };
-
-            localStorage.setItem("currentUser", JSON.stringify(currentUser));
-            localStorage.setItem("user", JSON.stringify(currentUser));
-
-            sessionStorage.setItem("authenticated", "true");
-            sessionStorage.setItem("username", storedUser.username);
-
-            window.location.href = "dashboard.html";
-          } else {
-            alert("Invalid username or password.");
-          }
-        });
-      }
-
-      const username = document.getElementById("username").value;
-      const email = document.getElementById("email").value;
-
-      localStorage.setItem(
-        "currentUser",
-        JSON.stringify({
-          username: username,
-          email: email,
-        }),
-      );
-
-      window.location.href = "dashboard.html";
-    </script>
+    <script src="main.js"></script>
   </body>
 </html>

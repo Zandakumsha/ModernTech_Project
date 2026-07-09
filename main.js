@@ -1781,257 +1781,261 @@ function wireReviewStarInput() {
 })();
 
 // ==== Nonhlanhla's Employee Data functionality====
+// Guarded so this Employees Data page code doesn't run (and crash) on other
+// pages like calendar.html, which don't have an #employeeTable element.
+if (document.getElementById("employeeTable")) {
+  let allEmployees = [];
+  // Loads employee data — checks localStorage first, falls back to the JSON file
+  function loadEmployeeData() {
+    let savedData = localStorage.getItem("employees");
 
-let allEmployees = [];
-// Loads employee data — checks localStorage first, falls back to the JSON file
-function loadEmployeeData() {
-  let savedData = localStorage.getItem("employees");
+    if (savedData) {
+      // We have data saved from before — use that instead of fetching
+      allEmployees = JSON.parse(savedData);
+      showTable(allEmployees);
+      return;
+    }
 
-  if (savedData) {
-    // We have data saved from before — use that instead of fetching
-    allEmployees = JSON.parse(savedData);
-    showTable(allEmployees);
-    return;
+    // No saved data yet — this must be the first time, so fetch the starting data
+    fetch("employee_info.json")
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        allEmployees = data.employeeInformation;
+        saveToLocalStorage();
+        showTable(allEmployees);
+      });
   }
 
-  // No saved data yet — this must be the first time, so fetch the starting data
-  fetch("employee_info.json")
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      allEmployees = data.employeeInformation;
-      saveToLocalStorage();
-      showTable(allEmployees);
-    });
-}
+  // Saves the current employee list to the browser's storage
+  function saveToLocalStorage() {
+    localStorage.setItem("employees", JSON.stringify(allEmployees));
+  }
 
-// Saves the current employee list to the browser's storage
-function saveToLocalStorage() {
-  localStorage.setItem("employees", JSON.stringify(allEmployees));
-}
+  loadEmployeeData();
 
-loadEmployeeData();
+  // Renders the employee table from an array of employees
+  function showTable(employees) {
+    let table = document.getElementById("employeeTable");
+    table.innerHTML = "";
 
-// Renders the employee table from an array of employees
-function showTable(employees) {
-  let table = document.getElementById("employeeTable");
-  table.innerHTML = "";
-
-  for (let i = 0; i < employees.length; i++) {
-    let tableRow = document.createElement("tr");
-    tableRow.innerHTML = `
+    for (let i = 0; i < employees.length; i++) {
+      let tableRow = document.createElement("tr");
+      tableRow.innerHTML = `
       <td>${employees[i].name}</td>
       <td>${employees[i].position}</td>
       <td>${employees[i].department}</td>
       <td>R${employees[i].salary.toLocaleString()}</td>
       <td>${employees[i].contact}</td>
       <td><button data-id="${employees[i].employeeId}">View</button></td>`;
-    table.appendChild(tableRow);
+      table.appendChild(tableRow);
+    }
+
+    if (employees.length === 0) {
+      let emptyRow = document.createElement("tr");
+      emptyRow.innerHTML = `<td colspan="6">No employees found</td>`;
+      table.appendChild(emptyRow);
+    }
+
+    updateResultsCount(employees);
   }
 
-  if (employees.length === 0) {
-    let emptyRow = document.createElement("tr");
-    emptyRow.innerHTML = `<td colspan="6">No employees found</td>`;
-    table.appendChild(emptyRow);
+  // Updates the results count text when HR staff searches or filters
+  function updateResultsCount(employees) {
+    document.getElementById("n-resultsCount").textContent =
+      "Showing " +
+      employees.length +
+      " of " +
+      allEmployees.length +
+      " employees";
   }
 
-  updateResultsCount(employees);
-}
+  // Filters employees based on both search and department inputs
+  function filterEmployees() {
+    let searchValue = document.getElementById("searchName").value.toLowerCase();
+    let selectedDepartment =
+      document.getElementById("n-departmentFilter").value;
 
-// Updates the results count text when HR staff searches or filters
-function updateResultsCount(employees) {
-  document.getElementById("n-resultsCount").textContent =
-    "Showing " + employees.length + " of " + allEmployees.length + " employees";
-}
+    let filtered = allEmployees.filter(function (employee) {
+      let matchesName = employee.name.toLowerCase().includes(searchValue);
+      let matchesDepartment =
+        selectedDepartment === "All Departments" ||
+        employee.department === selectedDepartment;
+      return matchesName && matchesDepartment;
+    });
 
-// Filters employees based on both search and department inputs
-function filterEmployees() {
-  let searchValue = document.getElementById("searchName").value.toLowerCase();
-  let selectedDepartment = document.getElementById("n-departmentFilter").value;
+    showTable(filtered);
+  }
 
-  let filtered = allEmployees.filter(function (employee) {
-    let matchesName = employee.name.toLowerCase().includes(searchValue);
-    let matchesDepartment =
-      selectedDepartment === "All Departments" ||
-      employee.department === selectedDepartment;
-    return matchesName && matchesDepartment;
-  });
-
-  showTable(filtered);
-}
-
-// Search event listener
-document.getElementById("searchName").addEventListener("input", function () {
-  filterEmployees();
-});
-
-// Department filter event listener
-document
-  .getElementById("n-departmentFilter")
-  .addEventListener("change", function () {
+  // Search event listener
+  document.getElementById("searchName").addEventListener("input", function () {
     filterEmployees();
   });
 
-// Modal JavaScript — listen for clicks inside the tbody
-document
-  .getElementById("employeeTable")
-  .addEventListener("click", function (event) {
-    if (event.target.tagName === "BUTTON") {
-      let employeeId = parseInt(event.target.getAttribute("data-id"));
+  // Department filter event listener
+  document
+    .getElementById("n-departmentFilter")
+    .addEventListener("change", function () {
+      filterEmployees();
+    });
+
+  // Modal JavaScript — listen for clicks inside the tbody
+  document
+    .getElementById("employeeTable")
+    .addEventListener("click", function (event) {
+      if (event.target.tagName === "BUTTON") {
+        let employeeId = parseInt(event.target.getAttribute("data-id"));
+
+        let employee = allEmployees.find(function (emp) {
+          return emp.employeeId === employeeId;
+        });
+
+        // Safety check — stop if employee not found
+        if (!employee) return;
+
+        document.getElementById("n-modalName").textContent = employee.name;
+        document.getElementById("n-modalId").textContent =
+          "Employee ID: " + employee.employeeId;
+        document.getElementById("n-modalContact").textContent =
+          "Email: " + employee.contact;
+        document.getElementById("n-modalPosition").textContent =
+          "Position: " + employee.position;
+        document.getElementById("n-modalDepartment").textContent =
+          "Department: " + employee.department;
+        document.getElementById("n-modalHistory").textContent =
+          "History: " + employee.employmentHistory;
+        document.getElementById("n-modalSalary").textContent =
+          "Salary: R" + employee.salary.toLocaleString();
+
+        document
+          .getElementById("deleteEmployee")
+          .setAttribute("data-id", employee.employeeId);
+
+        document.getElementById("n-viewModal").classList.add("active");
+      }
+    });
+
+  // Close modal
+  document
+    .getElementById("n-closeModal")
+    .addEventListener("click", function () {
+      document.getElementById("n-editForm").style.display = "none";
+      document.getElementById("n-viewDetails").style.display = "block";
+      document.getElementById("n-viewModal").classList.remove("active");
+    });
+
+  // Delete employee
+  document
+    .getElementById("deleteEmployee")
+    .addEventListener("click", function () {
+      let employeeId = parseInt(this.getAttribute("data-id"));
+
+      if (confirm("Are you sure you want to delete this employee?")) {
+        allEmployees = allEmployees.filter(function (emp) {
+          return emp.employeeId !== employeeId;
+        });
+
+        saveToLocalStorage();
+        filterEmployees();
+        document.getElementById("n-viewModal").classList.remove("active");
+        showToast("Employee deleted successfully.", "success");
+      }
+    });
+
+  // Edit button — switch to edit mode
+  document
+    .getElementById("editEmployee")
+    .addEventListener("click", function () {
+      let employeeId = parseInt(
+        document.getElementById("deleteEmployee").getAttribute("data-id"),
+      );
 
       let employee = allEmployees.find(function (emp) {
         return emp.employeeId === employeeId;
       });
 
-      // Safety check — stop if employee not found
-      if (!employee) return;
+      // Pre-fill the form with current data
+      document.getElementById("edit-name").value = employee.name;
+      document.getElementById("edit-contact").value = employee.contact;
+      document.getElementById("edit-position").value = employee.position;
+      document.getElementById("edit-department").value = employee.department;
+      document.getElementById("edit-history").value =
+        employee.employmentHistory;
+      document.getElementById("edit-salary").value = employee.salary;
 
-      document.getElementById("n-modalName").textContent = employee.name;
-      document.getElementById("n-modalId").textContent =
-        "Employee ID: " + employee.employeeId;
-      document.getElementById("n-modalContact").textContent =
-        "Email: " + employee.contact;
-      document.getElementById("n-modalPosition").textContent =
-        "Position: " + employee.position;
-      document.getElementById("n-modalDepartment").textContent =
-        "Department: " + employee.department;
-      document.getElementById("n-modalHistory").textContent =
-        "History: " + employee.employmentHistory;
-      document.getElementById("n-modalSalary").textContent =
-        "Salary: R" + employee.salary.toLocaleString();
+      // Hide details, show form
+      document.getElementById("n-viewDetails").style.display = "none";
+      document.getElementById("n-editForm").style.display = "block";
+    });
 
-      document
-        .getElementById("deleteEmployee")
-        .setAttribute("data-id", employee.employeeId);
+  // Cancel edit — behaviour depends on whether adding or editing
+  document.getElementById("cancelEdit").addEventListener("click", function () {
+    let employeeId = document
+      .getElementById("deleteEmployee")
+      .getAttribute("data-id");
 
-      document.getElementById("n-viewModal").classList.add("active");
-    }
-  });
-
-// Close modal
-document.getElementById("n-closeModal").addEventListener("click", function () {
-  document.getElementById("n-editForm").style.display = "none";
-  document.getElementById("n-viewDetails").style.display = "block";
-  document.getElementById("n-viewModal").classList.remove("active");
-});
-
-// Delete employee
-document
-  .getElementById("deleteEmployee")
-  .addEventListener("click", function () {
-    let employeeId = parseInt(this.getAttribute("data-id"));
-
-    if (confirm("Are you sure you want to delete this employee?")) {
-      allEmployees = allEmployees.filter(function (emp) {
-        return emp.employeeId !== employeeId;
-      });
-
-      saveToLocalStorage();
-      filterEmployees();
+    if (employeeId === "new") {
+      // If adding, just close the modal entirely
+      document.getElementById("n-editForm").style.display = "none";
+      document.getElementById("n-viewDetails").style.display = "block";
       document.getElementById("n-viewModal").classList.remove("active");
-      showToast("Employee deleted successfully.", "success");
+    } else {
+      // If editing, go back to view details
+      document.getElementById("n-editForm").style.display = "none";
+      document.getElementById("n-viewDetails").style.display = "block";
     }
   });
 
-// Edit button — switch to edit mode
-document.getElementById("editEmployee").addEventListener("click", function () {
-  let employeeId = parseInt(
-    document.getElementById("deleteEmployee").getAttribute("data-id"),
-  );
+  // Save employee — handles both adding and editing
+  document
+    .getElementById("saveEmployee")
+    .addEventListener("click", function () {
+      // Validation — check required fields
+      let name = document.getElementById("edit-name").value.trim();
+      let contact = document.getElementById("edit-contact").value.trim();
+      let position = document.getElementById("edit-position").value.trim();
+      let department = document.getElementById("edit-department").value.trim();
+      let salary = parseFloat(document.getElementById("edit-salary").value);
+      let history = document.getElementById("edit-history").value.trim();
 
-  let employee = allEmployees.find(function (emp) {
-    return emp.employeeId === employeeId;
-  });
+      if (
+        name === "" ||
+        contact === "" ||
+        position === "" ||
+        department === ""
+      ) {
+        alert("Please fill in all required fields.");
+        return;
+      }
 
-  // Pre-fill the form with current data
-  document.getElementById("edit-name").value = employee.name;
-  document.getElementById("edit-contact").value = employee.contact;
-  document.getElementById("edit-position").value = employee.position;
-  document.getElementById("edit-department").value = employee.department;
-  document.getElementById("edit-history").value = employee.employmentHistory;
-  document.getElementById("edit-salary").value = employee.salary;
+      if (!contact.includes("@")) {
+        alert("Please enter a valid email address.");
+        return;
+      }
 
-  // Hide details, show form
-  document.getElementById("n-viewDetails").style.display = "none";
-  document.getElementById("n-editForm").style.display = "block";
-});
+      if (isNaN(salary) || salary <= 0) {
+        alert("Please enter a valid salary greater than 0.");
+        return;
+      }
 
-// Cancel edit — behaviour depends on whether adding or editing
-document.getElementById("cancelEdit").addEventListener("click", function () {
-  let employeeId = document
-    .getElementById("deleteEmployee")
-    .getAttribute("data-id");
+      let employeeId = document
+        .getElementById("deleteEmployee")
+        .getAttribute("data-id");
 
-  if (employeeId === "new") {
-    // If adding, just close the modal entirely
-    document.getElementById("n-editForm").style.display = "none";
-    document.getElementById("n-viewDetails").style.display = "block";
-    document.getElementById("n-viewModal").classList.remove("active");
-  } else {
-    // If editing, go back to view details
-    document.getElementById("n-editForm").style.display = "none";
-    document.getElementById("n-viewDetails").style.display = "block";
-  }
-});
+      if (employeeId === "new") {
+        // Generate a unique ID — finds the highest existing ID and adds 1
+        let highestId = 0;
+        if (allEmployees.length > 0) {
+          highestId = Math.max(
+            ...allEmployees.map(function (emp) {
+              return emp.employeeId;
+            }),
+          );
+        }
 
-// Save employee — handles both adding and editing
-document.getElementById("saveEmployee").addEventListener("click", function () {
-  // Validation — check required fields
-  let name = document.getElementById("edit-name").value.trim();
-  let contact = document.getElementById("edit-contact").value.trim();
-  let position = document.getElementById("edit-position").value.trim();
-  let department = document.getElementById("edit-department").value.trim();
-  let salary = parseFloat(document.getElementById("edit-salary").value);
-  let history = document.getElementById("edit-history").value.trim();
-
-  if (name === "" || contact === "" || position === "" || department === "") {
-    alert("Please fill in all required fields.");
-    return;
-  }
-
-  if (!contact.includes("@")) {
-    alert("Please enter a valid email address.");
-    return;
-  }
-
-  if (isNaN(salary) || salary <= 0) {
-    alert("Please enter a valid salary greater than 0.");
-    return;
-  }
-
-  let employeeId = document
-    .getElementById("deleteEmployee")
-    .getAttribute("data-id");
-
-  if (employeeId === "new") {
-    // Generate a unique ID — finds the highest existing ID and adds 1
-    let highestId = 0;
-    if (allEmployees.length > 0) {
-      highestId = Math.max(
-        ...allEmployees.map(function (emp) {
-          return emp.employeeId;
-        }),
-      );
-    }
-
-    let newEmployee = {
-      employeeId: highestId + 1,
-      name,
-      contact,
-      position,
-      department,
-      employmentHistory: history,
-      salary,
-    };
-    allEmployees.push(newEmployee);
-  } else {
-    // Update existing employee — reuse validated variables
-    employeeId = parseInt(employeeId);
-    allEmployees = allEmployees.map(function (emp) {
-      if (emp.employeeId === employeeId) {
-        return {
-          employeeId: emp.employeeId,
+        let newEmployee = {
+          employeeId: highestId + 1,
           name,
           contact,
           position,
@@ -2039,62 +2043,1486 @@ document.getElementById("saveEmployee").addEventListener("click", function () {
           employmentHistory: history,
           salary,
         };
+        allEmployees.push(newEmployee);
+      } else {
+        // Update existing employee — reuse validated variables
+        employeeId = parseInt(employeeId);
+        allEmployees = allEmployees.map(function (emp) {
+          if (emp.employeeId === employeeId) {
+            return {
+              employeeId: emp.employeeId,
+              name,
+              contact,
+              position,
+              department,
+              employmentHistory: history,
+              salary,
+            };
+          }
+          return emp;
+        });
       }
-      return emp;
+
+      saveToLocalStorage();
+
+      // Re-render while keeping active search/filter
+      filterEmployees();
+
+      showToast("Employee saved successfully.", "success");
+
+      // Reset form title and close modal
+      document.querySelector("#n-editForm h3").textContent = "Edit Employee";
+      document.getElementById("n-editForm").style.display = "none";
+      document.getElementById("n-viewDetails").style.display = "block";
+      document.getElementById("n-viewModal").classList.remove("active");
+    });
+
+  // Add employee button
+
+  document
+    .getElementById("n-addEmployee")
+    .addEventListener("click", function () {
+      // Clear all form fields
+      document.getElementById("edit-name").value = "";
+      document.getElementById("edit-contact").value = "";
+      document.getElementById("edit-position").value = "";
+      document.getElementById("edit-department").value = "";
+      document.getElementById("edit-history").value = "";
+      document.getElementById("edit-salary").value = "";
+
+      // Change form title to Add Employee
+      document.querySelector("#n-editForm h3").textContent = "Add Employee";
+
+      // Hide view details, show edit form
+      document.getElementById("n-viewDetails").style.display = "none";
+      document.getElementById("n-editForm").style.display = "block";
+
+      // Show the modal
+      document.getElementById("n-viewModal").classList.add("active");
+
+      // Mark as add mode
+      document.getElementById("deleteEmployee").setAttribute("data-id", "new");
+
+      document.getElementById("n-modalName").textContent = "";
+    });
+
+  // Shows a small popup message in the corner, then hides it after 3 seconds
+  function showToast(message, type) {
+    let toast = document.getElementById("toast");
+    let toastMessage = document.getElementById("toast-message");
+
+    toastMessage.textContent = message;
+    toast.className = type;
+    toast.style.display = "block";
+
+    setTimeout(function () {
+      toast.style.display = "none";
+    }, 3000);
+  }
+} // end Employees Data page guard
+
+// =========================
+// Calendar Functionality
+// =========================
+
+const calendar = document.getElementById("calendar");
+const miniCalendar = document.getElementById("miniCalendar");
+const monthTitle = document.getElementById("monthTitle");
+const headerMonth = document.getElementById("headerMonth");
+const eventsList = document.getElementById("eventsList");
+const selectedDateTitle = document.getElementById("selectedDateTitle");
+const selectedDateInput = document.getElementById("selectedDate");
+const eventForm = document.getElementById("eventForm");
+
+if (
+  calendar &&
+  miniCalendar &&
+  monthTitle &&
+  headerMonth &&
+  eventsList &&
+  selectedDateTitle &&
+  selectedDateInput &&
+  eventForm
+) {
+  let current = new Date();
+
+  let selectedDateKey = "";
+  let selectedDay = null;
+
+  let events = JSON.parse(localStorage.getItem("calendarEvents")) || {};
+
+  function saveEvents() {
+    localStorage.setItem("calendarEvents", JSON.stringify(events));
+  }
+
+  function getDateKey(year, month, day) {
+    return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(
+      2,
+      "0",
+    )}`;
+  }
+
+  function renderCalendar() {
+    calendar.innerHTML = "";
+    miniCalendar.innerHTML = "";
+
+    const year = current.getFullYear();
+    const month = current.getMonth();
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+
+    const startDay = firstDay.getDay();
+    const totalDays = lastDay.getDate();
+
+    monthTitle.textContent = current.toLocaleString("default", {
+      month: "long",
+      year: "numeric",
+    });
+
+    headerMonth.textContent = current.toLocaleString("default", {
+      month: "long",
+      year: "numeric",
+    });
+
+    ["S", "M", "T", "W", "T", "F", "S"].forEach((day) => {
+      const div = document.createElement("div");
+      div.textContent = day;
+      div.style.fontWeight = "600";
+      miniCalendar.appendChild(div);
+    });
+
+    for (let i = 0; i < startDay; i++) {
+      calendar.appendChild(document.createElement("div"));
+      miniCalendar.appendChild(document.createElement("div"));
+    }
+
+    const today = new Date();
+
+    for (let day = 1; day <= totalDays; day++) {
+      const dateKey = getDateKey(year, month + 1, day);
+
+      // ========= MAIN CALENDAR =========
+
+      const dayDiv = document.createElement("div");
+      dayDiv.className = "day";
+
+      if (
+        day === today.getDate() &&
+        month === today.getMonth() &&
+        year === today.getFullYear()
+      ) {
+        dayDiv.classList.add("today");
+      }
+
+      if (selectedDateKey === dateKey) {
+        dayDiv.classList.add("selected");
+      }
+
+      dayDiv.innerHTML = `<div class="day-number">${day}</div>`;
+
+      if (events[dateKey] && events[dateKey].length > 0) {
+        const dot = document.createElement("div");
+        dot.className = "dot";
+
+        switch (events[dateKey][0].category) {
+          case "Work":
+            dot.style.background = "#9b4dff";
+            break;
+          case "Personal":
+            dot.style.background = "#2ecc71";
+            break;
+          case "Urgent":
+            dot.style.background = "#ff4d6d";
+            break;
+          default:
+            dot.style.background = "#4ea7ff";
+        }
+
+        dayDiv.appendChild(dot);
+      }
+
+      dayDiv.addEventListener("click", () => selectDate(day));
+
+      calendar.appendChild(dayDiv);
+
+      // ========= MINI CALENDAR =========
+
+      const miniDay = document.createElement("div");
+      miniDay.textContent = day;
+
+      if (
+        day === today.getDate() &&
+        month === today.getMonth() &&
+        year === today.getFullYear()
+      ) {
+        miniDay.classList.add("today");
+      }
+
+      if (selectedDateKey === dateKey) {
+        miniDay.classList.add("selected");
+      }
+
+      miniDay.addEventListener("click", () => selectDate(day));
+
+      miniCalendar.appendChild(miniDay);
+    }
+  }
+
+  function selectDate(day) {
+    selectedDay = day;
+
+    const year = current.getFullYear();
+    const month = current.getMonth() + 1;
+
+    selectedDateKey = getDateKey(year, month, day);
+
+    const date = new Date(year, month - 1, day);
+
+    selectedDateInput.value = date.toDateString();
+    selectedDateTitle.textContent = date.toDateString();
+
+    renderCalendar();
+    showEvents(selectedDateKey);
+  }
+
+  function showEvents(key) {
+    eventsList.innerHTML = "";
+
+    if (!events[key] || events[key].length === 0) {
+      eventsList.innerHTML = "<p>No events scheduled for this day.</p>";
+      return;
+    }
+
+    events[key].forEach((event, index) => {
+      const div = document.createElement("div");
+
+      div.className = "event";
+
+      let color = "#4ea7ff";
+
+      switch (event.category) {
+        case "Work":
+          color = "#9b4dff";
+          break;
+        case "Personal":
+          color = "#2ecc71";
+          break;
+        case "Urgent":
+          color = "#ff4d6d";
+          break;
+      }
+
+      div.style.borderLeft = `5px solid ${color}`;
+
+      div.innerHTML = `
+        <h4>${event.title}</h4>
+        <p><strong>Time:</strong> ${event.time}</p>
+        <p><strong>Category:</strong> ${event.category}</p>
+        <p>${event.description}</p>
+        <button class="delete-event">Delete</button>
+      `;
+
+      div.querySelector(".delete-event").addEventListener("click", () => {
+        events[key].splice(index, 1);
+
+        if (events[key].length === 0) {
+          delete events[key];
+        }
+
+        saveEvents();
+        renderCalendar();
+        showEvents(key);
+      });
+
+      eventsList.appendChild(div);
     });
   }
 
-  saveToLocalStorage();
+  // ===================
+  // Add Event
+  // ===================
 
-  // Re-render while keeping active search/filter
-  filterEmployees();
+  eventForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  showToast("Employee saved successfully.", "success");
+    if (!selectedDateKey) {
+      alert("Please select a date first.");
+      return;
+    }
 
-  // Reset form title and close modal
-  document.querySelector("#n-editForm h3").textContent = "Edit Employee";
-  document.getElementById("n-editForm").style.display = "none";
-  document.getElementById("n-viewDetails").style.display = "block";
-  document.getElementById("n-viewModal").classList.remove("active");
+    const title = document.getElementById("eventTitle").value.trim();
+    const time = document.getElementById("eventTime").value;
+    const category = document.getElementById("eventCategory").value;
+    const description = document
+      .getElementById("eventDescription")
+      .value.trim();
+
+    if (!title) {
+      alert("Please enter an event title.");
+      return;
+    }
+
+    if (!events[selectedDateKey]) {
+      events[selectedDateKey] = [];
+    }
+
+    events[selectedDateKey].push({
+      title,
+      time,
+      category,
+      description,
+    });
+
+    saveEvents();
+
+    renderCalendar();
+    showEvents(selectedDateKey);
+
+    eventForm.reset();
+
+    selectedDateInput.value = new Date(
+      current.getFullYear(),
+      current.getMonth(),
+      selectedDay,
+    ).toDateString();
+  });
+
+  // ===================
+  // Previous Month
+  // ===================
+
+  document.getElementById("prevMonth").addEventListener("click", () => {
+    current.setMonth(current.getMonth() - 1);
+    renderCalendar();
+
+    if (selectedDay) {
+      selectDate(
+        Math.min(
+          selectedDay,
+          new Date(current.getFullYear(), current.getMonth() + 1, 0).getDate(),
+        ),
+      );
+    }
+  });
+
+  // ===================
+  // Next Month
+  // ===================
+
+  document.getElementById("nextMonth").addEventListener("click", () => {
+    current.setMonth(current.getMonth() + 1);
+    renderCalendar();
+
+    if (selectedDay) {
+      selectDate(
+        Math.min(
+          selectedDay,
+          new Date(current.getFullYear(), current.getMonth() + 1, 0).getDate(),
+        ),
+      );
+    }
+  });
+
+  // ===================
+  // Initial Load
+  // ===================
+
+  renderCalendar();
+
+  const today = new Date();
+
+  if (
+    today.getMonth() === current.getMonth() &&
+    today.getFullYear() === current.getFullYear()
+  ) {
+    selectDate(today.getDate());
+  }
+}
+
+/* ==========================================================
+                           Dashboard CHARTS 
+        ========================================================== */
+
+document.addEventListener("DOMContentLoaded", initCharts);
+
+let chartObjects = {};
+
+const chartColors = [
+  "#2563EB",
+  "#10B981",
+  "#F59E0B",
+  "#EF4444",
+  "#8B5CF6",
+  "#06B6D4",
+  "#EC4899",
+  "#14B8A6",
+  "#84CC16",
+  "#F97316",
+];
+
+async function initCharts() {
+  try {
+    const employeeResponse = await fetch("employee_info.json");
+    const payrollResponse = await fetch("payroll_data.json");
+    const attendanceResponse = await fetch("attendance.json");
+
+    const employeeFile = await employeeResponse.json();
+    const payrollFile = await payrollResponse.json();
+    const attendanceFile = await attendanceResponse.json();
+
+    const employees = employeeFile.employeeInformation;
+    const payroll = payrollFile.payrollData;
+    const attendance = attendanceFile.attendanceData;
+
+    createDepartmentChart(employees);
+    createSalaryChart(employees);
+    createHoursChart(payroll);
+    createLeaveChart(payroll);
+    createPayrollChart(payroll);
+    createAttendanceChart(attendance);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function destroyChart(id) {
+  if (chartObjects[id]) {
+    chartObjects[id].destroy();
+  }
+
+  return document.getElementById(id).getContext("2d");
+}
+
+/* ==========================================
+         DEPARTMENT CHART
+      ========================================== */
+
+function createDepartmentChart(employees) {
+  const totals = {};
+
+  employees.forEach((employee) => {
+    totals[employee.department] = (totals[employee.department] || 0) + 1;
+  });
+
+  const ctx = destroyChart("departmentChart");
+
+  chartObjects.departmentChart = new Chart(ctx, {
+    type: "doughnut",
+
+    data: {
+      labels: Object.keys(totals),
+
+      datasets: [
+        {
+          data: Object.values(totals),
+
+          backgroundColor: chartColors,
+        },
+      ],
+    },
+
+    options: {
+      responsive: true,
+
+      plugins: {
+        legend: {
+          position: "bottom",
+        },
+      },
+    },
+  });
+}
+
+/* ==========================================
+         SALARY CHART
+      ========================================== */
+
+function createSalaryChart(employees) {
+  const ctx = destroyChart("salaryChart");
+
+  chartObjects.salaryChart = new Chart(ctx, {
+    type: "bar",
+
+    data: {
+      labels: employees.map((e) => e.name),
+
+      datasets: [
+        {
+          label: "Salary",
+
+          data: employees.map((e) => e.salary),
+
+          backgroundColor: "#2563EB",
+
+          borderRadius: 8,
+        },
+      ],
+    },
+
+    options: {
+      responsive: true,
+
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+/* ==========================================
+         HOURS WORKED
+      ========================================== */
+
+function createHoursChart(payroll) {
+  const ctx = destroyChart("hoursChart");
+
+  chartObjects.hoursChart = new Chart(ctx, {
+    type: "bar",
+
+    data: {
+      labels: payroll.map((e) => "EMP " + e.employeeId),
+
+      datasets: [
+        {
+          label: "Hours Worked",
+
+          data: payroll.map((e) => e.hoursWorked),
+
+          backgroundColor: "#F59E0B",
+
+          borderRadius: 8,
+        },
+      ],
+    },
+
+    options: {
+      responsive: true,
+
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+/* ==========================================
+         LEAVE DEDUCTIONS
+      ========================================== */
+
+function createLeaveChart(payroll) {
+  const ctx = destroyChart("leaveChart");
+
+  chartObjects.leaveChart = new Chart(ctx, {
+    type: "pie",
+
+    data: {
+      labels: payroll.map((e) => "EMP " + e.employeeId),
+
+      datasets: [
+        {
+          data: payroll.map((e) => e.leaveDeductions),
+
+          backgroundColor: chartColors,
+        },
+      ],
+    },
+
+    options: {
+      responsive: true,
+
+      plugins: {
+        legend: {
+          position: "bottom",
+        },
+      },
+    },
+  });
+}
+
+/* ==========================================
+         FINAL PAYROLL
+      ========================================== */
+
+function createPayrollChart(payroll) {
+  const ctx = destroyChart("payrollChart");
+
+  chartObjects.payrollChart = new Chart(ctx, {
+    type: "line",
+
+    data: {
+      labels: payroll.map((e) => "EMP " + e.employeeId),
+
+      datasets: [
+        {
+          label: "Final Salary",
+
+          data: payroll.map((e) => e.finalSalary),
+
+          borderColor: "#10B981",
+
+          backgroundColor: "rgba(16,185,129,.2)",
+
+          fill: true,
+
+          tension: 0.35,
+        },
+      ],
+    },
+
+    options: {
+      responsive: true,
+
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+/* ==========================================
+         ATTENDANCE %
+      ========================================== */
+
+function createAttendanceChart(attendance) {
+  const attendancePercent = attendance.map((employee) => {
+    const total = employee.attendance.length;
+
+    const present = employee.attendance.filter(
+      (day) => day.status === "Present",
+    ).length;
+
+    return Number(((present / total) * 100).toFixed(0));
+  });
+
+  const ctx = destroyChart("attendanceChart");
+
+  chartObjects.attendanceChart = new Chart(ctx, {
+    type: "line",
+
+    data: {
+      labels: attendance.map((e) => "EMP " + e.employeeId),
+
+      datasets: [
+        {
+          label: "Attendance %",
+
+          data: attendancePercent,
+
+          borderColor: "#EF4444",
+
+          backgroundColor: "rgba(239,68,68,.2)",
+
+          fill: true,
+
+          tension: 0.3,
+        },
+      ],
+    },
+
+    options: {
+      responsive: true,
+
+      scales: {
+        y: {
+          beginAtZero: true,
+
+          max: 100,
+
+          ticks: {
+            callback: (value) => value + "%",
+          },
+        },
+      },
+    },
+  });
+}
+
+// app.js - handles data, modals, calculations, and PDF export
+
+const modalRoot = document.getElementById("modal-root");
+const employeeCountEl = document.getElementById("dashboard-employees-count");
+const employeeTotalEl = document.getElementById("dashboard-employees-total");
+const customPayslipCountEl = document.getElementById("dashboard-custom-count");
+const employeeFilterInput = document.getElementById("employee-filter");
+let totalEmployees = 0;
+let customPayslipCount = 0;
+
+function formatNumber(n) {
+  if (typeof n !== "number") n = Number(n) || 0;
+  return n.toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+}
+
+function formatDateString(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+async function loadPayrollData() {
+  try {
+    const res = await fetch("./payroll_data.json");
+    if (!res.ok) throw new Error("Unable to load payroll data");
+    const data = await res.json();
+    data.payrollData.forEach((emp) => {
+      const section = document.querySelector(
+        `.j-employee-info${emp.employeeId}`,
+      );
+      if (section) {
+        section.id = `employee-card-${emp.employeeId}`;
+        const article = document.createElement("article");
+        article.className = "employee-card";
+        article.innerHTML = `
+          <h2>Employee ${emp.employeeId}</h2>
+          <p><strong>Hours Worked:</strong> ${emp.hoursWorked}</p>
+          <p><strong>Leave Deductions:</strong> ${emp.leaveDeductions}</p>
+          <p><strong>Final Salary:</strong> $${formatNumber(emp.finalSalary)}</p>
+        `;
+        section.insertAdjacentElement("afterbegin", article);
+
+        // attach button listeners inside this section
+        const payslipBtn = section.querySelector(".payslip-btn");
+        if (payslipBtn) {
+          payslipBtn.addEventListener("click", () => openPayslipModal(emp));
+        }
+
+        const calcBtn = section.querySelector(".calc-btn");
+        if (calcBtn) {
+          calcBtn.addEventListener("click", () => openCalcModal(emp));
+        }
+      }
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function updateEmployeeCounter() {
+  const sections = document.querySelectorAll(
+    '.j-employee-payroll-calc-info > section[class^="j-employee-info"]',
+  );
+  totalEmployees = sections.length;
+  const visibleEmployees = Array.from(sections).filter(
+    (sec) => sec.style.display !== "none",
+  ).length;
+  if (employeeCountEl) employeeCountEl.textContent = visibleEmployees;
+  if (employeeTotalEl)
+    employeeTotalEl.textContent = `/ ${totalEmployees} total`;
+}
+
+function updateCustomPayslipCount() {
+  if (customPayslipCountEl) {
+    customPayslipCountEl.textContent = customPayslipCount;
+  }
+}
+
+function applyEmployeeFilter() {
+  const query = employeeFilterInput?.value.trim().toLowerCase() || "";
+  const sections = document.querySelectorAll(
+    '.j-employee-payroll-calc-info > section[class^="j-employee-info"]',
+  );
+  sections.forEach((sec) => {
+    const text = sec.textContent.toLowerCase();
+    const show = !query || text.includes(query);
+    sec.style.display = show ? "" : "none";
+  });
+  updateEmployeeCounter();
+}
+
+function initializeDashboard() {
+  updateEmployeeCounter();
+  updateCustomPayslipCount();
+  if (employeeFilterInput) {
+    employeeFilterInput.addEventListener("input", applyEmployeeFilter);
+  }
+}
+
+function openPayslipModal(emp) {
+  const values = computePayroll(
+    emp.hoursWorked,
+    emp.leaveDeductions,
+    emp.finalSalary,
+  );
+  const html = buildReceiptHTML(emp, values);
+  openModal({
+    title: `Employee ${emp.employeeId} Payslip`,
+    body: html,
+    type: "receipt",
+  });
+}
+
+function openCalcModal(emp) {
+  const values = computePayroll(
+    emp.hoursWorked,
+    emp.leaveDeductions,
+    emp.finalSalary,
+  );
+  const html = buildCalcHTML(emp, values);
+  openModal({
+    title: `Employee ${emp.employeeId} Calculation`,
+    body: html,
+    type: "calc",
+  });
+}
+
+function computePayroll(hoursWorked, leaveDeductions, finalSalary) {
+  const hw = Number(hoursWorked);
+  const ld = Number(leaveDeductions);
+  const fs = Number(finalSalary);
+  const divisor = hw - ld || 1;
+  const hourly = fs / divisor;
+  const daily = hourly * 8;
+  const weekly = daily * 5;
+  const monthly = weekly * 4;
+  const annual = monthly * 12;
+  const gross = hourly * hw;
+  const totalDeductions = hourly * ld;
+  const net = gross - totalDeductions;
+  return {
+    hourly,
+    daily,
+    weekly,
+    monthly,
+    annual,
+    gross,
+    totalDeductions,
+    net,
+  };
+}
+
+function buildReceiptHTML(emp, vals) {
+  return `
+    <div class="receipt" data-type="receipt">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" role="img" aria-label="ModernTech Solutions Logo">
+          <text x="50%" y="45%" font-family="Nunito Sans, sans-serif" font-weight="800" font-size="72" text-anchor="middle" fill="currentColor">MT</text>
+          <text x="50%" y="85%" font-family="Nunito Sans, sans-serif" font-weight="700" font-size="20" text-anchor="middle" fill="currentColor">SOLUTIONS</text>
+        </svg>
+      </div>
+      <h3>ModernTech Solutions</h3>
+      <p><strong>Employee Name:</strong> ${escapeHtml(emp.employeeName || getEmpNameFromSection(emp.employeeId) || "")}</p>
+      <p><strong>Employee ID:</strong> ${emp.employeeId}</p>
+      <p><strong>Employee Position:</strong> ${escapeHtml(emp.employeePosition || getEmpPositionFromSection(emp.employeeId) || "")}</p>
+      <p><strong>Employee Department:</strong> ${escapeHtml(emp.employeeDepartment || getEmpDeptFromSection(emp.employeeId) || "")}</p>
+      <hr>
+      <p><strong>Hourly Salary:</strong> ${formatNumber(vals.hourly)}</p>
+      <p><strong>Daily Salary:</strong> ${formatNumber(vals.daily)}</p>
+      <p><strong>Weekly Salary:</strong> ${formatNumber(vals.weekly)}</p>
+      <p><strong>Monthly Salary:</strong> ${formatNumber(vals.monthly)}</p>
+      <p><strong>Annual Salary:</strong> ${formatNumber(vals.annual)}</p>
+      <p><strong>Pay Period:</strong> ${escapeHtml(emp.payPeriodStart && emp.payPeriodEnd ? `${formatDateString(emp.payPeriodStart)} - ${formatDateString(emp.payPeriodEnd)}` : "01 July 2026 - 31 July 2026")}</p>
+      <p><strong>Gross Pay:</strong> ${formatNumber(vals.gross)}</p>
+      <p><strong>Total Deductions:</strong> ${formatNumber(vals.totalDeductions)}</p>
+      <p><strong>Net Pay:</strong> ${formatNumber(vals.net)}</p>
+    </div>
+  `;
+}
+
+function buildCalcHTML(emp, vals) {
+  return `
+    <div class="calc-sheet" data-type="calc">
+      <h3>Calculation Sheet</h3>
+      <div class="calc-formulas">
+        <p><strong>Hourly Salary</strong> = finalSalary / (hoursWorked - leaveDeductions)</p>
+        <p><strong>Daily Salary</strong> = hourly salary * 8</p>
+        <p><strong>Weekly Salary</strong> = daily salary * 5</p>
+        <p><strong>Monthly Salary</strong> = weekly salary * 4</p>
+        <p><strong>Annual Salary</strong> = monthly salary * 12</p>
+        <p><strong>Gross Pay</strong> = hourly salary * hoursWorked</p>
+        <p><strong>Total Deductions</strong> = hourly salary * leaveDeductions</p>
+        <p><strong>Net Pay</strong> = gross pay - total deductions = finalSalary</p>
+      </div>
+      <hr>
+      <p><strong>Hourly Salary:</strong> ${formatNumber(vals.hourly)}</p>
+      <p><strong>Daily Salary:</strong> ${formatNumber(vals.daily)}</p>
+      <p><strong>Weekly Salary:</strong> ${formatNumber(vals.weekly)}</p>
+      <p><strong>Monthly Salary:</strong> ${formatNumber(vals.monthly)}</p>
+      <p><strong>Annual Salary:</strong> ${formatNumber(vals.annual)}</p>
+      <p><strong>Gross Pay:</strong> ${formatNumber(vals.gross)}</p>
+      <p><strong>Total Deductions:</strong> ${formatNumber(vals.totalDeductions)}</p>
+      <p><strong>Net Pay:</strong> ${formatNumber(vals.net)}</p>
+    </div>
+  `;
+}
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str).replace(
+    /[&<>\"']/g,
+    (s) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      })[s],
+  );
+}
+
+function getEmpNameFromSection(id) {
+  const sec = document.querySelector(`.j-employee-info${id}`);
+  if (!sec) return "";
+  const p = Array.from(sec.querySelectorAll("p"))[0];
+  return p ? p.textContent.replace("Employee Name:", "").trim() : "";
+}
+
+function getEmpPositionFromSection(id) {
+  const sec = document.querySelector(`.j-employee-info${id}`);
+  if (!sec) return "";
+  const ps = Array.from(sec.querySelectorAll("p")).find((el) =>
+    el.textContent.includes("Position"),
+  );
+  return ps ? ps.textContent.replace("Employee Position:", "").trim() : "";
+}
+
+function getEmpDeptFromSection(id) {
+  const sec = document.querySelector(`.j-employee-info${id}`);
+  if (!sec) return "";
+  const ps = Array.from(sec.querySelectorAll("p")).find((el) =>
+    el.textContent.includes("Department"),
+  );
+  return ps ? ps.textContent.replace("Employee Department:", "").trim() : "";
+}
+
+function openModal({ title = "", body = "", type = "receipt" }) {
+  // build modal
+  const backdrop = document.createElement("div");
+  backdrop.className = "modal-backdrop";
+  const modal = document.createElement("div");
+  modal.className = "modal";
+
+  const header = document.createElement("div");
+  header.className = "modal-header";
+  const h = document.createElement("h2");
+  h.textContent = title;
+  header.appendChild(h);
+
+  const controls = document.createElement("div");
+  controls.className = "modal-controls";
+
+  // color pickers
+  const colorRow = document.createElement("div");
+  colorRow.className = "color-row";
+  const bgSelect = document.createElement("select");
+  const colors = [
+    { label: "White", value: "#ffffff" },
+    { label: "Black", value: "#000000" },
+    { label: "Grey", value: "#808080" },
+    { label: "Pastel Red", value: "#ffdddd" },
+    { label: "Orange", value: "#ffe6cc" },
+    { label: "Yellow", value: "#fff7cc" },
+    { label: "Green", value: "#e6ffef" },
+    { label: "Blue", value: "#e6eeff" },
+    { label: "Purple", value: "#f0e6ff" },
+  ];
+  colors.forEach((c) => {
+    const opt = document.createElement("option");
+    opt.value = c.value;
+    opt.textContent = c.label;
+    bgSelect.appendChild(opt);
+  });
+
+  colorRow.append("Background:");
+  colorRow.appendChild(bgSelect);
+  controls.appendChild(colorRow);
+
+  const modalBody = document.createElement("div");
+  modalBody.className = "modal-body";
+  modalBody.innerHTML = body;
+
+  // apply color changes
+  function applyColors() {
+    const bg = bgSelect.value;
+    const inner = modalBody.querySelector("[data-type]");
+    if (inner) {
+      inner.style.background = bg;
+
+      const useWhiteText = new Set(["#000000", "#808080"]).has(bg);
+      const autoFont = useWhiteText ? "#ffffff" : "#111111";
+
+      inner.style.color = autoFont;
+      inner.style.setProperty("--content-color", autoFont);
+
+      const logo = inner.querySelector(".logo svg");
+      if (logo) {
+        logo.style.color = autoFont;
+      }
+    }
+    // set modal background for contrast
+    modal.style.background = getComputedStyle(document.body).backgroundColor;
+  }
+  bgSelect.addEventListener("change", applyColors);
+
+  modal.appendChild(header);
+  modal.appendChild(controls);
+  modal.appendChild(modalBody);
+
+  // footer with Download (green) and Exit (red) buttons at bottom
+  const footer = document.createElement("div");
+  footer.className = "modal-footer";
+
+  const downloadFooter = document.createElement("button");
+  downloadFooter.className = "modal-download";
+  downloadFooter.textContent = "Download PDF";
+  downloadFooter.addEventListener("click", () =>
+    downloadModalAsPDF(modalBody, type),
+  );
+
+  const exitFooter = document.createElement("button");
+  exitFooter.className = "modal-exit";
+  exitFooter.textContent = "Exit";
+  exitFooter.addEventListener("click", () => backdrop.remove());
+
+  footer.appendChild(downloadFooter);
+  footer.appendChild(exitFooter);
+  modal.appendChild(footer);
+  backdrop.appendChild(modal);
+  modalRoot.appendChild(backdrop);
+
+  // initial colors
+  bgSelect.value = "#ffffff";
+  applyColors();
+}
+
+async function downloadModalAsPDF(modalBody, type) {
+  try {
+    const inner =
+      document.querySelector(".modal-body [data-type]") ||
+      document.querySelector(".modal-body");
+    if (!inner) return;
+    const isReceipt =
+      inner.dataset.type === "receipt" || inner.classList.contains("receipt");
+    const scale = 2;
+
+    const clone = inner.cloneNode(true);
+    const innerStyle = window.getComputedStyle(inner);
+    clone.style.position = "fixed";
+    clone.style.top = "-9999px";
+    clone.style.left = "-9999px";
+    clone.style.width = `${inner.offsetWidth}px`;
+    clone.style.height = `${inner.offsetHeight}px`;
+    clone.style.background = innerStyle.backgroundColor;
+    clone.style.padding = innerStyle.padding;
+    clone.style.margin = "0";
+    clone.style.boxSizing = "border-box";
+    document.body.appendChild(clone);
+
+    const canvas = await html2canvas(clone, {
+      scale,
+      background: window.getComputedStyle(clone).backgroundColor,
+      useCORS: true,
+      width: clone.offsetWidth,
+      height: clone.offsetHeight,
+      windowWidth: clone.offsetWidth,
+      windowHeight: clone.offsetHeight,
+    });
+
+    document.body.removeChild(clone);
+    const imgData = canvas.toDataURL("image/png");
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: "mm", format: "a4" });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 12;
+    const imgProps = pdf.getImageProperties(imgData);
+    const imgRatio = imgProps.width / imgProps.height;
+    let imgWidth = pageWidth - margin * 2;
+    let imgHeight = imgWidth / imgRatio;
+
+    if (imgHeight > pageHeight - margin * 2) {
+      imgHeight = pageHeight - margin * 2;
+      imgWidth = imgHeight * imgRatio;
+    }
+
+    const x = (pageWidth - imgWidth) / 2;
+    const y = (pageHeight - imgHeight) / 2;
+    pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+    pdf.save(`${type || (isReceipt ? "receipt" : "document")}.pdf`);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// custom payroll form handling
+const form = document.querySelector(".j-payroll-calc-form");
+const payPdStrtInput = document.getElementById("payPdStrt");
+const payPdEndInput = document.getElementById("payPdEnd");
+
+function formatLocalDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function setFirstDayOfMonth(dateString) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "";
+  return formatLocalDate(new Date(date.getFullYear(), date.getMonth(), 1));
+}
+
+function setLastDayOfMonth(dateString) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "";
+  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  return formatLocalDate(lastDay);
+}
+
+let payPeriodSyncing = false;
+
+function synchronizePayPeriodDates(direction) {
+  if (!payPdStrtInput || !payPdEndInput) return;
+  if (payPeriodSyncing) return;
+  payPeriodSyncing = true;
+
+  const startValue = payPdStrtInput.value;
+  const endValue = payPdEndInput.value;
+
+  if (direction === "start" && startValue) {
+    const correctedStart = setFirstDayOfMonth(startValue);
+    payPdStrtInput.value = correctedStart;
+    payPdEndInput.value = setLastDayOfMonth(correctedStart);
+  } else if (direction === "end" && endValue) {
+    const correctedEnd = setLastDayOfMonth(endValue);
+    payPdEndInput.value = correctedEnd;
+    payPdStrtInput.value = setFirstDayOfMonth(correctedEnd);
+  } else if (startValue) {
+    const correctedStart = setFirstDayOfMonth(startValue);
+    payPdStrtInput.value = correctedStart;
+    payPdEndInput.value = setLastDayOfMonth(correctedStart);
+  } else if (endValue) {
+    const correctedEnd = setLastDayOfMonth(endValue);
+    payPdEndInput.value = correctedEnd;
+    payPdStrtInput.value = setFirstDayOfMonth(correctedEnd);
+  }
+
+  payPeriodSyncing = false;
+}
+
+if (payPdStrtInput) {
+  payPdStrtInput.addEventListener("change", () =>
+    synchronizePayPeriodDates("start"),
+  );
+}
+if (payPdEndInput) {
+  payPdEndInput.addEventListener("change", () =>
+    synchronizePayPeriodDates("end"),
+  );
+}
+
+if (form) {
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const empName = data.get("empName") || "";
+    const empId = Number(data.get("empId")) || 0;
+    const empPosition = (data.get("empPosition") || "").trim();
+    const empDept = (data.get("empDept") || "").trim();
+    const payPdStrt = data.get("payPdStrt") || "";
+    const payPdEnd = data.get("payPdEnd") || "";
+    const hrsWorked = Number(data.get("hrsWorked"));
+    const leaveDeduct = Number(data.get("leaveDeduct"));
+    const finSal = Number(data.get("finSal"));
+
+    if (!empId || empId < 11) {
+      alert("Employee ID must be 11 or higher because 1-10 are reserved.");
+      return;
+    }
+    if (!payPdStrt || !payPdEnd) {
+      alert("Please select both the pay period start and end dates.");
+      return;
+    }
+    const startDate = new Date(payPdStrt);
+    const endDate = new Date(payPdEnd);
+    if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
+      alert("Please choose valid pay period dates.");
+      return;
+    }
+    if (
+      startDate.getFullYear() !== endDate.getFullYear() ||
+      startDate.getMonth() !== endDate.getMonth()
+    ) {
+      alert("Start and end must be in the same month.");
+      return;
+    }
+    if (startDate.getDate() !== 1) {
+      alert("Pay period start must be the first day of the month.");
+      return;
+    }
+    const lastDay = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth() + 1,
+      0,
+    ).getDate();
+    if (endDate.getDate() !== lastDay) {
+      alert("Pay period end must be the last day of the same month.");
+      return;
+    }
+    if (!hrsWorked || isNaN(finSal)) {
+      alert("Please complete required numeric fields.");
+      return;
+    }
+
+    // show math loader modal
+    const loaderHtml =
+      `<div class="math-loader">` +
+      `<div class="math-symbol">+</div><div class="math-symbol">-</div><div class="math-symbol">×</div><div class="math-symbol">÷</div>` +
+      `</div>`;
+    openModal({
+      title: "Generating Payslip",
+      body: loaderHtml,
+      type: "loader",
+    });
+
+    // after short delay compute and show receipt
+    setTimeout(() => {
+      // close existing loader (there may be multiple modals; remove last one)
+      const backdrops = modalRoot.querySelectorAll(".modal-backdrop");
+      if (backdrops.length) backdrops[backdrops.length - 1].remove();
+
+      const emp = {
+        employeeId: empId,
+        hoursWorked: hrsWorked,
+        leaveDeductions: leaveDeduct,
+        finalSalary: finSal,
+        employeeName: empName,
+        employeePosition: empPosition,
+        employeeDepartment: empDept,
+        payPeriodStart: payPdStrt,
+        payPeriodEnd: payPdEnd,
+      };
+      const vals = computePayroll(hrsWorked, leaveDeduct, finSal);
+      const receiptHtml = buildReceiptHTML(emp, vals);
+      openModal({
+        title: `Custom Payslip - ${empName}`,
+        body: receiptHtml,
+        type: "receipt",
+      });
+      customPayslipCount += 1;
+      updateCustomPayslipCount();
+    }, 1200);
+  });
+}
+
+// initialize
+// After loading payroll data, normalize card layout (move buttons and bold labels)
+async function normalizeEmployeeSections() {
+  const sections = document.querySelectorAll(
+    '.j-employee-payroll-calc-info > section[class^="j-employee-info"]',
+  );
+  sections.forEach((sec) => {
+    // move any buttons that live inside nested subsections into a single footer area
+    const nestedButtons = Array.from(sec.querySelectorAll("section button"));
+    if (nestedButtons.length) {
+      const footer = document.createElement("div");
+      footer.className = "card-actions";
+      nestedButtons.forEach((btn) => {
+        footer.appendChild(btn);
+      });
+      sec.appendChild(footer);
+      // remove original static sections (payslip / calculations) as their content duplicates modal output
+      const nestedSections = Array.from(
+        sec.querySelectorAll(
+          'section[class^="j-employee-payslip"], .j-calculations-digital-receipts',
+        ),
+      );
+      nestedSections.forEach((s) => s.remove());
+    }
+
+    // Make top-level label paragraphs bold for the descriptor before ':'
+    const topPs = Array.from(sec.querySelectorAll(":scope > p"));
+    topPs.forEach((p) => {
+      const txt = p.textContent || "";
+      if (txt.includes(":")) {
+        const idx = txt.indexOf(":");
+        const label = txt.slice(0, idx).trim();
+        const rest = txt.slice(idx + 1).trim();
+        p.innerHTML = `<strong>${escapeHtml(label)}:</strong> ${escapeHtml(rest)}`;
+      }
+    });
+  });
+}
+
+loadPayrollData()
+  .then(() => normalizeEmployeeSections())
+  .then(() => initializeDashboard());
+
+// Settings Functionality
+
+document.addEventListener("DOMContentLoaded", () => {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {};
+
+  const usernameField = document.getElementById("settings_username");
+  const emailField = document.getElementById("settings-email");
+
+  if (usernameField) {
+    usernameField.value = currentUser.username || "";
+  }
+
+  if (emailField) {
+    emailField.value = currentUser.email || "";
+  }
 });
 
-// Add employee button
+document.addEventListener("DOMContentLoaded", () => {
+  const company = JSON.parse(localStorage.getItem("companyInfo")) || {};
 
-document.getElementById("n-addEmployee").addEventListener("click", function () {
-  // Clear all form fields
-  document.getElementById("edit-name").value = "";
-  document.getElementById("edit-contact").value = "";
-  document.getElementById("edit-position").value = "";
-  document.getElementById("edit-department").value = "";
-  document.getElementById("edit-history").value = "";
-  document.getElementById("edit-salary").value = "";
+  document.getElementById("settings-company-name").value =
+    company.companyName || "";
 
-  // Change form title to Add Employee
-  document.querySelector("#n-editForm h3").textContent = "Add Employee";
+  document.getElementById("settings-company-industry").value =
+    company.industry || "";
 
-  // Hide view details, show edit form
-  document.getElementById("n-viewDetails").style.display = "none";
-  document.getElementById("n-editForm").style.display = "block";
+  document.getElementById("settings-company-email").value = company.email || "";
 
-  // Show the modal
-  document.getElementById("n-viewModal").classList.add("active");
-
-  // Mark as add mode
-  document.getElementById("deleteEmployee").setAttribute("data-id", "new");
-
-  document.getElementById("n-modalName").textContent = "";
+  document.getElementById("settings-company-phone").value = company.phone || "";
 });
 
-// Shows a small popup message in the corner, then hides it after 3 seconds
-function showToast(message, type) {
-  let toast = document.getElementById("toast");
-  let toastMessage = document.getElementById("toast-message");
+// =========================
+// Login Functionality
+// =========================
 
-  toastMessage.textContent = message;
-  toast.className = type;
-  toast.style.display = "block";
+const login_container = document.querySelector(".login_container");
+const login_signUpBtn = document.getElementById("login_sign-up-btn");
+const login_signInBtn = document.getElementById("login_sign-in-btn");
+const login_loginForm = document.querySelector(".login_sign-in-form");
+const login_signupForm = document.querySelector(".login_sign-up-form");
 
-  setTimeout(function () {
-    toast.style.display = "none";
-  }, 3000);
+if (
+  login_container &&
+  login_signUpBtn &&
+  login_signInBtn &&
+  login_loginForm &&
+  login_signupForm
+) {
+  const LOGIN_DEFAULT_AVATAR =
+    "https://i.ibb.co/gF6c7Yj8/Make-Something-Special-with-our-Adorable-Craft.jpg";
+
+  // Redirect already-authenticated users straight to the dashboard
+  if (
+    sessionStorage.getItem("authenticated") &&
+    window.location.pathname.includes("login.html")
+  ) {
+    window.location.href = "dashboard.html";
+  }
+
+  // Toggle Sign In / Sign Up panels
+  login_signUpBtn.addEventListener("click", () => {
+    login_container.classList.add("login_sign-up-mode");
+  });
+
+  login_signInBtn.addEventListener("click", () => {
+    login_container.classList.remove("login_sign-up-mode");
+  });
+
+  // ======================
+  // SIGN UP
+  // ======================
+  login_signupForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const username = document
+      .getElementById("login_signup-username")
+      .value.trim();
+
+    const email = document.getElementById("login_signup-email").value.trim();
+
+    const password = document
+      .getElementById("login_signup-password")
+      .value.trim();
+
+    if (!username || !email || !password) {
+      alert("Please complete all fields.");
+      return;
+    }
+
+    const user = {
+      username,
+      email,
+      password,
+      role: "Admin",
+      avatar: LOGIN_DEFAULT_AVATAR,
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("currentUser", JSON.stringify(user));
+
+    sessionStorage.setItem("authenticated", "true");
+    sessionStorage.setItem("username", username);
+
+    alert("Account created successfully!");
+
+    window.location.href = "dashboard.html";
+  });
+
+  // ======================
+  // LOGIN
+  // ======================
+  login_loginForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const username = document
+      .getElementById("login_login-username")
+      .value.trim();
+
+    const password = document
+      .getElementById("login_login-password")
+      .value.trim();
+
+    if (!username || !password) {
+      alert("Please enter both username and password.");
+      return;
+    }
+
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!storedUser) {
+      alert("No account found. Please sign up first.");
+      return;
+    }
+
+    if (username === storedUser.username && password === storedUser.password) {
+      const currentUser = {
+        ...storedUser,
+        avatar: storedUser.avatar || LOGIN_DEFAULT_AVATAR,
+      };
+
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      localStorage.setItem("user", JSON.stringify(currentUser));
+
+      sessionStorage.setItem("authenticated", "true");
+      sessionStorage.setItem("username", storedUser.username);
+
+      window.location.href = "dashboard.html";
+    } else {
+      alert("Invalid username or password.");
+    }
+  });
 }
