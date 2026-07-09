@@ -1,6 +1,11 @@
 /* ====================
    Modern Tech - Project
    ====================  */
+
+/* ===============================================================================================================================================
+  Zanda's Dashboard, Calendar, Settings, Color Theme and Login & Sign In Pages Styling
+   ============================================================================================================================================ */
+
 /*=============== GOOGLE FONTS ===============*/
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,200..1000&display=swap");
 
@@ -917,277 +922,6 @@ footer hr {
   padding-top: 0.5rem;
 }
 
-/* ==== Calendar Section ==== */
-
-/* .container {
-  border-radius: 25px;
-  background-color: transparent;
-  width: 100%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-} */
-/* .calendar {
-  min-width: 100%;
-  max-width: 100%;
-  background-color: var(--card-bg);
-  border-radius: 25px;
-  overflow: hidden;
-  padding: 30px 30px 20px;
-  box-shadow: 0 20px 30px var(--shadow-color);
-}
-.calendar-header {
-  background: var(--primary-color);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 700;
-  color: var(--button-text);
-  padding: 15px 20px;
-  border-radius: 20px;
-}
-.calendar-body {
-  padding: 10px 0 0;
-}
-.calendar-week-days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  font-weight: 600;
-  color: var(--text-color);
-}
-.calendar-week-days div:hover {
-  color: var(--primary-color);
-  transform: scale(1.05);
-  transition: all 0.2s ease-in-out;
-}
-.calendar-week-days div {
-  display: grid;
-  place-items: center;
-  color: var(--text-color);
-  height: 50px;
-}
-.calendar-days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-  color: var(--text-color);
-}
-.calendar-days div {
-  min-width: 40px;
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  position: relative;
-  cursor: pointer;
-  animation: to-top 0.5s ease forwards;
-  border-radius: 12px;
-  background: var(--surface-color);
-}
-.month-picker {
-  background-color: var(--primary-color);
-  color: var(--button-text);
-  padding: 8px 14px;
-  border-radius: 12px;
-  cursor: pointer;
-}
-.month-picker:hover {
-  background-color: var(--primary-color);
-}
-.month-picker:hover {
-  color: var(--body-color);
-}
-.year-picker {
-  display: flex;
-  align-items: center;
-}
-.year-change {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  margin: 0px 10px;
-  cursor: pointer;
-}
-.year-change:hover {
-  background-color: var(--primary-color);
-  transition: all 0.2s ease-in-out;
-  transform: scale(1.12);
-}
-.year-change:hover pre {
-  color: var(--body-color);
-}
-.calendar-footer {
-  padding: 10px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-#year:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-  transition: all 0.2 ease-in-out;
-}
-.calendar-days div span {
-  position: absolute;
-}
-.calendar-days div:hover {
-  transition:
-    width 0.2s ease-in-out,
-    height 0.2s ease-in-out;
-  background-color: var(--primary-color);
-  border-radius: 20%;
-  color: var(--dark-text);
-}
-.calendar-days div.current-date {
-  color: var(--dark-text);
-  background-color: var(--primary-color);
-  border-radius: 20%;
-}
-.month-list {
-  position: relative;
-  left: 0;
-  top: -50px;
-  background-color: var(--body-color);
-  color: var(--text-color);
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 5px;
-  border-radius: 20px;
-}
-.month-list > div {
-  display: grid;
-  place-content: center;
-  margin: 5px 10px;
-  transition: all 0.2s ease-in-out;
-}
-.month-list > div > div {
-  border-radius: 15px;
-  padding: 10px;
-  cursor: pointer;
-}
-.month-list > div > div:hover {
-  background-color: var(--primary-color);
-  color: var(--body-color);
-  transform: scale(0.9);
-  transition: all 0.2s ease-in-out;
-}
-.month-list.show {
-  visibility: visible;
-  pointer-events: visible;
-  transition: 0.6s ease-in-out;
-  animation: to-left 0.71s forwards;
-}
-.month-list.hideonce {
-  visibility: hidden;
-}
-.month-list.hide {
-  animation: to-right 1s forwards;
-  visibility: none;
-  pointer-events: none;
-}
-.date-time-formate {
-  width: max-content;
-  height: max-content;
-  font-family:
-    Dubai Light,
-    Century Gothic;
-  position: relative;
-  display: inline;
-  top: 140px;
-  justify-content: center;
-}
-.day-text-formate {
-  font-family: Microsoft JhengHei UI;
-  font-size: 1.4rem;
-  padding-right: 5%;
-  border-right: 3px solid var(--primary-color);
-  position: absolute;
-  left: -1rem;
-}
-.date-time-value {
-  display: block;
-  height: max-content;
-  width: max-content;
-  position: relative;
-  left: 40%;
-  top: -18px;
-  text-align: center;
-}
-.time-formate {
-  font-size: 1.5rem;
-}
-.time-formate.hideTime {
-  animation: hidetime 1.5s forwards;
-}
-.day-text-formate.hidetime {
-  animation: hidetime 1.5s forwards;
-}
-.date-formate.hideTime {
-  animation: hidetime 1.5s forwards;
-}
-.day-text-formate.showtime {
-  animation: showtime 1s forwards;
-}
-.time-formate.showtime {
-  animation: showtime 1s forwards;
-}
-.date-formate.showtime {
-  animation: showtime 1s forwards;
-}
-@keyframes to-top {
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(100%);
-    opacity: 1;
-  }
-}
-@keyframes to-left {
-  0% {
-    transform: translatex(230%);
-    opacity: 1;
-  }
-  100% {
-    transform: translatex(0);
-    opacity: 1;
-  }
-}
-@keyframes to-right {
-  10% {
-    transform: translatex(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translatex(-150%);
-    opacity: 1;
-  }
-}
-@keyframes showtime {
-  0% {
-    transform: translatex(250%);
-    opacity: 1;
-  }
-  100% {
-    transform: translatex(0%);
-    opacity: 1;
-  }
-}
-@keyframes hidetime {
-  0% {
-    transform: translatex(0%);
-    opacity: 1;
-  }
-  100% {
-    transform: translatex(-370%);
-    opacity: 1;
-  }
-} */
-
 /* =========================
    DASHBOARD LAYOUT
 ========================= */
@@ -1430,11 +1164,6 @@ footer hr {
   margin-bottom: 0.5rem;
 }
 
-/* .dashboard_sidebar-section {
-  width: 100%;
-  margin-left: 0;
-} */
-
 .dashboard_main-content {
   display: grid;
   gap: 0.5rem;
@@ -1529,12 +1258,6 @@ footer hr {
 .dashboard_btn-secondary {
   background: var(--primary-color);
 }
-
-/* @media (max-width: 1024px) {
-  .dashboard_container {
-    grid-template-columns: 1fr;
-  }
-} */
 
 @media screen and (max-width: 768px) {
   .main__header {
@@ -2072,10 +1795,10 @@ main.main.container .sidebar {
   }
 }
 
-/*==================================================
+/*================================================================================================================================================
             SISAMILA ATTENDANCE - PART 1
       Dashboard • Stats • Charts • Forms • Filters
-====================================================*/
+================================================================================================================================================*/
 
 /*=========================
     MAIN CONTAINER
@@ -2608,12 +2331,6 @@ main.main.container .sidebar {
     height: 240px;
   }
 }
-
-/*==================================================
-          SISAMILA ATTENDANCE - PART 2
-    Pending Approvals • Leave Cards • All Requests
-====================================================*/
-
 /*==================================
       PENDING APPROVAL CARD
 ==================================*/
@@ -3142,12 +2859,7 @@ main.main.container .sidebar {
 
     height: 45px;
   }
-}
-
-/*==================================================
-          SISAMILA ATTENDANCE - PART 3
-   Animations • Utilities • Tables • Notifications
-====================================================*/
+} 
 
 /*==================================
         SMOOTH ANIMATIONS
@@ -3938,9 +3650,9 @@ textarea:focus {
   }
 }
 
-/* =========== 
-------------Nithaam Payroll Styling------------
-============*/
+/* ============================================================================================================================================== 
+  Nithaam Payroll Styling
+  ==============================================================================================================================================*/
 
 /* ==========================
    PAGE HEADER
@@ -5650,9 +5362,10 @@ a:focus-visible {
   margin-bottom: 2rem;
 }
 
-/* =====================
-Nonhlanhla Employee Page Styling 
-===========================*/
+/* ===============================================================================================================================================
+  Nonhlanhla Employee Page Styling 
+  ==============================================================================================================================================*/
+  
 /* ---------- HEADER WITH ICON ---------- */
 .employee-heading {
   font-size: 28px;
@@ -5763,21 +5476,17 @@ Nonhlanhla Employee Page Styling
 }
 
 #n-departmentFilter ~ .fa-chevron-down {
-  display: none; /* We'll use a different approach */
+  display: none;
 }
 
-/* Alternative: Use a wrapper div or apply to parent */
 .n-buttons > label:has(+ #n-departmentFilter) {
   position: relative;
 }
 
-/* We'll use a different approach - add a wrapper in HTML or use this */
 .n-buttons {
   position: relative;
 }
 
-/* Since we can't easily add a wrapper without changing HTML, 
-        we'll use the filter as-is but add a background image fallback */
 #n-departmentFilter {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7a8f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -5794,15 +5503,13 @@ Nonhlanhla Employee Page Styling
 
 /* Department filter label with icon */
 .n-buttons > label:has(+ #n-departmentFilter)::before {
-  display: none; /* Remove search icon from this label */
+  display: none;
 }
 
-/* Add a filter icon before the dropdown */
 .n-buttons > label:has(+ #n-departmentFilter)::after {
   display: none; /* We'll skip this to keep it clean */
 }
 
-/* Instead, let's add a filter icon using the label text */
 .n-buttons > label:has(+ #n-departmentFilter) {
   position: relative;
 }
@@ -5811,9 +5518,6 @@ Nonhlanhla Employee Page Styling
   display: none; /* We'll add icon differently */
 }
 
-/* Alternative: Add icons via data attributes or class */
-
-/* Add employee button with Font Awesome */
 #n-addEmployee {
   padding: 9px 22px;
   font-size: 14px;
