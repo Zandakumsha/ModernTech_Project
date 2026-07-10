@@ -479,17 +479,18 @@ This project is intended for educational purposes and academic assessment.
 
 ---
 
-# 📞 Support
-
-For questions, suggestions, or improvements, please create an Issue in the GitHub repository or contact the project contributors.
-
----
-
 # ⭐ Acknowledgements
 
 Special thanks to everyone who contributed to the planning, development, testing, and design of the ModernTech HR Management System.
 
 ---
+
+# Project Website Visualisation
+Login page: <img width="1072" height="672" alt="image" src="https://github.com/user-attachments/assets/548598f0-5c92-4086-9a33-a5ce2eb12508" />
+
+Dashbaord page: <img width="1492" height="717" alt="image" src="https://github.com/user-attachments/assets/c6fd2689-8b18-4089-85d0-c6a37e0c71c4" />
+
+
 
 ## ModernTech HR Management System
 
