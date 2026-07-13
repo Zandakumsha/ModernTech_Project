@@ -548,7 +548,7 @@ function syncProfileInfo() {
   applyAvatar(savedAvatar);
 }
 
-const protectedPages = ["dashboard.html"];
+const protectedPages = ["index.html"];
 const currentPage = window.location.pathname.split("/").pop();
 
 if (
@@ -3430,7 +3430,7 @@ if (
     sessionStorage.getItem("authenticated") &&
     window.location.pathname.includes("login.html")
   ) {
-    window.location.href = "dashboard.html";
+    window.location.href = "index.html";
   }
 
   // Toggle Sign In / Sign Up panels
@@ -3479,7 +3479,7 @@ if (
 
     alert("Account created successfully!");
 
-    window.location.href = "dashboard.html";
+    window.location.href = "index.html";
   });
 
   // ======================
@@ -3520,7 +3520,7 @@ if (
       sessionStorage.setItem("authenticated", "true");
       sessionStorage.setItem("username", storedUser.username);
 
-      window.location.href = "dashboard.html";
+      window.location.href = "index.html";
     } else {
       alert("Invalid username or password.");
     }
